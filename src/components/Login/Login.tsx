@@ -43,7 +43,10 @@ const toggleShowPassword = () => {
           </div>
         </Form.Group>
         <div className='p-3'>
-        <Button type="submit" className="mt-3 mx-auto">Login</Button>
+        <Button type="submit" className="mb-3 mt-3 mx-auto">Login</Button>
+        </div>
+        <div className='text-center'>
+                Non hai ancora un account? <a href="">Registrati</a>
         </div>
       </Form>
     </Container>
