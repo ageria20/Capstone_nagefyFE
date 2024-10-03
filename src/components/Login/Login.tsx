@@ -1,8 +1,9 @@
 
 import { Button, Container, Form} from 'react-bootstrap'
 import './Login.css'
-import { Eye, EyeSlash } from 'react-bootstrap-icons'
+import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
@@ -18,11 +19,11 @@ const toggleShowPassword = () => {
       <h3 className='p-3 text-center'>Login</h3>
       
       <Form className='loginForm mx-auto'>
-        <Form.Group className="mb-3 p-3" controlId="exampleForm.ControlInput1">
+        <Form.Group className="mb-3 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="name@example.com" autoFocus required/>
         </Form.Group>
-        <Form.Group className="p-3" controlId="exampleForm.ControlInput2">
+        <Form.Group className="p-1" controlId="exampleForm.ControlInput2">
           <Form.Label>Password</Form.Label>
           <div className='position-relative'>
           <Form.Control type={showPassword ? "text" : "password"} placeholder="Inserisci la password" required/>
@@ -38,7 +39,7 @@ const toggleShowPassword = () => {
                   cursor: 'pointer',
                 }}
               >
-          {showPassword ? <EyeSlash/> : <Eye/>}
+          {showPassword ?<EyeSlashFill/> : <EyeFill/>}
           </span>
           </div>
         </Form.Group>
@@ -46,7 +47,7 @@ const toggleShowPassword = () => {
         <Button type="submit" className="mb-3 mt-3 mx-auto">Login</Button>
         </div>
         <div className='text-center'>
-                Non hai ancora un account? <a href="">Registrati</a>
+                Non hai ancora un account? <Link className="nav-link" to="/register"><strong>Registrati</strong></Link>
         </div>
       </Form>
     </Container>

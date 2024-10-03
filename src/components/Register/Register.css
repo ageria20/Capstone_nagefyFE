@@ -1,0 +1,85 @@
+
+/* Login.css */
+.registerForm {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+  }
+  
+  .container-custom {
+    background-color: #f8f9fa;
+    width: 40%;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .registerForm h3 {
+    font-weight: bold;
+    color: #6a1b9a; /* Colore viola */
+  }
+  
+  .registerForm p {
+    color: #5e35b1; /* Un viola più scuro per il testo */
+  }
+
+  .password-toggle-icon {
+    font-size: 1.2rem;
+    color: #5e35b1; /* Colore viola per l'icona */
+  }
+  
+  .password-toggle-icon:hover {
+    color: #6a1b9a;
+  }
+  
+  .registerForm .form-control {
+    border-radius: 8px;
+    border: 1px solid #5e35b1;
+  }
+  
+  .registerForm button {
+    background-color: #7e57c2;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    font-size: 1.1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .registerForm button:hover {
+    background-color: #6a1b9a;
+  }
+  
+  @media (max-width: 768px) {
+    .container-custom {
+      width: 50%;
+      padding: 10px;
+    }
+  
+    .registerForm {
+      padding: 10px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .container-custom {
+      width: 75%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .container-custom {
+      width: 75%;
+    }
+  }
+
+  @media (max-width: 350px) {
+    .container-custom {
+      width: 750%;
+    }
+    .registerForm{
+        width: 100%;
+    }
+  }
+  
