@@ -6,6 +6,7 @@ import Register from './components/Register/Register'
 import ProfileSection from './components/ProfileSection/ProfileSection'
 
 
+
 function App() {
 
 
@@ -15,7 +16,10 @@ function App() {
      <Route path='/' element={<Login/>}/>
      <Route path='/register' element={<Register/>}/>
      <Route path='/profile' element={<ProfileSection/>}/>
+     
+     
      </Routes>
+     
      </BrowserRouter>
     
   )

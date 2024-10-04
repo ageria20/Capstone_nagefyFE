@@ -4,5 +4,4 @@ interface IUser {
     surname: string;
     telephone: string;
     email: string;
-    password: string;
 }
