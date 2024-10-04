@@ -8,7 +8,7 @@
     top: 0;
     background-color: #f8f9fa;
     padding-inline: 2rem;
-    transition: transform 0.3s ease, width 0.3s ease; /* Transizione per apertura/chiusura */
+    transition: transform 0.3s ease, width 0.5s ease; /* Transizione per apertura/chiusura */
     z-index: 1000; /* Posizione sopra il contenuto */
   }
   
@@ -33,7 +33,7 @@
   .logo {
     max-width: 250px;
     height: auto;
-    transition: max-width 0.3s ease; /* Transizione per il ridimensionamento del logo */
+    /* Transizione per il ridimensionamento del logo */
   }
  
   
@@ -44,7 +44,7 @@
   /* Nasconde il testo quando la sidebar è collassata */
   .menu__text {
     display: inline-block;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
     opacity: 1;
   }
   
