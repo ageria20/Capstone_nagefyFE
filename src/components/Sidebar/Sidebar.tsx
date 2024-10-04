@@ -23,9 +23,9 @@ const Sidebar = () => {
   return (
     <div>
         
-      <aside className={`sidebar ${isOpen ? "open" : "collapsed"} d-flex flex-column justify-content-between`}>
-        <nav className="menu">
-        <Image src={nagefyLogo} alt="nagefy_logo" width={isOpen ? 150 : 100} className="logo" />
+      <aside className={`sidebar ${isOpen ? "open" : "collapsed"} d-flex flex-column justify-content-between `}>
+        <nav className="menu ">
+        <Image src={nagefyLogo} alt="nagefy_logo" width={isOpen ? 150 : 200} className="logo mx-auto" />
         
           <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
             <MdOutlineCalendarMonth size={isOpen ? 24 :24} />
@@ -54,7 +54,7 @@ const Sidebar = () => {
             <Person size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">Profilo</span>}
           </Link>
-        <div className="copyright">{isOpen ? 'copyright 2018' : ''}</div>
+        <div className="copyright mb-3">{isOpen ? '©Andrea Geria 2024' : ''}</div>
         </section>
       </aside>
     </div>

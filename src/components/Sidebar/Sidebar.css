@@ -1,14 +1,4 @@
 
-/* 
-aside{
-    display: flex;
-    flex-direction: column;
-    width: 20vw;
-    height: 100vh;
-    color:#46228F;
-    padding: 1em;
-    background-color: rgba(56, 48, 48, 0.066);
-} */
 
 .sidebar {
     width: 250px;
@@ -17,20 +7,31 @@ aside{
     left: 0;
     top: 0;
     background-color: #f8f9fa;
-    padding: 20px;
+    padding-inline: 2rem;
     transition: transform 0.3s ease, width 0.3s ease; /* Transizione per apertura/chiusura */
     z-index: 1000; /* Posizione sopra il contenuto */
   }
   
-  /* Sidebar compatta (solo icone) */
+  .sidebar.open {
+    width:250px; /* Larghezza della sidebar quando aperta */ 
+    font-size: 1rem;
+    
+  }
+  .sidebar.open span {
+
+    font-size: 1rem;
+    
+  }
+  
   .sidebar.collapsed {
-    width: 60px; /* Riduce la larghezza per mostrare solo le icone */
+    width: 70px; /* Riduce la larghezza quando collassata */
     padding: 10px;
+    
   }
   
   /* Stile del logo */
   .logo {
-    max-width: 150px;
+    max-width: 250px;
     height: auto;
     transition: max-width 0.3s ease; /* Transizione per il ridimensionamento del logo */
   }
@@ -69,15 +70,16 @@ aside{
   }
   
   /* Mobile-first: Sidebar compatta fino a 768px */
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     .sidebar {
-      width: 60px; /* Mostra solo le icone di default sui dispositivi mobili */
+      width: 20vw; /* Mostra solo le icone di default sui dispositivi mobili */
       padding: 10px;
     }
   
-    .sidebar.open {
-      width: 200px; /* Espande la sidebar al click */
-    }
+    .sidebar.collapsed {
+        width: 12%; /* Riduce la larghezza per mostrare solo le icone */
+        padding: 10px;
+      }
   
     .toggle-button {
       display: block;
@@ -91,42 +93,72 @@ aside{
     }
   }
   
-  /* Specifico per dispositivi molto piccoli (max-width 350px) */
-  @media (max-width: 350px) {
+  
+  @media only screen and (max-width: 550px) {
     .sidebar {
       width: 60px; /* Sidebar compatta fino a 350px */
       padding: 10px;
     }
   
-    .sidebar.open {
-      width: 180px; /* Sidebar più stretta sui dispositivi molto piccoli */
-    }
-  
-    .menu__item {
-      font-size: 12px; /* Dimensione più piccola per gli elementi del menu */
-    }
+    .sidebar.collapsed {
+        width: 40px; /* Riduce la larghezza per mostrare solo le icone */
+        padding: 10px;
+      }
   
     .menu__text {
       font-size: 10px;
     }
   
-    .logo {
-      max-width: 40px; /* Logo più piccolo su dispositivi piccoli */
-    }
-  
+   
     .toggle-button svg {
       width: 25px;
       height: 25px;
     }
   }
   
-  /* Desktop: Sidebar sempre aperta */
-  @media (min-width: 769px) {
+  @media only screen and (max-width: 400px) {
     .sidebar {
-      width: 250px;
+      width: 60pc; /* Sidebar compatta fino a 350px */
+      padding: 10px;
     }
   
-    .toggle-button {
-      display: none; /* Nasconde il pulsante toggle su desktop */
+    .sidebar.collapsed {
+        width: 40px; /* Riduce la larghezza per mostrare solo le icone */
+        padding: 10px;
+      }
+  
+    .menu__text {
+      font-size: 10px;
+    }
+  
+   
+    .toggle-button svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  
+  
+
+  /* Specifico per dispositivi molto piccoli (max-width 350px) */
+  @media only screen and (max-width: 350px) {
+    .sidebar {
+      width: 60px; /* Sidebar compatta fino a 350px */
+      padding: 10px;
+    }
+  
+    .sidebar.collapsed {
+        width: 40px; /* Riduce la larghezza per mostrare solo le icone */
+        padding: 10px;
+      }
+  
+    .menu__text {
+      font-size: 10px;
+    }
+  
+   
+    .toggle-button svg {
+      width: 25px;
+      height: 25px;
     }
   }
