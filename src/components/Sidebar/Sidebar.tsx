@@ -28,30 +28,30 @@ const Sidebar = () => {
         <Image src={nagefyLogo} alt="nagefy_logo" width={isOpen ? 150 : 100} className="logo" />
         
           <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
-            <MdOutlineCalendarMonth size={isOpen ? 24 : 30} />
+            <MdOutlineCalendarMonth size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">AGENDA</span>}
           </Link>
           
           <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
-            <IoTimeOutline size={isOpen ? 24 : 30} />
+            <IoTimeOutline size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">ORARI</span>}
           </Link>
           <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
-            <BsClipboardData size={isOpen ? 24 : 30} />
+            <BsClipboardData size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">STATISTICHE</span>}
           </Link>
           <Link to="" className="nav-link menu__item my-3"  onClick={toggleSidebar}>
-            <SlPeople size={isOpen ? 24 : 30} />
+            <SlPeople size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">STAFF</span>}
           </Link>
           <Link to="" className="nav-link menu__item my-3"  onClick={toggleSidebar}>
-            <PiScissors size={isOpen ? 24 : 30} />
+            <PiScissors size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">TRATAMENTI</span>}
           </Link>
         </nav>
         <section>
         <Link to="" className="nav-link menu__item my-3"  onClick={toggleSidebar}>
-            <Person size={isOpen ? 24 : 30} />
+            <Person size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">Profilo</span>}
           </Link>
         <div className="copyright">{isOpen ? 'copyright 2018' : ''}</div>
