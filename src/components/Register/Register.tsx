@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Button, Container, Form } from 'react-bootstrap'
+import { Button, Container, Form, Image } from 'react-bootstrap'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
-
+import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
 import { Link } from 'react-router-dom'
 
@@ -15,7 +15,7 @@ const toggleShowPassword = () => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <h1 className='mb-2'>NAGEFY</h1>
+        <Image src={nagefyLogo} alt="nageft_logo" width={150}/>
     <Container className="shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'>Registrati</h3>
       

@@ -1,9 +1,10 @@
 
-import { Button, Container, Form} from 'react-bootstrap'
+import { Button, Container, Form, Image} from 'react-bootstrap'
 import './Login.css'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import nagefyLogo from "../../assets/nagefyLogo200.png"
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
@@ -14,9 +15,9 @@ const toggleShowPassword = () => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <h1 className='mb-3'>NAGEFY</h1>
+        <Image src={nagefyLogo} alt="nageft_logo" />
     <Container className="m-3 shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
-      <h3 className='p-3 text-center'>Login</h3>
+      <h3 className='p-3 text-center'><strong>Bentornato!</strong></h3>
       
       <Form className='loginForm mx-auto'>
         <Form.Group className="mb-3 p-1" controlId="exampleForm.ControlInput1">
