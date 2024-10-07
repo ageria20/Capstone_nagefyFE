@@ -9,7 +9,7 @@ import { PiScissors } from "react-icons/pi";
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { List, Person } from "react-bootstrap-icons";
+import {  Person, X } from "react-bootstrap-icons";
 
 const Sidebar = () => {
 
@@ -25,8 +25,8 @@ const Sidebar = () => {
         
       <aside className={`sidebar ${isOpen ? "open" : "collapsed"} d-flex flex-column justify-content-between `}>
         <nav className="menu ">
-        <Button className={isOpen ? `d-none` : `d-block`} onClick={toggleSidebar}><List /></Button>
         <Image src={nagefyLogo} alt="nagefy_logo" width="150" className={isOpen ? `logo mx-auto`: `logo mx-auto d-none`} />
+        <Button onClick={toggleSidebar}><X/></Button>
         
           <Link to="/agenda" className="nav-link menu__item my-3" onClick={toggleSidebar}>
             <MdOutlineCalendarMonth size={isOpen ? 24 :24} />

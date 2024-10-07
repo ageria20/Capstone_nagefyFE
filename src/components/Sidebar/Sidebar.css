@@ -8,12 +8,12 @@
     top: 0;
     background-color: #f8f9fa;
     padding-inline: 2rem;
-    transition: transform 0.3s ease, width 0.5s ease; /* Transizione per apertura/chiusura */
+    transition: transform 0.3s ease-in-out, width 0.5s ease; /* Transizione per apertura/chiusura */
     z-index: 1000; /* Posizione sopra il contenuto */
   }
   
   .sidebar.open {
-    width:250px; /* Larghezza della sidebar quando aperta */ 
+    
     font-size: 1rem;
     
   }
@@ -24,36 +24,34 @@
   }
   
   .sidebar.collapsed {
-    width: 70px; /* Riduce la larghezza quando collassata */
+    width: 70px; 
     padding: 10px;
     
   }
   
-  /* Stile del logo */
+
   .logo {
     max-width: 250px;
     height: auto;
-    /* Transizione per il ridimensionamento del logo */
+    
   }
  
   
   .sidebar.collapsed .logo {
-    max-width: 50px; /* Logo ridotto in modalità compatta */
+    max-width: 50px; 
   }
   
-  /* Nasconde il testo quando la sidebar è collassata */
   .menu__text {
     display: inline-block;
-    transition: opacity 0.5s ease;
-    opacity: 1;
+    
   }
   
-  .sidebar.collapsed .menu__text {
+  .sidebar.menu__text {
     opacity: 0;
     visibility: hidden;
   }
   
-  /* Stile dei menu items */
+  
   .menu__item {
     display: flex;
     align-items: center;
@@ -66,13 +64,13 @@
   }
   
   .menu__item:hover {
-    background-color: #eaeaea; /* Effetto hover */
+    background-color: #bb99f171; 
   }
   
-  /* Mobile-first: Sidebar compatta fino a 768px */
+  
   @media only screen and (max-width: 768px) {
     .sidebar {
-      width: 20vw; /* Mostra solo le icone di default sui dispositivi mobili */
+      width: 20vw; 
       padding: 10px;
     }
   
@@ -118,12 +116,12 @@
   
   @media only screen and (max-width: 400px) {
     .sidebar {
-      width: 60pc; /* Sidebar compatta fino a 350px */
+      width: 60px; 
       padding: 10px;
     }
   
     .sidebar.collapsed {
-        width: 40px; /* Riduce la larghezza per mostrare solo le icone */
+        width: 40px; 
         padding: 10px;
       }
   
@@ -140,15 +138,14 @@
   
   
 
-  /* Specifico per dispositivi molto piccoli (max-width 350px) */
   @media only screen and (max-width: 350px) {
     .sidebar {
-      width: 60px; /* Sidebar compatta fino a 350px */
+      width: 60px; 
       padding: 10px;
     }
   
     .sidebar.collapsed {
-        width: 40px; /* Riduce la larghezza per mostrare solo le icone */
+        width: 40px; 
         padding: 10px;
       }
   
