@@ -1,9 +1,15 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;800&display=swap');
+
+
 .custom-toolbar {
+    font-family: "Montserrat", sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
     margin-bottom: 10px;
+
 }
 
 .custom-toolbar button {
@@ -14,7 +20,10 @@
     cursor: pointer;
 }
 
-
+.rbc-time-slot{
+    font-family: "Montserrat", sans-serif;
+    border: none;
+}
 
 .sectionToolbar {
     padding: 5px;
@@ -23,21 +32,24 @@
 
 
 @media (max-width: 1200px) {
-    .custom-toolbar {
-        
-        align-items: flex-start;
+    
+
+    .datePicker{
+        width: 100%;
     }
 
     .custom-toolbar button,
     .sectionToolbar {
         width: 100%; 
-        margin-bottom: 5px;
     }
 }
 
 @media (max-width: 768px) {
     .custom-toolbar {
         padding: 0.5rem; 
+    }
+    .datePicker{
+        width: 100%;
     }
     .custom-toolbar button {
         padding: 5px; 
@@ -47,7 +59,11 @@
 
 @media (max-width: 480px) {
     .custom-toolbar {
-        padding: 0.5rem; 
+        padding-inline: 1.5rem; 
+    }
+
+    .datePicker{
+        width: 100%;
     }
 
     .custom-toolbar button {
@@ -56,6 +72,8 @@
     }
 
     .sectionToolbar {
+        width: 100%;
+        margin-right: 1.5rem;
         font-size: 1rem;
     }
 }
@@ -68,12 +86,17 @@
         align-items: stretch; 
     }
 
+    .datePicker{
+        width: 100%;
+    }
+
     .custom-toolbar button {
         font-size: 1rem; 
         padding: 3px; 
     }
 
     .sectionToolbar {
+        width: 100%;
         font-size: 1rem; 
     }
 }

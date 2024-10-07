@@ -49,22 +49,38 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
     
     <div className='custom-toolbar border-start'>
         {isOpen ? <Sidebar/> : ""}
-        <Button className='me-auto' onClick={toggleSidebar}><List /></Button>
-        <span onClick={toggleDataPicker} style={{cursor: "pointer"}}>{formattedDate.slice(0,3).toUpperCase()}</span>
+        <Button className='me-auto w-25' onClick={toggleSidebar}><List /></Button>
+        
+
+        <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 w-25'><ArrowLeft/></Button>
+        <div style={{ display: 'block', position: 'relative', marginTop: '5px' }} className='d-flex justify-content-center align-items-center'>
+        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column align-items-center'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,3).toUpperCase()}</p>
+        
                 {isDatePickerOpen && 
+                <div style={{position: 'absolute', 
+                    top: '100%', 
+                    left: 0,
+                    zIndex: 3, 
+                    width: "100%"}}>
                 <DatePicker
+                className='datePicker'
                 selected={currentDate}
                 onChange={handleDatechange}
                 inline
-                />}
+                popperMoifiers={{preventOverflow: {
+                    enabled: true,
+                    options: {
+                        padding: 10,
+                    },
+                }}}
+                />
+                </div>}
+        </div>
+        <Button onClick={() => onNavigate("NEXT")} className='border-end rounded-0 w-25'><ArrowRight/></Button>
+        <Button onClick={handleToday} className='w-25'>Oggi</Button>
 
-        <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0'><ArrowLeft/></Button>
-        <Button onClick={() => onNavigate("NEXT")} className='border-end rounded-0'><ArrowRight/></Button>
-
-        <Button onClick={handleToday}>Oggi</Button>
-
-
-        <section className='sectionToolbar '>
+        
+        <section className='sectionToolbar w-25'>
         <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1'>
             <option value="">Tutti</option>
             {staff.map(member => (

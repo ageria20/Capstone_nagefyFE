@@ -60,11 +60,11 @@ const Agenda: React.FC = () => {
 
   
   const formattedDate = currentDate.toLocaleDateString("default", {
-    
-    day: "numeric",
     month: "long",
+    day: "numeric"
   });
 
+  console.log(formattedDate)
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <Calendar
