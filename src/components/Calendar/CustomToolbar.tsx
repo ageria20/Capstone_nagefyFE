@@ -49,12 +49,12 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
     
     <div className='custom-toolbar border-start'>
         {isOpen ? <Sidebar/> : ""}
-        <Button className='me-auto w-25' onClick={toggleSidebar}><List /></Button>
+        <Button className='me-auto menuBtn' onClick={toggleSidebar}><List /></Button>
         
 
-        <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 w-25'><ArrowLeft/></Button>
+        <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
         <div style={{ display: 'block', position: 'relative', marginTop: '5px' }} className='d-flex justify-content-center align-items-center'>
-        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column align-items-center'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,3).toUpperCase()}</p>
+        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column align-items-center p-2'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,3).toUpperCase()}</p>
         
                 {isDatePickerOpen && 
                 <div style={{position: 'absolute', 
@@ -76,11 +76,11 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
                 />
                 </div>}
         </div>
-        <Button onClick={() => onNavigate("NEXT")} className='border-end rounded-0 w-25'><ArrowRight/></Button>
-        <Button onClick={handleToday} className='w-25'>Oggi</Button>
+        <Button onClick={() => onNavigate("NEXT")} className='border-end rounded-0 arrowRight'><ArrowRight/></Button>
+        <Button onClick={handleToday} className='today'>Oggi</Button>
 
         
-        <section className='sectionToolbar w-25'>
+        <section className='sectionToolbar  w-25'>
         <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1'>
             <option value="">Tutti</option>
             {staff.map(member => (

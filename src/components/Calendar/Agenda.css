@@ -12,6 +12,12 @@
 
 }
 
+
+
+.arrowRight, .arrowLeft, .today{
+    width: 10%;
+}
+
 .custom-toolbar button {
     background-color: transparent;
     color: black;
@@ -25,9 +31,18 @@
     border: none;
 }
 
+.rbc-time-header-gutte, .rbc-row{
+    display: none;
+}
+
 .sectionToolbar {
     padding: 5px;
     border-radius: 5px;
+}
+
+.custom-toolbar button:hover{
+    background-color: white;
+    color: black;
 }
 
 
@@ -40,7 +55,7 @@
 
     .custom-toolbar button,
     .sectionToolbar {
-        width: 100%; 
+        width: 10%; 
     }
 }
 
@@ -51,9 +66,10 @@
     .datePicker{
         width: 100%;
     }
-    .custom-toolbar button {
-        padding: 5px; 
+    .menuBtn{
+        width: 25%;
     }
+    
 }
 
 
@@ -68,7 +84,11 @@
 
     .custom-toolbar button {
         font-size: 1rem; 
-        padding: 4px; 
+        width: 25%;
+    
+    }
+    .menuBtn{
+        width: 25%;
     }
 
     .sectionToolbar {
@@ -92,7 +112,11 @@
 
     .custom-toolbar button {
         font-size: 1rem; 
-        padding: 3px; 
+        width: 25%;
+        
+    }
+    .menuBtn{
+        width: 25%;
     }
 
     .sectionToolbar {
