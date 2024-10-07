@@ -1,0 +1,97 @@
+.custom-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 10px;
+}
+
+.custom-toolbar button {
+    background-color: transparent;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
+.sectionToolbar {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+@media (max-width: 1200px) {
+    .custom-toolbar {
+        
+        align-items: flex-start;
+    }
+
+    .custom-toolbar button,
+    .sectionToolbar {
+        width: 100%; 
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-toolbar {
+        padding: 0.5rem; 
+    }
+    .custom-toolbar button {
+        padding: 5px; 
+    }
+}
+
+
+@media (max-width: 480px) {
+    .custom-toolbar {
+        padding: 0.5rem; 
+    }
+
+    .custom-toolbar button {
+        font-size: 1rem; 
+        padding: 4px; 
+    }
+
+    .sectionToolbar {
+        font-size: 1rem;
+    }
+}
+
+
+@media (max-width: 350px) {
+    .custom-toolbar {
+        padding: 0.3rem; 
+        
+        align-items: stretch; 
+    }
+
+    .custom-toolbar button {
+        font-size: 1rem; 
+        padding: 3px; 
+    }
+
+    .sectionToolbar {
+        font-size: 1rem; 
+    }
+}
+
+
+.calendar {
+    width: 90vw; 
+}
+
+
+@media (max-width: 768px) {
+    .calendar {
+        width: 95vw; 
+    }
+}
+
+
+@media (max-width: 350px) {
+    .calendar {
+        width: 100vw; 
+    }
+}

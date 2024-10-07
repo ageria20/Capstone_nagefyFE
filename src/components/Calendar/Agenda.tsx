@@ -1,0 +1,113 @@
+import React, { useState } from "react";
+import { Calendar, dayjsLocalizer, NavigateAction, View } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import dayjs from "dayjs";
+import "./Agenda.css";
+import CustomToolbar from "./CustomToolbar";
+import { current } from "@reduxjs/toolkit";
+
+const localizer = dayjsLocalizer(dayjs);
+
+const Agenda: React.FC = () => {
+  const [selectedStaff, setSelectedStaff] = useState<string>("");
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+
+  const staff = [
+    { id: 1, name: "Desiree" },
+    { id: 2, name: "Mariagrazia" },
+    { id: 3, name: "Elena" },
+  ];
+
+  const events = [
+    {
+      title: "Taglio e Piega",
+      start: new Date(2024, 9, 9, 9, 0),
+      end: new Date(2024, 9, 9, 10, 30),
+      staff: "Desiree",
+    },
+    {
+      title: "Colore e Piega",
+      start: new Date(2024, 9, 9, 11, 0),
+      end: new Date(2024, 9, 9, 12, 30),
+      staff: "Mariagrazia",
+    },
+  ];
+
+  const handleNavigate = (
+    newDate: Date,
+    view: View,
+    action: NavigateAction
+  ) => {
+    // Imposta la data corrente in base alla navigazione
+    setCurrentDate(newDate);
+  };
+
+  const filterStaffEvents = selectedStaff
+    ? events.filter((e) => e.staff === selectedStaff)
+    : events;
+
+  const handleToday = () => {
+    setCurrentDate(new Date());
+  };
+
+  const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStaff(e.target.value);
+  };
+
+  const currentMonth = currentDate.toLocaleString("default", {month: "long", year: "numeric"})
+  const formattedDate = currentDate.toLocaleDateString("default", {
+    
+    day: "numeric",
+    month: "long",
+  });
+
+  return (
+    <div className="d-flex flex-column justify-content-center align-items-center">
+      <Calendar
+        localizer={localizer}
+        events={filterStaffEvents}
+        defaultView="day"
+        views={["week", "day"]}
+        step={30} // Slot di 30 minuti
+        timeslots={1} // Mostra 1 slot di 30 minuti per riga
+        min={new Date(2024, 9, 9, 8, 0)}
+        max={new Date(2024, 9, 9, 20, 0)}
+        date={currentDate}
+        className="calendar"
+        onNavigate={handleNavigate}
+        components={{
+          toolbar: (props) => (
+            <>
+              <CustomToolbar
+                {...props}
+                selectedStaff={selectedStaff}
+                setSelectedStaff={setSelectedStaff}
+                staff={staff}
+                handleToday={handleToday}
+              />
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "10px",
+                  fontSize: "18px",
+                }}
+              >
+                <p>{formattedDate.toUpperCase()}</p>
+              </div>
+              <section className='sectionToolbar mx-auto'>
+        <select onChange={handleStaffChange} value={selectedStaff}>
+            <option value="">Staff</option>
+            {staff.map(member => (
+                <option key={member.id} value={member.name}>{member.name}</option>
+            ))}
+        </select>
+        </section>
+            </>
+          ),
+        }}
+      />
+    </div>
+  );
+};
+
+export default Agenda;

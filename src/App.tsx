@@ -4,6 +4,7 @@ import Login from './components/Login/Login'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Register from './components/Register/Register'
 import ProfileSection from './components/ProfileSection/ProfileSection'
+import Agenda from './components/Calendar/Agenda'
 
 
 
@@ -16,6 +17,7 @@ function App() {
      <Route path='/' element={<Login/>}/>
      <Route path='/register' element={<Register/>}/>
      <Route path='/profile' element={<ProfileSection/>}/>
+     <Route path='/agenda' element={<Agenda/>}/>
     
      </Routes>
      

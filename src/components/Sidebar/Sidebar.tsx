@@ -1,4 +1,4 @@
-import { Image } from "react-bootstrap"
+import { Button, Image } from "react-bootstrap"
 import "./Sidebar.css"
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import { SlPeople } from "react-icons/sl";
@@ -9,7 +9,7 @@ import { PiScissors } from "react-icons/pi";
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Person } from "react-bootstrap-icons";
+import { List, Person } from "react-bootstrap-icons";
 
 const Sidebar = () => {
 
@@ -25,9 +25,10 @@ const Sidebar = () => {
         
       <aside className={`sidebar ${isOpen ? "open" : "collapsed"} d-flex flex-column justify-content-between `}>
         <nav className="menu ">
-        <Image src={nagefyLogo} alt="nagefy_logo" width={isOpen ? 150 : 200} className="logo mx-auto" />
+        <Button className={isOpen ? `d-none` : `d-block`} onClick={toggleSidebar}><List /></Button>
+        <Image src={nagefyLogo} alt="nagefy_logo" width="150" className={isOpen ? `logo mx-auto`: `logo mx-auto d-none`} />
         
-          <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
+          <Link to="/agenda" className="nav-link menu__item my-3" onClick={toggleSidebar}>
             <MdOutlineCalendarMonth size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">AGENDA</span>}
           </Link>
