@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Calendar, dayjsLocalizer, NavigateAction, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
@@ -9,6 +9,7 @@ import { current } from "@reduxjs/toolkit";
 
 
 const localizer = dayjsLocalizer(dayjs);
+const DnDCalendar = withDragAndDrop(Calendar)
 
 const Agenda: React.FC = () => {
   const [selectedStaff, setSelectedStaff] = useState<string>("");
@@ -67,11 +68,11 @@ const Agenda: React.FC = () => {
   console.log(formattedDate)
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
-      <Calendar
+      <DnDCalendar
         localizer={localizer}
         events={filterStaffEvents}
         defaultView="day"
-        
+        draggableAccessor={(event) => true}
         step={30} // Slot di 30 minuti
         timeslots={1} // Mostra 1 slot di 30 minuti per riga
         min={new Date(2024, 9, 9, 8, 0)}

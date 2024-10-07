@@ -54,7 +54,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
         <div style={{ display: 'block', position: 'relative', marginTop: '5px' }} className='d-flex justify-content-center align-items-center'>
-        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column align-items-center p-2'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,3).toUpperCase()}</p>
+        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column justify-content-center mb-0 align-items-center p-2'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,3).toUpperCase()}</p>
         
                 {isDatePickerOpen && 
                 <div style={{position: 'absolute', 
