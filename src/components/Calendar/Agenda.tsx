@@ -5,7 +5,6 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
-import { current } from "@reduxjs/toolkit";
 
 
 const localizer = dayjsLocalizer(dayjs);

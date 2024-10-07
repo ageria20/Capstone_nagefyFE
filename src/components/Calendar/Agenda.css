@@ -28,6 +28,11 @@
 
 .rbc-time-slot{
     font-family: "Montserrat", sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.402);
     border: none;
 }
 
