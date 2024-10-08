@@ -10,13 +10,13 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  
 }
 
 
 
 .toggle-button:hover {
-  background-color:  transparent;
+  background-color: transparent;
   color:black;
 }
 
@@ -81,7 +81,7 @@
 /* Piccole dimensioni: sidebar più stretta e icone più piccole */
 @media only screen and (max-width: 768px) {
   .sidebar {
-      width: 80vw; /* Sidebar più stretta sui dispositivi mobili */
+      width: 200px; 
   }
 
   .toggle-button {
@@ -97,9 +97,8 @@
   }
 
   .toggle-button svg {
-      width: 25px;
-      height: 25px;
-  }
+      width: 100px;
+      
 }
 
 /* Adattamento per schermi piccolissimi */
@@ -110,7 +109,7 @@
   }
 
   .toggle-button svg {
-      width: 20px;
+      width: 100px;
       height: 20px;
   }
 }
@@ -134,3 +133,4 @@
    
    
   }
+}

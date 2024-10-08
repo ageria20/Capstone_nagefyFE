@@ -57,13 +57,13 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
 
   return (
-    
-    <div className='custom-toolbar border-start'>
-        <Button className="toggle-button" onClick={toggleSidebar}>
+    <>
+    <div className='custom-toolbar flex-1 border-start'>
+        <button className="toggle-button" onClick={toggleSidebar}>
         {isOpen ? <X/>:<List />} 
-      </Button>
+      </button>
         <Sidebar/> 
-        <p className='mb-0'>{getTime()}</p>
+        <p className='mb-0 px-2'>{getTime()}</p>
         
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
@@ -94,16 +94,16 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         <Button onClick={handleToday} className='today'>Oggi</Button>
 
         
-        <section className='sectionToolbar  w-25'>
-        <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1'>
+    </div>
+        <section className='sectionToolbar mb-2'>
+        <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1 w-sm-100 me-auto'>
             <option value="">Tutti</option>
             {staff.map(member => (
                 <option key={member.id} value={member.name}>{member.name}</option>
             ))}
         </select>
         </section>
-    </div>
-        
+        </>
   )
 }
 
