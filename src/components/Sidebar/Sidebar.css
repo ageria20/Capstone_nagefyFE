@@ -1,141 +1,121 @@
+.toggle-button {
+  position: fixed;  /* Fissato in alto a sinistra */
+  top: 20px;
+  left: 20px;
+  z-index: 1100;  /* Più alto della sidebar (1000) */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
 
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}
+
+/* Quando la sidebar è aperta, spostiamo il pulsante a destra per evitare che si sovrapponga */
+.sidebar.open + .toggle-button {
+  left: 270px; /* Lo spostiamo in modo che sia oltre la larghezza della sidebar */
+}
+
+/* Sidebar */
 .sidebar {
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background-color: #f8f9fa;
-    padding-inline: 2rem;
-    transition: transform 0.3s ease-in-out, width 0.5s ease; /* Transizione per apertura/chiusura */
-    z-index: 1000; /* Posizione sopra il contenuto */
-  }
-  
-  .sidebar.open {
-    
-    font-size: 1rem;
-    
-  }
-  .sidebar.open span {
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  left: -250px;  /* Nascondi la sidebar fuori dallo schermo inizialmente */
+  top: 0;
+  background-color: #f8f9fa;
+  padding-inline: 2rem;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;  /* Posizione sopra il contenuto */
+}
 
-    font-size: 1rem;
-    
-  }
-  
-  .sidebar.collapsed {
-    width: 70px; 
-    padding: 10px;
-    
-  }
-  
+.sidebar.open {
+  transform: translateX(250px);  /* Mostra la sidebar scorrendo da sinistra */
+}
 
-  .logo {
-    max-width: 250px;
-    height: auto;
-    
+/* Logo */
+.logo {
+  max-width: 250px;
+  height: auto;
+  margin-top: 20px;
+}
+
+
+/* Elementi del menu */
+.menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover sugli elementi del menu */
+.menu__item:hover {
+  background-color: #bb99f171; 
+}
+
+/* Testo del menu */
+.menu__text {
+  display: inline-block;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Pulsante per aprire e chiudere la sidebar */
+
+/* Nascondere il testo quando la sidebar è chiusa */
+.sidebar.collapsed .menu__text {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Piccole dimensioni: sidebar più stretta e icone più piccole */
+@media only screen and (max-width: 768px) {
+  .sidebar {
+      width: 80vw; /* Sidebar più stretta sui dispositivi mobili */
   }
- 
-  
-  .sidebar.collapsed .logo {
-    max-width: 50px; 
+
+  .toggle-button {
+      left: 20px; /* Pulsante di toggle adattato */
   }
-  
-  .menu__text {
-    display: inline-block;
-    
+}
+
+/* Ancora più stretta per schermi molto piccoli */
+@media only screen and (max-width: 550px) {
+  .sidebar {
+      width: 60vw;
+      padding: 1rem;
   }
-  
-  .sidebar.menu__text {
-    opacity: 0;
-    visibility: hidden;
-  }
-  
-  
-  .menu__item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px;
-  }
-  
-  .menu__item svg {
-    transition: transform 0.3s ease;
-  }
-  
-  .menu__item:hover {
-    background-color: #bb99f171; 
-  }
-  
-  
-  @media only screen and (max-width: 768px) {
-    .sidebar {
-      width: 20vw; 
-      padding: 10px;
-    }
-  
-    .sidebar.collapsed {
-        width: 12%; /* Riduce la larghezza per mostrare solo le icone */
-        padding: 10px;
-      }
-  
-    .toggle-button {
-      display: block;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
-    }
-  }
-  
-  
-  @media only screen and (max-width: 550px) {
-    .sidebar {
-      width: 60px; /* Sidebar compatta fino a 350px */
-      padding: 10px;
-    }
-  
-    .sidebar.collapsed {
-        width: 40px; /* Riduce la larghezza per mostrare solo le icone */
-        padding: 10px;
-      }
-  
-    .menu__text {
-      font-size: 10px;
-    }
-  
-   
-    .toggle-button svg {
+
+  .toggle-button svg {
       width: 25px;
       height: 25px;
-    }
   }
-  
-  @media only screen and (max-width: 400px) {
-    .sidebar {
-      width: 60px; 
-      padding: 10px;
-    }
-  
-    .sidebar.collapsed {
-        width: 40px; 
-        padding: 10px;
-      }
-  
-    .menu__text {
-      font-size: 10px;
-    }
-  
-   
-    .toggle-button svg {
-      width: 25px;
-      height: 25px;
-    }
+}
+
+/* Adattamento per schermi piccolissimi */
+@media only screen and (max-width: 400px) {
+  .sidebar {
+      width: 50vw;
+      padding: 1rem;
   }
-  
+
+  .toggle-button svg {
+      width: 20px;
+      height: 20px;
+  }
+}
   
 
   @media only screen and (max-width: 350px) {
@@ -154,8 +134,5 @@
     }
   
    
-    .toggle-button svg {
-      width: 25px;
-      height: 25px;
-    }
+   
   }

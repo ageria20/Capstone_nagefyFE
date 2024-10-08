@@ -64,7 +64,6 @@ const Agenda: React.FC = () => {
     day: "numeric"
   });
 
-  console.log(formattedDate)
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <DnDCalendar

@@ -8,31 +8,39 @@ import { BsClipboardData } from "react-icons/bs";
 import { PiScissors } from "react-icons/pi";
 
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import {  Person, X } from "react-bootstrap-icons";
+import {  List, Person, X } from "react-bootstrap-icons";
+
+import { ToggleSidebarAction } from "../../redux/actions/action";
+import { useAppDispatch, useAppSelector } from "../../redux/store/store";
+
 
 const Sidebar = () => {
-
-    const [isOpen, setIsOpen] = useState(false);  // Stato per gestire apertura/chiusura sidebar
+  const dispatch = useAppDispatch()
+    const isOpen = useAppSelector((state) => state.sidebar.isOpen)
 
     const toggleSidebar = () => {
-      setIsOpen(!isOpen);
-    };
+      dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
+  };
   
 
   return (
     <div>
-        
+         
       <aside className={`sidebar ${isOpen ? "open" : "collapsed"} d-flex flex-column justify-content-between `}>
         <nav className="menu ">
+        <Button className="toggle-button" onClick={toggleSidebar}>
+        {isOpen ? <X/>:<List />} 
+      </Button>
         <Image src={nagefyLogo} alt="nagefy_logo" width="150" className={isOpen ? `logo mx-auto`: `logo mx-auto d-none`} />
-        <Button onClick={toggleSidebar}><X/></Button>
         
           <Link to="/agenda" className="nav-link menu__item my-3" onClick={toggleSidebar}>
             <MdOutlineCalendarMonth size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">AGENDA</span>}
           </Link>
-          
+          <Link to="/rubrica" className="nav-link menu__item my-3"  onClick={toggleSidebar}>
+          <SlPeople size={isOpen ? 24 :24} />
+            {isOpen && <span className="ms-2 menu__text">RUBRICA</span>}
+          </Link>
           <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
             <IoTimeOutline size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">ORARI</span>}

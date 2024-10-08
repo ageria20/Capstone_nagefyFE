@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { ArrowLeft, ArrowRight, List} from 'react-bootstrap-icons';
+import { ArrowLeft, ArrowRight, List, X} from 'react-bootstrap-icons';
 import { NavigateAction, View } from "react-big-calendar"; 
 import "./Agenda.css"
 import Sidebar from '../Sidebar/Sidebar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ToggleSidebarAction } from '../../redux/actions/action';
+
+
+import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 
 
 interface CustomToolbarProps {
@@ -23,11 +27,13 @@ interface CustomToolbarProps {
 
 const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, setCurrentDate, formattedDate, handleToday, selectedStaff, setSelectedStaff, staff,  }) => {
 
-    const [isOpen, setIsOpen] = useState(false); 
+    const dispatch = useAppDispatch()
+    const isOpen = useAppSelector((state) => state.sidebar.isOpen)
+
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
     const toggleSidebar = () => {
-      setIsOpen(!isOpen);
+        dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
     };
 
     const handleDatechange = (date: Date | null) =>{
@@ -48,8 +54,11 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
   return (
     
     <div className='custom-toolbar border-start'>
-        {isOpen ? <Sidebar/> : ""}
-        <Button className='me-auto menuBtn' onClick={toggleSidebar}><List /></Button>
+        <Button className="toggle-button" onClick={toggleSidebar}>
+        {isOpen ? <X/>:<List />} 
+      </Button>
+        <Sidebar/> 
+        
         
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
