@@ -1,7 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { ClientAction, CLIENTS } from "./action"
+import { ClientAction, CLIENTS, url } from "./action"
 
-const url = import.meta.env.VITE_URL
+
 
 export const getClients = () => {
     return async (dispatch: Dispatch<ClientAction>)=>{
@@ -23,3 +23,4 @@ export const getClients = () => {
         }
     }
 }
+

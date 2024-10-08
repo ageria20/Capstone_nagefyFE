@@ -9,7 +9,7 @@ const initialState: SidebarState = {
   isOpen: false
 }
 
-const sidebarReducer = (state = initialState, action: SidebarActions): SidebarState => {
+const sidebarReducer = (state = initialState, action: SidebarActions) => {
   switch(action.type){
     case TOGGLE_SIDEBAR: 
     return{

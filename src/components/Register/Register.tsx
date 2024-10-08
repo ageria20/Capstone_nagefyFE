@@ -1,14 +1,50 @@
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { Button, Container, Form, Image } from 'react-bootstrap'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { url } from '../../redux/actions/action'
 
 const Register = () => {
   
     const [showPassword, setShwPassword] = useState(false)
+    const navigate = useNavigate()
 
+const [user, setUser] = useState({
+  name: "",
+  surname: "",
+  telephone: "",
+  email: "",
+  password: ""
+})
+
+
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
+  e.preventDefault()
+
+  try{
+    const resp = await fetch(`http://localhost:8080/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    });
+    if(resp.ok){
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const res = await resp.json()
+      navigate("/")
+    }
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setUser({...user, [e.target.name]: e.target.value})
+}
 const toggleShowPassword = () => {
     setShwPassword(!showPassword)
 }
@@ -19,27 +55,27 @@ const toggleShowPassword = () => {
     <Container className="shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'>Registrati</h3>
       
-      <Form className='registerForm mx-auto'>
+      <Form className='registerForm mx-auto' onSubmit={handleSubmit}>
       <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Nome</Form.Label>
-          <Form.Control type="name" name="name" placeholder="Nome" autoFocus required/>
+          <Form.Control type="name" name="name" placeholder="Nome" autoFocus required onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Cognome</Form.Label>
-          <Form.Control type="surname" name="surname" placeholder="Cognome" autoFocus required/>
+          <Form.Control type="surname" name="surname" placeholder="Cognome" autoFocus required onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Telefono</Form.Label>
-          <Form.Control type="telephone" name="telephone" placeholder="Cognome" autoFocus required/>
+          <Form.Control type="telephone" name="telephone" placeholder="Cognome" autoFocus required onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required/>
+          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="p-1" controlId="exampleForm.ControlInput2">
           <Form.Label>Password</Form.Label>
           <div className='position-relative'>
-          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required/>
+          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required onChange={handleChange}/>
           
           <span
                 className="password-toggle-icon"

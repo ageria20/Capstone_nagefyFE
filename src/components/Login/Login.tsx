@@ -1,15 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { Button, Container, Form, Image} from 'react-bootstrap'
 import './Login.css'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
-import { FormEvent, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { FormEvent, useEffect, useState } from 'react'
+import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
-import { url } from '../../redux/actions/actionClients'
+
+import { getUser } from '../../redux/actions/usersAction'
+import { useAppDispatch, useAppSelector } from '../../redux/store/store'
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
+const [token, setToken] = useState("")
+const loggedUser = useAppSelector(state => state.users.user)
 const navigate = useNavigate()
+const dispatch = useAppDispatch()
+
+
 const [user, setUser] = useState({
   email: "",
   password: ""
@@ -23,7 +31,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   e.preventDefault()
 
   try{
-    const resp = await fetch(`${url}/auth/login`, {
+    const resp = await fetch(`http://localhost:8080/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,16 +41,36 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      if(res.role === "ADMIN" || res.role === "EMPLOYEE"){
-        navigate("/agenda")
-      } else {
-      navigate("/profile")
-    }
+      setToken(res.accessToken)
     }
   } catch (error) {
     console.log(error);
     
   }
+}
+
+useEffect(() => {
+  if(token){
+ dispatch(getUser())
+ console.log(loggedUser)
+  }
+ 
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [token, dispatch])
+
+ useEffect(() =>{
+   if(loggedUser){
+        if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
+       navigate("/agenda")
+     }
+     else {
+       navigate("/profile")
+     }
+   }
+ }, [loggedUser, navigate])
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setUser({...user, [e.target.name]: e.target.value})
 }
 
   return (
@@ -54,12 +82,12 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
       <Form className='loginForm mx-auto' onSubmit={handleSubmit}>
         <Form.Group className="mb-3 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="name@example.com" autoFocus required/>
+          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="p-1" controlId="exampleForm.ControlInput2">
           <Form.Label>Password</Form.Label>
           <div className='position-relative'>
-          <Form.Control type={showPassword ? "text" : "password"} placeholder="Inserisci la password" required/>
+          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required onChange={handleChange}/>
           
           <span
                 className="password-toggle-icon"
