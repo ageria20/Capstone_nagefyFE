@@ -4,7 +4,6 @@ import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
 import { Link, useNavigate } from 'react-router-dom'
-import { url } from '../../redux/actions/action'
 
 const Register = () => {
   
