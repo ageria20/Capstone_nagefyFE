@@ -2,15 +2,47 @@
 import { Button, Container, Form, Image} from 'react-bootstrap'
 import './Login.css'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
+import { url } from '../../redux/actions/actionClients'
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
+const navigate = useNavigate()
+const [user, setUser] = useState({
+  email: "",
+  password: ""
+})
 
 const toggleShowPassword = () => {
     setShwPassword(!showPassword)
+}
+
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
+  e.preventDefault()
+
+  try{
+    const resp = await fetch(`${url}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    });
+    if(resp.ok){
+      const res = await resp.json()
+      localStorage.setItem("accessToken", res.accessToken)
+      if(res.role === "ADMIN" || res.role === "EMPLOYEE"){
+        navigate("/agenda")
+      } else {
+      navigate("/profile")
+    }
+    }
+  } catch (error) {
+    console.log(error);
+    
+  }
 }
 
   return (
@@ -19,7 +51,7 @@ const toggleShowPassword = () => {
     <Container className="m-3 shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'><strong>Bentornato!</strong></h3>
       
-      <Form className='loginForm mx-auto'>
+      <Form className='loginForm mx-auto' onSubmit={handleSubmit}>
         <Form.Group className="mb-3 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="name@example.com" autoFocus required/>

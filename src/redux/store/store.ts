@@ -1,10 +1,12 @@
 import { combineReducers, configureStore} from '@reduxjs/toolkit';
 import sidebarReducer from "../reducers/sidebarReducer"
+import clientsReducer from "../reducers/clientsReducer"
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 
 const rootReduceer = combineReducers({
-  sidebar: sidebarReducer
+  sidebar: sidebarReducer,
+  clients: clientsReducer
 })
 
 const store = configureStore({

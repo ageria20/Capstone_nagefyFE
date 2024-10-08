@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { List, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
-
+import "./Rubrica.css"
 import { ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 
@@ -72,9 +72,9 @@ const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(null)
         <Container fluid>
         <Container fluid className='d-flex align-items-center'>
       <Button className="toggle-button" onClick={toggleSidebar}>
-        {isOpen ? <X/>:<List />} 
+        {isOpen ? <X/>:<List />}
       </Button>
-        {isOpen ? <Sidebar/> : ""}
+       <Sidebar/>
         <p className='mb-0'>{getTime()}</p>
         </Container>
       <Row className="min-vh-100">

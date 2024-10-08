@@ -5,7 +5,6 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
-import { EventInteractionArgs } from 'react-big-calendar';
 
 
 const localizer = dayjsLocalizer(dayjs);
@@ -14,7 +13,7 @@ const DnDCalendar = withDragAndDrop(Calendar)
 const Agenda: React.FC = () => {
   const [selectedStaff, setSelectedStaff] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [eventsDrag, setEventsDrag] = useState<any[]>()
+
   
 
   const staff = [
@@ -55,17 +54,7 @@ const Agenda: React.FC = () => {
     setCurrentDate(new Date());
   };
 
-  const handleEventDrop = ({events, start, end}: EventInteractionArgs) =>{
-    if(events){
-        const updateEvents = events.map((existingEvent: EventInteractionArgs) => {
-        if(existingEvent.title === events.title){
-            return {...existingEvent, start, end}
-        }
-        return existingEvent
-    })
-    setEventsDrag(updateEvents)
-}
-  }
+
 
 
 
@@ -92,7 +81,6 @@ const Agenda: React.FC = () => {
         date={currentDate}
         className="calendar"
         onNavigate={handleNavigate}
-        onEventDrop={handleEventDrop}
         components={{
           toolbar: (props) => (
             <>
