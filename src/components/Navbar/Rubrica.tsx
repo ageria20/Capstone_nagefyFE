@@ -1,59 +1,25 @@
 
 
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { List, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Rubrica.css"
-import { ToggleSidebarAction } from '../../redux/actions/action';
+import { CLIENTS, ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 
-interface ICustomer {
-    id: number | null;
-    name: string | null;
-    email: string | null;
-    phone: string | null;
-    address: string | null;
-    notes: string | null;
-}
 
 const Rubrica = () => {
 const dispatch = useAppDispatch()
 const isOpen = useAppSelector((state) => state.sidebar.isOpen)
-const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(null);
+const clients = useAppSelector((state) => state.clients.clients)
+const [selectedClient, setSelectedClient] = useState<IUser | null>(null);
 
-  const handleCustomerClick = (customer: ICustomer) => {
-    setSelectedCustomer(customer);
+  const handleCustomerClick = (client: IUser) => {
+    setSelectedClient(client);
   };
 
-  const customers: ICustomer[] = [
-    {
-      id: 1,
-      name: "Mario Rossi",
-      email: "mario.rossi@example.com",
-      phone: "123-456-7890",
-      address: "Via Roma 10, Milano",
-      notes: "Cliente da 3 anni.",
-    },
-    {
-      id: 2,
-      name: "Luigi Verdi",
-      email: "luigi.verdi@example.com",
-      phone: "987-654-3210",
-      address: "Corso Italia 5, Torino",
-      notes: "Preferisce la comunicazione via email.",
-    },
-    {
-      id: 3,
-      name: "Anna Bianchi",
-      email: "anna.bianchi@example.com",
-      phone: "456-789-1234",
-      address: "Piazza Venezia 12, Roma",
-      notes: "Richiede aggiornamenti mensili.",
-    },
-    // Aggiungi altri clienti
-  ];
 
   const getTime = () =>{
     const today = new Date()
@@ -63,6 +29,10 @@ const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(null)
   const toggleSidebar = () => {
     dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
 };
+
+useEffect(() => {
+  dispatch({type: CLIENTS, payload: clients})
+})
 
   return (
     <div>
@@ -81,14 +51,14 @@ const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(null)
         <Col xs={12} md={3} className="border-end">
           <h4 className="my-3">Clienti</h4>
           <ListGroup>
-            {customers.map((customer) => (
+            {clients.map((client) => (
               <ListGroup.Item
-                key={customer.id}
+                key={client.id}
                 action
-                onClick={() => handleCustomerClick(customer)}
-                active={selectedCustomer?.id === customer.id}
+                onClick={() => handleCustomerClick(client)}
+                active={selectedClient?.id === client.id}
               >
-                {customer.name}
+                {client.name}{" "}{client.surname}
               </ListGroup.Item>
             ))}
           </ListGroup>
@@ -96,22 +66,17 @@ const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(null)
 
         {/* Colonna destra - Dettagli cliente selezionato */}
         <Col xs={12} md={9} className="p-4">
-          {selectedCustomer ? (
+          {selectedClient ? (
             <Card>
               <Card.Body>
-                <Card.Title>{selectedCustomer.name}</Card.Title>
+                <Card.Title>{selectedClient.name}</Card.Title>
                 <Card.Text>
-                  <strong>Email:</strong> {selectedCustomer.email}
+                  <strong>Email:</strong> {selectedClient.email}
                 </Card.Text>
                 <Card.Text>
-                  <strong>Telefono:</strong> {selectedCustomer.phone}
+                  <strong>Telefono:</strong> {selectedClient.telephone}
                 </Card.Text>
-                <Card.Text>
-                  <strong>Indirizzo:</strong> {selectedCustomer.address}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Note:</strong> {selectedCustomer.notes}
-                </Card.Text>
+               
               </Card.Body>
             </Card>
           ) : (
