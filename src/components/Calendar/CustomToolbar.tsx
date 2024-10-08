@@ -49,6 +49,11 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
       const toggleDataPicker = () =>{
         setIsDatePickerOpen(!isDatePickerOpen)
      }
+     const getTime = () =>{
+        const today = new Date()
+        const time = today.toLocaleString("it", { hour: '2-digit', minute: '2-digit'});
+        return time
+      }
 
 
   return (
@@ -58,7 +63,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         {isOpen ? <X/>:<List />} 
       </Button>
         <Sidebar/> 
-        
+        <p className='mb-0'>{getTime()}</p>
         
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>

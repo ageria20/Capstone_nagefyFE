@@ -55,21 +55,29 @@ const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(null)
     // Aggiungi altri clienti
   ];
 
+  const getTime = () =>{
+    const today = new Date()
+    const time = today.toLocaleString("it", { hour: '2-digit', minute: '2-digit'});
+    return time
+  }
   const toggleSidebar = () => {
     dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
 };
 
   return (
     <div>
-       <Button className="toggle-button" onClick={toggleSidebar}>
-        {isOpen ? <X/>:<List />} 
-      </Button>
-        {isOpen ? <Sidebar/> : ""}
+       
        
         
         <Container fluid>
+        <Container fluid className='d-flex align-items-center'>
+      <Button className="toggle-button" onClick={toggleSidebar}>
+        {isOpen ? <X/>:<List />} 
+      </Button>
+        {isOpen ? <Sidebar/> : ""}
+        <p className='mb-0'>{getTime()}</p>
+        </Container>
       <Row className="min-vh-100">
-        {/* Colonna sinistra - Lista clienti */}
         <Col xs={12} md={3} className="border-end">
           <h4 className="my-3">Clienti</h4>
           <ListGroup>

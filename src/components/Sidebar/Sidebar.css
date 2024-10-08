@@ -1,10 +1,7 @@
 .toggle-button {
-  position: fixed;  /* Fissato in alto a sinistra */
-  top: 20px;
-  left: 20px;
-  z-index: 1100;  /* Più alto della sidebar (1000) */
-  background-color: #007bff;
-  color: white;
+
+  background-color: transparent;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -19,7 +16,8 @@
 
 
 .toggle-button:hover {
-  background-color: #0056b3;
+  background-color:  transparent;
+  color:black;
 }
 
 /* Quando la sidebar è aperta, spostiamo il pulsante a destra per evitare che si sovrapponga */
