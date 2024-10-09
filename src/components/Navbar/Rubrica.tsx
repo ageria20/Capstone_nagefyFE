@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
-import { List, X } from 'react-bootstrap-icons'
+import { Crosshair, List, Plus, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Rubrica.css"
 import {  ToggleSidebarAction } from '../../redux/actions/action';
@@ -52,11 +52,20 @@ useEffect(() => {
       <Row className="min-vh-100">
         <Col xs={12} md={3} className="border-end">
           <h4 className="my-3">Clienti</h4>
+        <Row className='align-items-center'>
+          <Col>
+          <input type="text" className="form-control rounded-4" placeholder="Cerca cliente"/>
+          </Col>
+          <Col className='text-center px-0 mx-0'>
+          <Button className='my-3 rounded-circle bg-transparent text-primary'><Plus className='my-1 d-flex w-100'/></Button>
+          </Col>
+          </Row>
           <ListGroup>
            {clients?.map((client) => (
               <ListGroup.Item
                 key={client.id}
                 action
+                className='border-0 bg-transparent text-secondary'
                 onClick={() => handleCustomerClick(client)}
                 active={selectedClient?.id === client.id}
               >
