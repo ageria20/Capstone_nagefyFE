@@ -9,6 +9,12 @@ interface IUser {
     password?: string
     role?: string
 }
+interface INewUser {
+    name: string;
+    surname: string;
+    telephone: string;
+    email: string;
+}
 
 interface IEvents {
     id?: string
