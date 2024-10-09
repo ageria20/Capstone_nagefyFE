@@ -1,11 +1,15 @@
 import { ClientAction, CLIENTS } from "../actions/action";
 
+interface ClientState{
+    clients: IUser[]
+  }
+  
 
-  const initialState = {
+  const initialState: ClientState = {
     clients: []
   }
   
-  const sidebarReducer = (state = initialState, action: ClientAction) => {
+  const clientsReducer = (state = initialState, action: ClientAction) => {
     switch(action.type){
       case CLIENTS: 
       return{
@@ -17,5 +21,5 @@ import { ClientAction, CLIENTS } from "../actions/action";
     }
   }
   
-  export default sidebarReducer
+  export default clientsReducer
     

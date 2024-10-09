@@ -6,14 +6,15 @@ import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { List, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Rubrica.css"
-import { CLIENTS, ToggleSidebarAction } from '../../redux/actions/action';
+import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
+import { getClients } from '../../redux/actions/actionClients';
 
 
 const Rubrica = () => {
 const dispatch = useAppDispatch()
 const isOpen = useAppSelector((state) => state.sidebar.isOpen)
-const clients = useAppSelector((state) => state.clients.clients)
+const clients: IUser[] | undefined = useAppSelector((state) => state.clientsList.clients)
 const [selectedClient, setSelectedClient] = useState<IUser | null>(null);
 
   const handleCustomerClick = (client: IUser) => {
@@ -31,8 +32,9 @@ const [selectedClient, setSelectedClient] = useState<IUser | null>(null);
 };
 
 useEffect(() => {
-  dispatch({type: CLIENTS, payload: clients})
-})
+  dispatch(getClients())
+  console.log(clients)
+}, [dispatch])
 
   return (
     <div>
@@ -51,7 +53,7 @@ useEffect(() => {
         <Col xs={12} md={3} className="border-end">
           <h4 className="my-3">Clienti</h4>
           <ListGroup>
-            {clients.map((client) => (
+           {clients?.map((client) => (
               <ListGroup.Item
                 key={client.id}
                 action

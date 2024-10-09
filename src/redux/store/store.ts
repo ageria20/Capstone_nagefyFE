@@ -7,7 +7,7 @@ import usersReducer from '../reducers/usersReducer';
 
 const rootReduceer = combineReducers({
   sidebar: sidebarReducer,
-  clients: clientsReducer,
+  clientsList: clientsReducer,
   users: usersReducer
 })
 

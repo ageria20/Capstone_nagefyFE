@@ -6,7 +6,7 @@ export const url = import.meta.env.VITE_URL
 
 export type ClientAction = {
     type: "CLIENTS"
-    payload?: IUser 
+    payload?: IUser[] 
 };
 
 export type UserAction = {
