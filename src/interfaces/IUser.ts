@@ -7,6 +7,7 @@ interface IUser {
     telephone: string;
     email: string;
     password?: string
+    role?: string
 }
 
 interface IEvents {

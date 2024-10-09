@@ -1,9 +1,9 @@
-import React from 'react'
-import Sidebar from '../Sidebar/Sidebar'
+
+import ProfileNav from './ProfileNav'
 
 const ProfileSection = () => {
   return (
-    <Sidebar/>
+    <ProfileNav/>
   )
 }
 
