@@ -2,14 +2,15 @@
 
 
 import { useEffect, useState } from 'react'
-import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
-import { List, Plus, X } from 'react-bootstrap-icons'
+import { Button, Card, Col, Container, Image, ListGroup, Row } from 'react-bootstrap'
+import { List, Plus, Trash, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Rubrica.css"
 import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
-import { getClients, searchClients } from '../../redux/actions/actionClients';
+import { deleteClient, getClients, searchClients } from '../../redux/actions/actionClients';
 import NewUserModal from './NewUserModal';
+import { ToastContainer } from 'react-toastify';
 
 
 const Rubrica = () => {
@@ -37,18 +38,16 @@ const [showModal, setShowModal] = useState(false);
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
   setQuery(e.target.value)
+  if(query.length > 0 ){
+  dispatch(searchClients(e.target.value))
+}else {
+  dispatch(getClients())
+}
 }
 
-const handleSubmit = () =>{
-  dispatch(searchClients(query))
-}
 
 
-const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === 'Enter') {
-    handleSubmit();
-  }
-};
+
 
 const clearSearch = () => {
   setQuery('');
@@ -65,7 +64,8 @@ const handleShowModal = () => setShowModal(true);
 useEffect(() => {
   dispatch(getClients())
   console.log(clients)
-}, [dispatch])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [])
 
   return (
     <div>
@@ -81,14 +81,13 @@ useEffect(() => {
         <Col xs={12} md={5} lg={3} className="border-end">
           <h4 className="my-3">Clienti</h4>
         <Row className='align-items-center'>
-          <Col>
+          <Col xs={10}>
           <div className="input-group">
                   <input
                     type='text'
                     className='form-control rounded-4 position-relative d-flex align-items-center'
                     value={query}
                     onChange={handleChange}
-                    onKeyDown={handleKeyPress} 
                     placeholder='Cerca cliente'
                   />
                     <X className='my-1 position-absolute' onClick={clearSearch} style={{right: '10px',
@@ -98,8 +97,8 @@ useEffect(() => {
                   
                 </div>
           </Col>
-          <Col className='text-center px-0 mx-0'>
-          <Button className='my-3 rounded-circle bg-transparent text-primary' onClick={handleShowModal}><Plus className='my-1 d-flex w-100'/></Button>
+          <Col xs={2} className='text-center px-0 mx-0'>
+          <Button className='my-3 rounded-circle bg-transparent text-primary' onClick={handleShowModal} ><Plus className='my-1 d-flex w-100'/></Button>
           </Col>
           </Row>
           <ListGroup>
@@ -122,14 +121,28 @@ useEffect(() => {
           {selectedClient ? (
             <Card>
               <Card.Body>
-                <Card.Title>{selectedClient.name}</Card.Title>
+                <Row>
+                  <Col xs={12} md={3}>
+                <Image src={selectedClient.avatar} width={100} className='rounded-circle'/>
+                </Col>
+                <Col xs={12} md={9}>
+                <Card.Title>{selectedClient.name}{" "}{selectedClient.surname}</Card.Title>
                 <Card.Text>
                   <strong>Email:</strong> {selectedClient.email}
                 </Card.Text>
                 <Card.Text>
                   <strong>Telefono:</strong> {selectedClient.telephone}
                 </Card.Text>
-               
+                </Col>
+                <Col>
+                <Button 
+                  className='my-3 rounded-circle border-danger bg-transparent text-danger' 
+                  onClick={() => {dispatch(deleteClient(selectedClient.id))
+                    setSelectedClient(null)}}>
+                  <Trash className='my-1 d-flex w-100'/>
+                </Button>
+                </Col>
+                </Row>
               </Card.Body>
             </Card>
           ) : (
@@ -139,6 +152,7 @@ useEffect(() => {
       </Row>
       <NewUserModal show={showModal} handleClose={handleCloseModal} />
     </Container>
+    <ToastContainer/>
     </div>
   )
 }

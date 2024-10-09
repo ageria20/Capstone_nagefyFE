@@ -1,6 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { ClientAction, CLIENTS } from "./action"
+import { ADD_CLIENT, ClientAction, CLIENTS, notify, notifyErr } from "./action"
 import { AppDispatch } from "../store/store"
+
 
 
 
@@ -29,7 +30,7 @@ export const searchClients = (query: string) => {
     return async (dispatch: Dispatch<ClientAction>) => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const url = `http://localhost:8080/clients/search?name=${query}`;
+            const url = `http://localhost:8080/clients/search?name=${encodeURIComponent(query)}`;
 
             const resp = await fetch(url, {
                 headers: {
@@ -39,7 +40,7 @@ export const searchClients = (query: string) => {
 
             if (resp.ok) {
                 const clients = await resp.json();
-                dispatch({ type: CLIENTS, payload: clients.content });
+                dispatch({ type: CLIENTS, payload: clients });
             } else {
                 throw new Error("Get clients error");
             }
@@ -53,7 +54,7 @@ export const createClients = (client: INewUser) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients`, {
+            const resp = await fetch(`http://localhost:8080/clients/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -62,9 +63,35 @@ export const createClients = (client: INewUser) => {
                 body: JSON.stringify(client)
             })
             if(resp.ok){
+                dispatch({type: ADD_CLIENT, payload: client})
+                notify("Cliente creato")
                 dispatch(getClients())
             } else{
-                throw new Error("Get clients error")
+                console.log(resp.statusText)
+                notifyErr(resp.statusText)
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+export const deleteClient = (clientId: string | undefined) => {
+    return async (dispatch: AppDispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/clients/${clientId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: "Bearer "+accessToken,
+                    
+                },
+            })
+            if(resp.ok){
+                notify("Cliente eliminato")
+                dispatch(getClients())
+            } else{
+                console.log(resp.statusText)
+                notifyErr(resp.statusText)
             }
         } catch (error){
             console.log(error)

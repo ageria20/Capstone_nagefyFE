@@ -6,6 +6,7 @@ import Register from './components/Register/Register'
 import ProfileSection from './components/ProfileSection/ProfileSection'
 import Agenda from './components/Calendar/Agenda'
 import Rubrica from './components/Navbar/Rubrica'
+import 'react-toastify/dist/ReactToastify.css';
 
 
 

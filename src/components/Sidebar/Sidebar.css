@@ -92,7 +92,7 @@
 /* Ancora più stretta per schermi molto piccoli */
 @media only screen and (max-width: 550px) {
   .sidebar {
-      width: 60vw;
+     width: 203px;
       padding: 1rem;
   }
 
@@ -104,7 +104,7 @@
 /* Adattamento per schermi piccolissimi */
 @media only screen and (max-width: 400px) {
   .sidebar {
-      width: 50vw;
+      width: 203px;
       padding: 1rem;
   }
 
@@ -117,7 +117,7 @@
 
   @media only screen and (max-width: 350px) {
     .sidebar {
-      width: 60px; 
+      width: 203px; 
       padding: 10px;
     }
   

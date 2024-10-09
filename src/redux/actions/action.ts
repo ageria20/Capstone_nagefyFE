@@ -1,12 +1,20 @@
+import { Bounce, toast } from "react-toastify";
+
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const CLIENTS = 'CLIENTS';
 export const USERS = 'USERS';
+export const ADD_CLIENT = "ADD_CLIENT"
 
 export const url = import.meta.env.VITE_URL
 
 export type ClientAction = {
-    type: "CLIENTS"
+    type: "CLIENTS" 
     payload?: IUser[] 
+};
+
+export type NewClientAction = {
+    type: "ADD_CLIENT"
+    payload?:  INewUser
 };
 
 export type UserAction = {
@@ -23,3 +31,33 @@ export const toggleSidebar = (): ToggleSidebarAction => ({
 });
 
 export type SidebarActions = ToggleSidebarAction;
+
+export const notify = (str: string) => {
+    toast.success(str, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            }
+    )
+}
+
+export const notifyErr = (str: string) => {
+    toast.error(str, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            }
+    )
+}

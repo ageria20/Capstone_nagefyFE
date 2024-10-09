@@ -8,6 +8,7 @@ interface IUser {
     email: string;
     password?: string
     role?: string
+    avatar?: string
 }
 interface INewUser {
     name: string;

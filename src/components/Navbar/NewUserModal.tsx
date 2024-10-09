@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { createClients } from '../../redux/actions/actionClients';
+import { useAppDispatch } from '../../redux/store/store';
 
 
 interface AddClientModalProps {
@@ -10,7 +11,7 @@ interface AddClientModalProps {
 
 const NewUserModal: React.FC<AddClientModalProps> = ({ show, handleClose }) => {
 
-
+    const dispatch = useAppDispatch()
     const [newClient, setNewClient] = useState({ name: '', surname: '',telephone: '', email: ''});
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,10 +19,10 @@ const NewUserModal: React.FC<AddClientModalProps> = ({ show, handleClose }) => {
         setNewClient((prevClient) => ({ ...prevClient, [name]: value }));
     };
 
-    const handleSaveClient = async () => {
-       
-            createClients(newClient) 
+    const handleSaveClient = () => {
+            dispatch(createClients(newClient)) 
             handleClose(); 
+            setNewClient({ name: '', surname: '',telephone: '', email: ''})
     };
 
 
