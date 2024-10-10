@@ -79,7 +79,7 @@ useEffect(() => {
         <p className='mb-0'>{getTime()}</p>
         </Container>
       <Row className="min-vh-100">
-        <Col xs={12} md={5} lg={3} className="border-end">
+        <Col xs={12} md={5} lg={3} className="border-end px-4">
           <h4 className="my-3">Clienti</h4>
         <Row className='align-items-center'>
           <Col xs={10}>

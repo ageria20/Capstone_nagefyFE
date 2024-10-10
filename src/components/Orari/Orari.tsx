@@ -48,8 +48,9 @@ const Orari = () => {
           <Sidebar />
         
         </Container>
+        <Container fluid className=" p-2 rounded-4 shadow-lg mt-2 mx-0">
       {orari.map((day: DaySchedule) => (
-        <Row key={day.day} className="px-4">
+        <Row key={day.day} className="px-4 ">
         <Col className="d-flex align-items-center justify-content-between border-top border-bottom p-2">
           <h5>{day.day}</h5>
           <Row>
@@ -78,6 +79,7 @@ const Orari = () => {
          {selectedDay && <OrariModal show={showModal} handleClose={handleCloseModal} selectedDay={selectedDay}/>}
         </Row>
       ))}
+      </Container>
     </Container>
     </div>
   );
