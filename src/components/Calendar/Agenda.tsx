@@ -5,6 +5,7 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
+import { Container } from "react-bootstrap";
 
 
 const localizer = dayjsLocalizer(dayjs);
@@ -68,7 +69,7 @@ const Agenda: React.FC = () => {
   });
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
+    <Container fluid className="d-flex flex-column justify-content-center align-items-center">
       <DnDCalendar
         localizer={localizer}
         events={filterStaffEvents}
@@ -79,7 +80,7 @@ const Agenda: React.FC = () => {
         min={new Date(2024, 9, 9, 8, 0)}
         max={new Date(2024, 9, 9, 20, 0)}
         date={currentDate}
-        className="calendar"
+        className="calendar  rounded-4 shadow-lg mt-2 p-2"
         onNavigate={handleNavigate}
         components={{
           toolbar: (props) => (
@@ -102,7 +103,7 @@ const Agenda: React.FC = () => {
           ),
         }}
       />
-    </div>
+    </Container>
   );
 };
 

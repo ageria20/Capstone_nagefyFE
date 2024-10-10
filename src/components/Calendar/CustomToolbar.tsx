@@ -36,7 +36,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
     };
 
-    const handleDatechange = (date: Date | null) =>{
+    const handleDateChange = (date: Date | null) =>{
         if(date){
         setCurrentDate(date)
     }
@@ -58,7 +58,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
   return (
     <>
-    <div className='custom-toolbar flex-1 border-start'>
+    <div className='custom-toolbar flex-1 border-start  rounded-4 shadow-lg mt-2 p-2'>
         <button className="toggle-button" onClick={toggleSidebar}>
         {isOpen ? <X/>:<List />} 
       </button>
@@ -67,7 +67,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
-        <div style={{ display: 'block', position: 'relative', marginTop: '5px' }} className='d-flex justify-content-center align-items-center'>
+        <div style={{ marginTop: '5px' }} className='d-flex justify-content-center align-items-center position-relative'>
         <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column justify-content-center mb-0 align-items-center p-2'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,3).toUpperCase()}</p>
         
                 {isDatePickerOpen && 
@@ -75,18 +75,14 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
                     top: '100%', 
                     left: 0,
                     zIndex: 3, 
-                    width: "100%"}}>
+                    width: "100%", 
+                    transform: "translate(-100%)"
+                    }}>
                 <DatePicker
                 className='datePicker'
                 selected={currentDate}
-                onChange={handleDatechange}
+                onChange={handleDateChange}
                 inline
-                popperMoifiers={{preventOverflow: {
-                    enabled: true,
-                    options: {
-                        padding: 10,
-                    },
-                }}}
                 />
                 </div>}
         </div>
@@ -95,7 +91,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
         
     </div>
-        <section className='sectionToolbar mb-2'>
+        <section className='sectionToolbar my-2'>
         <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1 w-sm-100 me-auto'>
             <option value="">Tutti</option>
             {staff.map(member => (

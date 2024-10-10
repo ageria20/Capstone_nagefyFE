@@ -70,11 +70,12 @@ useEffect(() => {
   return (
     <div>
         <Container fluid>
-        <Container fluid className='d-flex align-items-center'>
-      <Button className="toggle-button" onClick={toggleSidebar}>
+        <Container fluid className='d-flex align-items-center rounded-4 shadow-lg mt-2 p-2'>
+      <Button className="toggle-button me-3" onClick={toggleSidebar}>
         {isOpen ? <X/>:<List />}
       </Button>
        <Sidebar/>
+       
         <p className='mb-0'>{getTime()}</p>
         </Container>
       <Row className="min-vh-100">

@@ -66,7 +66,7 @@ const Staff = () => {
       return (
         <div>
             <Container fluid>
-            <Container fluid className='d-flex align-items-center'>
+            <Container fluid className='d-flex align-items-center rounded-4 shadow-lg mt-2 p-2'>
           <Button className="toggle-button" onClick={toggleSidebar}>
             {isOpen ? <X/>:<List />}
           </Button>
