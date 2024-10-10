@@ -9,6 +9,7 @@ import Rubrica from './components/Navbar/Rubrica'
 import 'react-toastify/dist/ReactToastify.css';
 import Treatments from './components/Treatments/Treatments'
 import Staff from './components/Staff/Staff'
+import Orari from './components/Orari/Orari'
 
 
 
@@ -25,6 +26,7 @@ function App() {
      <Route path='/rubrica' element={<Rubrica/>}/>
      <Route path='/trattamenti' element={<Treatments/>}/>
      <Route path='/staff' element={<Staff/>}/>
+     <Route path='/orari' element={<Orari/>}/>
     
      </Routes>
      

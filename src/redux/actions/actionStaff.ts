@@ -52,7 +52,7 @@ export const createStaff = (staff: INewStaff) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/staffs`, {
+            const resp = await fetch(`http://localhost:8080/staffs/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -65,7 +65,7 @@ export const createStaff = (staff: INewStaff) => {
                 dispatch(getStaffs())
             } else{
                 console.log(resp.statusText)
-                notifyErr("Errore nella creazione del trattamento")
+                notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)

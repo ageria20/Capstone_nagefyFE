@@ -5,6 +5,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import usersReducer from '../reducers/usersReducer';
 import treatmentsReducer from '../reducers/treatmentsReducer';
 import staffSlice from "../slices/staffSlice"
+import orariSlice from "../slices/orariSlice"
 
 
 const rootReducer = combineReducers({
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   clientsList: clientsReducer as Reducer,
   users: usersReducer as Reducer,
   treatments: treatmentsReducer as Reducer, 
-  staffList: staffSlice
+  staffList: staffSlice, 
+  orari: orariSlice
 })
 
 const store = configureStore({

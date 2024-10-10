@@ -41,7 +41,7 @@ const Sidebar = () => {
           <SlPeople size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">RUBRICA</span>}
           </Link>
-          <Link to="#" className="nav-link menu__item my-3" onClick={toggleSidebar}>
+          <Link to="/orari" className="nav-link menu__item my-3" onClick={toggleSidebar}>
             <IoTimeOutline size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">ORARI</span>}
           </Link>
