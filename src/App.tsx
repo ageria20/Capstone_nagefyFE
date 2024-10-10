@@ -7,6 +7,7 @@ import ProfileSection from './components/ProfileSection/ProfileSection'
 import Agenda from './components/Calendar/Agenda'
 import Rubrica from './components/Navbar/Rubrica'
 import 'react-toastify/dist/ReactToastify.css';
+import Treatments from './components/Treatments/Treatments'
 
 
 
@@ -21,6 +22,7 @@ function App() {
      <Route path='/profile' element={<ProfileSection/>}/>
      <Route path='/agenda' element={<Agenda/>}/>
      <Route path='/rubrica' element={<Rubrica/>}/>
+     <Route path='/trattamenti' element={<Treatments/>}/>
     
      </Routes>
      

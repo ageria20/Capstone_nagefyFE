@@ -3,12 +3,14 @@ import sidebarReducer from "../reducers/sidebarReducer"
 import clientsReducer from "../reducers/clientsReducer"
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import usersReducer from '../reducers/usersReducer';
+import treatmentsReducer from '../reducers/treatmentsReducer';
 
 
 const rootReduceer = combineReducers({
   sidebar: sidebarReducer,
   clientsList: clientsReducer,
-  users: usersReducer
+  users: usersReducer,
+  treatments: treatmentsReducer
 })
 
 const store = configureStore({
