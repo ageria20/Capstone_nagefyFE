@@ -49,7 +49,7 @@ const Sidebar = () => {
             <BsClipboardData size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">STATISTICHE</span>}
           </Link>
-          <Link to="" className="nav-link menu__item my-3"  onClick={toggleSidebar}>
+          <Link to="/staff" className="nav-link menu__item my-3"  onClick={toggleSidebar}>
             <SlPeople size={isOpen ? 24 :24} />
             {isOpen && <span className="ms-2 menu__text">STAFF</span>}
           </Link>

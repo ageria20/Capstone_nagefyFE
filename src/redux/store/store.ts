@@ -4,13 +4,15 @@ import clientsReducer from "../reducers/clientsReducer"
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import usersReducer from '../reducers/usersReducer';
 import treatmentsReducer from '../reducers/treatmentsReducer';
+import staffSlice from "../slices/staffSlice"
 
 
 const rootReducer = combineReducers({
   sidebar: sidebarReducer as Reducer,
   clientsList: clientsReducer as Reducer,
   users: usersReducer as Reducer,
-  treatments: treatmentsReducer as Reducer
+  treatments: treatmentsReducer as Reducer, 
+  staffList: staffSlice
 })
 
 const store = configureStore({

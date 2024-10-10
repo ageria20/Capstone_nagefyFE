@@ -8,6 +8,7 @@ import Agenda from './components/Calendar/Agenda'
 import Rubrica from './components/Navbar/Rubrica'
 import 'react-toastify/dist/ReactToastify.css';
 import Treatments from './components/Treatments/Treatments'
+import Staff from './components/Staff/Staff'
 
 
 
@@ -23,6 +24,7 @@ function App() {
      <Route path='/agenda' element={<Agenda/>}/>
      <Route path='/rubrica' element={<Rubrica/>}/>
      <Route path='/trattamenti' element={<Treatments/>}/>
+     <Route path='/staff' element={<Staff/>}/>
     
      </Routes>
      

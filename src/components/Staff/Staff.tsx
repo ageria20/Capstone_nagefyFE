@@ -1,26 +1,25 @@
-
 import { useEffect, useState } from 'react'
 import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { List, Plus, Trash, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
-import "./Treatment.css"
+import "./Staff.css"
 import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
-import NewUserModal from './NewTreatmentModal';
+import NewStaffModal from './NewStaffModal';
 import { ToastContainer } from 'react-toastify';
-import { deleteTreatment, getTreatments, searchTreatments } from '../../redux/actions/actionTreatment';
+import { deleteStaff, getStaffs, searchStaff } from '../../redux/actions/actionStaff';
 
-const Treatments = () => {
+const Staff = () => {
     const dispatch = useAppDispatch()
     const isOpen = useAppSelector((state) => state.sidebar.isOpen)
     const [query, setQuery] = useState("")
-    const treatments: ITreatment[] = useAppSelector((state) => state.treatments.treatments)
-    const [selectedTreatment, setSelectedTreatment] = useState<ITreatment | null>(null);
+    const staffs: IStaff[] = useAppSelector((state) => state.staffList.staffs)
+    const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
     const [showModal, setShowModal] = useState(false); 
     
     
-      const handleCustomerClick = (treatment: ITreatment) => {
-        setSelectedTreatment(treatment);
+      const handleCustomerClick = (staff: IStaff) => {
+        setSelectedStaff(staff);
       };
     
     
@@ -36,9 +35,9 @@ const Treatments = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
       setQuery(e.target.value)
       if(query.length > 0 ){
-      dispatch(searchTreatments(e.target.value))
+      dispatch(searchStaff(e.target.value))
     }else {
-      dispatch(getTreatments())
+      dispatch(getStaffs())
     }
     }
     
@@ -48,7 +47,7 @@ const Treatments = () => {
     
     const clearSearch = () => {
       setQuery('');
-      dispatch(getTreatments()); 
+      dispatch(getStaffs()); 
     }
     
     const handleShowModal = () => setShowModal(true);
@@ -59,7 +58,7 @@ const Treatments = () => {
     
     
     useEffect(() => {
-      dispatch(getTreatments())
+      dispatch(getStaffs())
       
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -76,7 +75,7 @@ const Treatments = () => {
             </Container>
           <Row className="min-vh-100">
             <Col xs={12} md={5} lg={3} className="border-end">
-              <h4 className="my-3">Trattamenti</h4>
+              <h4 className="my-3">STAFF</h4>
             <Row className='align-items-center'>
               <Col xs={10}>
               <div className="input-group">
@@ -99,40 +98,40 @@ const Treatments = () => {
               </Col>
               </Row>
               <ListGroup>
-               {treatments?.map((treatment) => (
+               {staffs?.map((staff) => (
                   <ListGroup.Item
-                    key={treatment.id}
+                    key={staff.id}
                     action
                     className='border-0 bg-transparent text-secondary'
-                    onClick={() => handleCustomerClick(treatment)}
-                    active={selectedTreatment?.id === treatment.id}
+                    onClick={() => handleCustomerClick(staff)}
+                    active={selectedStaff?.id === staff.id}
                   >
-                    {treatment.name}
+                    {staff.name}{" "}{staff.surname}
                   </ListGroup.Item>
                 ))}
               </ListGroup>
             </Col>
     
             <Col xs={12} md={7} lg={9} className="p-4">
-              {selectedTreatment ? (
+              {selectedStaff ? (
                 <Card>
                   <Card.Body>
                     <Row>
                     <Col xs={12} md={9}>
-                    <Card.Title>{selectedTreatment.name}</Card.Title>
-                    <Card.Text>
-                      <strong>Prezzo:</strong> {selectedTreatment.price}{" "}€
+                    <Card.Title>{selectedStaff.name}</Card.Title>
+                    <Card.Text className='mb-0 mt-3'>
+                      <strong>Email:</strong> {selectedStaff.email}
                     </Card.Text>
                     <Card.Text>
-                      <strong>Durata:</strong> {selectedTreatment.duration}{" "}min
+                      <strong>Ruolo:</strong> {selectedStaff.role}
                     </Card.Text>
                     </Col>
                     <Col className='d-flex justify-content-end align-items-center'>
                     <Button 
                       className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                      onClick={() => {dispatch(deleteTreatment(selectedTreatment.id))
-                        setSelectedTreatment(null)
-                        console.log(selectedTreatment.id)}}>
+                      onClick={() => {dispatch(deleteStaff(selectedStaff.id))
+                        setSelectedStaff(null)
+                        console.log(selectedStaff.id)}}>
                       <Trash className='my-1 d-flex w-100'/>
                     </Button>
                     </Col>
@@ -140,15 +139,15 @@ const Treatments = () => {
                   </Card.Body>
                 </Card>
               ) : (
-                <p>Seleziona un trattamento per vedere i dettagli.</p>
+                <p>Seleziona un membro dello Staff per vedere i dettagli.</p>
               )}
             </Col>
           </Row>
-          <NewUserModal show={showModal} handleClose={handleCloseModal} />
+          <NewStaffModal show={showModal} handleClose={handleCloseModal} />
         </Container>
         <ToastContainer/>
         </div>
       )
 }
 
-export default Treatments
+export default Staff

@@ -134,7 +134,7 @@ useEffect(() => {
                   <strong>Telefono:</strong> {selectedClient.telephone}
                 </Card.Text>
                 </Col>
-                <Col>
+                <Col className='d-flex justify-content-end align-items-center'>
                 <Button 
                   className='my-3 rounded-circle border-danger bg-transparent text-danger' 
                   onClick={() => {dispatch(deleteClient(selectedClient.id))

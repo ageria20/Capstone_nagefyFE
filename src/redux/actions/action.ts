@@ -5,6 +5,7 @@ export const CLIENTS = 'CLIENTS';
 export const USERS = 'USERS';
 export const ADD_CLIENT = "ADD_CLIENT"
 export const TREATMENTS = "TREATMENTS"
+export const STAFF = "STAFF"
 
 export const url = import.meta.env.VITE_URL
 
@@ -22,6 +23,7 @@ export type UserAction = {
     type: "USERS"
     payload?: IUser 
 };
+
 
 export type TreatmentAction = {
     type: "TREATMENTS"
