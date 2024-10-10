@@ -14,7 +14,7 @@ const Treatments = () => {
     const dispatch = useAppDispatch()
     const isOpen = useAppSelector((state) => state.sidebar.isOpen)
     const [query, setQuery] = useState("")
-    const treatments: ITreatment[] | undefined = useAppSelector((state) => state.treatments.treatments)
+    const treatments: ITreatment[] = useAppSelector((state) => state.treatments.treatments)
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment | null>(null);
     const [showModal, setShowModal] = useState(false); 
     
