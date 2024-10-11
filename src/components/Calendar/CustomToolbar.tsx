@@ -17,18 +17,18 @@ interface CustomToolbarProps {
     onNavigate: (action: NavigateAction, date?: Date) => void;
     onView: (view: View) => void;
     handleToday: () => void;
-    setSelectedStaff: (staff: string) => void;
-    selectedStaff: string;
+    setSelectedStaff: (staff: IStaff) => void;
+    selectedStaff: IStaff;
     setCurrentDate: (currentDate: Date) => void;
     currentDate: Date;
     formattedDate: string;
-    staff: { id: number; name: string }[];
 }
 
-const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, setCurrentDate, formattedDate, handleToday, selectedStaff, setSelectedStaff, staff,  }) => {
+const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, setCurrentDate, formattedDate, handleToday, selectedStaff, setSelectedStaff  }) => {
 
     const dispatch = useAppDispatch()
     const isOpen = useAppSelector((state) => state.sidebar.isOpen)
+    const staffs = useAppSelector((state) => state.staffList.staffs)
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -94,7 +94,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         <section className='sectionToolbar my-2'>
         <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1 w-sm-100 me-auto'>
             <option value="">Tutti</option>
-            {staff.map(member => (
+            {staffs.map(member => (
                 <option key={member.id} value={member.name}>{member.name}</option>
             ))}
         </select>

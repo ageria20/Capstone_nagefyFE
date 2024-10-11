@@ -1,50 +1,45 @@
-import React, { useCallback, useState } from "react";
-import { Calendar, dayjsLocalizer, NavigateAction, View } from "react-big-calendar";
+import React, {  useEffect, useState } from "react";
+import { Calendar, dayjsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import withDragAndDrop, { EventInteractionArgs } from 'react-big-calendar/lib/addons/dragAndDrop'
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
 import { Container } from "react-bootstrap";
+import { useAppDispatch, useAppSelector } from "../../redux/store/store";
+import { getStaffs } from "../../redux/actions/actionStaff";
 
 
 const localizer = dayjsLocalizer(dayjs);
 const DnDCalendar = withDragAndDrop(Calendar)
 
 const Agenda: React.FC = () => {
+  const dispatch = useAppDispatch()
   const [selectedStaff, setSelectedStaff] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const staffs = useAppSelector((state) => state.staffList.staffs)
   const [events, setEvents]  = useState<IEvents[]>([
     {
       title: "Taglio e Piega",
       start: new Date(2024, 9, 11, 9, 0),
       end: new Date(2024, 9, 11, 10, 30),
-      staff: "Desiree",
+      staff: staffs.length > 0 ? staffs[0].name : ""
     },
     {
       title: "Colore e Piega",
       start: new Date(2024, 9, 11, 10, 30),
       end: new Date(2024, 9, 11, 12, 30),
-      staff: "Mariagrazia",
+      staff: staffs.length > 1 ? staffs[1].name : ""
     },
   ])
 
   
-
-  const staff = [
-    { id: 1, name: "Desiree" },
-    { id: 2, name: "Mariagrazia" },
-    { id: 3, name: "Elena" },
-  ];
-
-
-
   const handleNavigate = (
     newDate: Date,
-    view: View,
-    action: NavigateAction
+    view: View
   ) => {
-   
+    console.log(view);
+    
     setCurrentDate(newDate);
   };
 
@@ -58,6 +53,7 @@ const Agenda: React.FC = () => {
 
 
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEventDrop = ({ event, start, end }: any) => {
     // Trova e aggiorna l'evento spostato
     const updatedEvent = { ...event, start: new Date(start), end: new Date(end) };
@@ -69,6 +65,9 @@ const Agenda: React.FC = () => {
     setEvents(updatedEvents)
   }
 
+  useEffect(() => {
+    dispatch(getStaffs())
+  }, [dispatch])
 
   
   const formattedDate = currentDate.toLocaleDateString("default", {
@@ -82,8 +81,8 @@ const Agenda: React.FC = () => {
         localizer={localizer}
         events={filterStaffEvents}
         defaultView="day"
-        draggableAccessor={(eventsDrag) => true}
-        step={30} // Slot di 30 minuti
+        draggableAccessor={() => true}
+        step={15} // Slot di 30 minuti
         timeslots={1} // Mostra 1 slot di 30 minuti per riga
         min={new Date(2024, 9, 9, 8, 0)}
         max={new Date(2024, 9, 9, 20, 0)}
@@ -98,7 +97,6 @@ const Agenda: React.FC = () => {
                 {...props}
                 selectedStaff={selectedStaff}
                 setSelectedStaff={setSelectedStaff}
-                staff={staff}
                 handleToday={handleToday}
                 currentDate={currentDate}
                 setCurrentDate={setCurrentDate}
