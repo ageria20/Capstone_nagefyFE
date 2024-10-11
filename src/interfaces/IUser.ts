@@ -18,11 +18,11 @@ interface INewUser {
 }
 
 interface IEvents {
-    id?: string
+    id?: number;
     title: string;
-    allDay?: boolean;
-    start: Date | null,
-    end: Date | null
+    start: Date;
+    end: Date;
+    staff: string;
 }
 
 

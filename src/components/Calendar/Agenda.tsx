@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Calendar, dayjsLocalizer, NavigateAction, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
+import withDragAndDrop, { EventInteractionArgs } from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
@@ -14,6 +14,20 @@ const DnDCalendar = withDragAndDrop(Calendar)
 const Agenda: React.FC = () => {
   const [selectedStaff, setSelectedStaff] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [events, setEvents]  = useState<IEvents[]>([
+    {
+      title: "Taglio e Piega",
+      start: new Date(2024, 9, 11, 9, 0),
+      end: new Date(2024, 9, 11, 10, 30),
+      staff: "Desiree",
+    },
+    {
+      title: "Colore e Piega",
+      start: new Date(2024, 9, 11, 10, 30),
+      end: new Date(2024, 9, 11, 12, 30),
+      staff: "Mariagrazia",
+    },
+  ])
 
   
 
@@ -23,20 +37,7 @@ const Agenda: React.FC = () => {
     { id: 3, name: "Elena" },
   ];
 
-  const events = [
-    {
-      title: "Taglio e Piega",
-      start: new Date(2024, 9, 9, 9, 0),
-      end: new Date(2024, 9, 9, 10, 30),
-      staff: "Desiree",
-    },
-    {
-      title: "Colore e Piega",
-      start: new Date(2024, 9, 9, 11, 0),
-      end: new Date(2024, 9, 9, 12, 30),
-      staff: "Mariagrazia",
-    },
-  ];
+
 
   const handleNavigate = (
     newDate: Date,
@@ -57,9 +58,16 @@ const Agenda: React.FC = () => {
 
 
 
-
-
-
+  const handleEventDrop = ({ event, start, end }: any) => {
+    // Trova e aggiorna l'evento spostato
+    const updatedEvent = { ...event, start: new Date(start), end: new Date(end) };
+    const updatedEvents = events.map((evt) =>
+      evt.id === event.id && evt.staff === event.staff
+        ? updatedEvent
+        : evt
+    );
+    setEvents(updatedEvents)
+  }
 
 
   
@@ -82,6 +90,7 @@ const Agenda: React.FC = () => {
         date={currentDate}
         className="calendar  rounded-4 shadow-lg mt-2 p-2"
         onNavigate={handleNavigate}
+        onEventDrop={handleEventDrop} 
         components={{
           toolbar: (props) => (
             <>
