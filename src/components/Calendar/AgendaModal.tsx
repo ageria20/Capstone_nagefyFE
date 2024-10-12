@@ -61,7 +61,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
 
   const handleSaveAppointment = async () => {
     const updatedAppointment: IAppointment = {
-        user: newAppointment.user, 
+        user: newAppointment.user?.id, 
         treatments: selectedTreatment, 
         staffMember: newAppointment.staffMember, 
         startDateTime: newAppointment.startDateTime, 
