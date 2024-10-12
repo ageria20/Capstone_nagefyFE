@@ -26,15 +26,8 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const clients = useAppSelector((state) => state.clientsList.clients);
   const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
-  const [user, setUser] = useState<IClient>({
-    id: "",
-    name: "",
-    surname: "",
-    telephone: "",
-    email: ""
-  })
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
-    user: user.id,
+    user: "",
     treatments: [],
     staffMember: "",
     startDateTime: startDateTime,
@@ -67,10 +60,12 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
         staffMember: newAppointment.staffMember, 
         startDateTime: newAppointment.startDateTime, 
     };
+
+    console.log(updatedAppointment)
     await dispatch(createAppointment(updatedAppointment));
     handleClose();
     setNewAppointment({
-      user: user.id,
+      user: "",
       treatments: [],
       staffMember: "",
       startDateTime: "",
@@ -114,14 +109,6 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   }, [queryClient, clients]);
 
   useEffect(() => {
-    const idUser = clients?.map(client => setUser({
-        id: client.id,
-        name: client.name,
-        surname: client.surname,
-        telephone: client.telephone,
-        email: client.email
-    }))
-    console.log(idUser)
     dispatch(getClients());
     dispatch(getStaffs());
     dispatch(getTreatments());
