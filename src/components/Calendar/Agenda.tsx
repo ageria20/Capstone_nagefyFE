@@ -66,6 +66,7 @@ const Agenda: React.FC = () => {
       const formattedEvents = appointments.map((appointment, _i) =>({
         id: _i + 1,
         title: appointment.user, 
+        start: appointment.startDateTime,
         end: appointment.ednDateTime,
         allDay: false,
         user: appointment.user,
