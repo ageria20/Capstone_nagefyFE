@@ -27,7 +27,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
-    user: "",
+    user: null,
     treatments: [],
     staffMember: "",
     startDateTime: startDateTime,
@@ -69,7 +69,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     dispatch(createAppointment(updatedAppointment));
     handleClose();
     setNewAppointment({
-      user: "",
+      user: null,
       treatments: [],
       staffMember: "",
       startDateTime: "",

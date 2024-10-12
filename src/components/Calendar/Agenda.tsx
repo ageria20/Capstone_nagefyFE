@@ -25,19 +25,12 @@ const Agenda: React.FC = () => {
   const appointments = useAppSelector((state) => state.appointments.appointments)
   const [events, setEvents] = useState<IEvents[]>([
     {
-      id: 1,
-      title: "Taglio e Piega",
-      start: new Date(2024, 9, 11, 9, 0),
-      end: new Date(2024, 9, 11, 10, 30),
-      staff: staffs.length > 0 ? staffs[0].name : ""
-    },
-    {
-      id: 2,
-      title: "Colore e Piega",
-      start: new Date(2024, 9, 11, 10, 30),
-      end: new Date(2024, 9, 11, 12, 30),
-      staff: staffs.length > 1 ? staffs[1].name : ""
-    },
+      id: "",
+      title: "",
+      start: new Date(),
+      end: new Date(),
+      staff: ""
+    }
   ]);
 
   const handleNavigate = (newDate: Date, view: View) => {
@@ -79,13 +72,17 @@ const Agenda: React.FC = () => {
   useEffect(() => {
     const formattedEvents = appointments.map((appointment) => ({
         id: appointment.id ? String(appointment.id) : undefined, // Converti a number
-        title: appointment.treatments.map(t => t.name).join(', '), // Mostra i nomi dei trattamenti
-        start: new Date(appointment.startDateTime), // Assicurati che il formato sia corretto
-        end: new Date(new Date(appointment.startDateTime).getTime() + 30 * 60000), // Aggiungi 30 minuti come esempio per la fine
+        title: appointment.user?.name, // Mostra i nomi dei clienti
+        start: dayjs(appointment.startDateTime).toDate(), // Assicurati che il formato sia corretto
+        end: dayjs(appointment.ednDateTime).toDate(), // Aggiungi 30 minuti come esempio per la fine
         staff: appointment.staffMember || "Staff non disponibile", // Usa un valore di fallback
     }));
 
     setEvents(formattedEvents);
+    console.log(formattedEvents)
+    appointments.map(appointment => console.log(appointment.ednDateTime, appointment.startDateTime))
+    console.log(formattedEvents)
+    console.log(appointments)
 }, [appointments]);
 
   const formattedDate = currentDate.toLocaleDateString("default", {
