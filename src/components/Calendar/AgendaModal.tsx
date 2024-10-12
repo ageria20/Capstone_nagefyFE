@@ -10,24 +10,31 @@ import dayjs from "dayjs";
 interface AddAppointmentModalProps {
     show: boolean;
     handleClose: () => void;
-    setSelectedTreatment: (treatments: ITreatment[]) => void; // Cambia il tipo qui
+    setSelectedTreatment: (treatments: ITreatment[]) => void; 
     selectedTreatment: ITreatment[];
     startDateTime: string
-  }
+}
 
 const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   show,
   handleClose,
   selectedTreatment,
   setSelectedTreatment,
- startDateTime
+  startDateTime
 }) => {
   const dispatch = useAppDispatch();
   const clients = useAppSelector((state) => state.clientsList.clients);
   const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
+  const [user, setUser] = useState<IClient>({
+    id: "",
+    name: "",
+    surname: "",
+    telephone: "",
+    email: ""
+  })
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
-    user: null,
+    user: user.id,
     treatments: [],
     staffMember: "",
     startDateTime: startDateTime,
@@ -35,8 +42,6 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
   const [queryClient, setQueryClient] = useState("");
   const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
-
- 
 
   const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const staffMemberName = e.target.value;
@@ -47,29 +52,25 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     } else {
         setSelectedStaff(null); 
     }
-};
+  };
 
   const handleClientSelect = (client: IClient) => {
     setNewAppointment((prevAppointment) => ({ ...prevAppointment, user: client.id }));
     setQueryClient(client.name);  
     setFilteredClients([]); 
-};
-
-
-
-
+  };
 
   const handleSaveAppointment = async () => {
     const updatedAppointment: IAppointment = {
-        user: newAppointment.user?.id, 
+        user: newAppointment.user, 
         treatments: selectedTreatment, 
         staffMember: newAppointment.staffMember, 
         startDateTime: newAppointment.startDateTime, 
     };
-    dispatch(createAppointment(updatedAppointment));
+    await dispatch(createAppointment(updatedAppointment));
     handleClose();
     setNewAppointment({
-      user: null,
+      user: user.id,
       treatments: [],
       staffMember: "",
       startDateTime: "",
@@ -81,7 +82,6 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const treatmentName = e.target.value;
 
-    // Trova il trattamento corrispondente nell'array dei trattamenti
     const selectedTreatmentObject = treatments.find(treatment => treatment.name === treatmentName);
 
     if (selectedTreatmentObject) {
@@ -89,18 +89,18 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
             if (prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id)) {
                 return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
             } else {
-                return [...prevSelected, selectedTreatmentObject]; // Assicurati di passare l'oggetto ITreatment
+                return [...prevSelected, selectedTreatmentObject];
             }
         });
     }
-};
-useEffect(() => {
-    // Quando startDateTime cambia, aggiorna newAppointment
+  };
+
+  useEffect(() => {
     setNewAppointment((prev) => ({
         ...prev,
         startDateTime: startDateTime,
     }));
-}, [startDateTime]);
+  }, [startDateTime]);
 
   useEffect(() => {
     if (queryClient) {
@@ -111,12 +111,20 @@ useEffect(() => {
     } else {
         setFilteredClients([]);
     }
-}, [queryClient, clients]);
+  }, [queryClient, clients]);
 
   useEffect(() => {
+    const idUser = clients?.map(client => setUser({
+        id: client.id,
+        name: client.name,
+        surname: client.surname,
+        telephone: client.telephone,
+        email: client.email
+    }))
+    console.log(idUser)
     dispatch(getClients());
     dispatch(getStaffs());
-    dispatch(getTreatments())
+    dispatch(getTreatments());
   }, [dispatch]);
 
   return (
@@ -126,29 +134,29 @@ useEffect(() => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-        <Form.Group controlId="formClientSearch">
-    <Form.Label>Cliente</Form.Label>
-    <Form.Control
-        type="text"
-        placeholder="Cerca cliente"
-        value={queryClient}
-        onChange={(e) => setQueryClient(e.target.value)} 
-    />
-    
-    {filteredClients.length > 0 && (
-        <ul className="client-dropdown">
-            {filteredClients.map(client => (
-                <li 
-                    key={client.id}
-                    onClick={() => handleClientSelect(client)} 
-                    className="dropdown-item"
-                >
-                    {client.name} - {client.telephone}
-                </li>
-            ))}
-        </ul>
-    )}
-</Form.Group>
+          <Form.Group controlId="formClientSearch">
+            <Form.Label>Cliente</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="Cerca cliente"
+                value={queryClient}
+                onChange={(e) => setQueryClient(e.target.value)} 
+            />
+            
+            {filteredClients.length > 0 && (
+                <ul className="client-dropdown">
+                    {filteredClients.map(client => (
+                        <li 
+                            key={client.id}
+                            onClick={() => handleClientSelect(client)} 
+                            className="dropdown-item"
+                        >
+                            {client.name} - {client.telephone}
+                        </li>
+                    ))}
+                </ul>
+            )}
+          </Form.Group>
 
           <Form.Group controlId="formClientSurname">
             <Form.Label>Trattamenti</Form.Label>

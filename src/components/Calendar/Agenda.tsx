@@ -21,6 +21,7 @@ const Agenda: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false); // Stato per il modale
   const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]); // Stato per i trattamenti
   const [selectedSlot, setSelectedSlot] = useState<string>("");
+  const treatments = useAppSelector((state) => state.treatments.treatments)
   const staffs = useAppSelector((state) => state.staffList.staffs);
   const appointments = useAppSelector((state) => state.appointments.appointments)
   const [events, setEvents] = useState<IEvents[]>([
@@ -70,33 +71,52 @@ const Agenda: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const formattedEvents = appointments.map((appointment) => ({
-        id: appointment.id ? String(appointment.id) : undefined, // Converti a number
-        title: appointment.user?.name, // Mostra i nomi dei clienti
-        start: dayjs(appointment.startDateTime).toDate(), // Assicurati che il formato sia corretto
-        end: dayjs(appointment.ednDateTime).toDate(), // Aggiungi 30 minuti come esempio per la fine
-        staff: appointment.staffMember || "Staff non disponibile", // Usa un valore di fallback
-    }));
+    const formattedEvents: IEvents[] = appointments.flatMap((appointment) => {
+        const startDateTime = dayjs(appointment.startDateTime);
+        const endDateTime = dayjs(appointment.ednDateTime); // Ensure this matches your data structure
+        const staffId = appointment.staffMember
+        console.log(staffId)
+        // Extract components for Date object
+        const startDate = new Date(
+            startDateTime.year(),
+            startDateTime.month(),
+            startDateTime.date(),
+            startDateTime.hour(),
+            startDateTime.minute(),
+            startDateTime.second()
+        );
 
-    setEvents(formattedEvents);
-    console.log(formattedEvents)
-    appointments.map(appointment => console.log(appointment.ednDateTime, appointment.startDateTime))
-    console.log(formattedEvents)
-    console.log(appointments)
+        const endDate = new Date(
+            endDateTime.year(),
+            endDateTime.month(),
+            endDateTime.date(),
+            endDateTime.hour(),
+            endDateTime.minute(),
+            endDateTime.second()
+        );
+        // Map through treatments to create an event for each
+        return treatments.map((treatment) => ({
+            id: appointment.id ? String(appointment.id) : undefined,
+            title: treatment.name || "Trattamento non disponibile", // Fallback
+            start: startDate,
+            end: endDate,
+            staff: appointment.staffMember || "Staff non disponibile",
+        }));
+    });
+
+    setEvents(formattedEvents); // Now this should work correctly
+    console.log("FORMATTED EVENTS ", formattedEvents);
+    console.log("APPUNTAMENTI ", appointments);
 }, [appointments]);
 
-  const formattedDate = currentDate.toLocaleDateString("default", {
-    month: "long",
-    day: "numeric"
-  });
-
+const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");
   return (
     <Container fluid className="d-flex flex-column justify-content-center align-items-center">
       <DnDCalendar
         localizer={localizer}
         events={filterStaffEvents}
         defaultView="day"
-        draggableAccessor={() => false}
+        draggableAccessor={() => true}
         step={15} // Slot di 30 minuti
         timeslots={1} // Mostra 1 slot di 30 minuti per riga
         min={new Date(2024, 9, 9, 8, 0)}
