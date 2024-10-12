@@ -2,9 +2,10 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface IAppointment {
+    id?: string
     user: string;
     treatments: ITreatment[];
-    staffMember: string;
+    staffMember: string | undefined;
     startDateTime: string;
 }
 

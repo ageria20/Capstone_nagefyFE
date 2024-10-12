@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { setAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
+import dayjs from "dayjs"
 
 export const getAppointments = () => {
     return async (dispatch: Dispatch)=>{
@@ -14,7 +15,7 @@ export const getAppointments = () => {
             })
             if(resp.ok){
                 const appointments = await resp.json()
-                dispatch(setAppointment(appointments))
+                dispatch(setAppointment(appointments.content))
             } else{
                 throw new Error("Get clients error")
             }
@@ -29,16 +30,20 @@ export const createAppointment = (appointment: IAppointment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
+            const formattedAppointment = {
+                ...appointment, 
+                start: dayjs(appointment.startDateTime).format("YYYY-MM-DDTHH:mm:ss")
+            }
             const resp = await fetch(`http://localhost:8080/appointments`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(appointment)
+                body: JSON.stringify(formattedAppointment)
             })
             if(resp.ok){
-                notify("Staff creato")
+                notify("Appuntamento creato")
                 dispatch(getAppointments())
             } else{
                 console.log(resp.statusText)

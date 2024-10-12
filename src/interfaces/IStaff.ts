@@ -13,6 +13,16 @@ interface IStaff{
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface INewStaff{
+    id?: string
+    name: string;
+    surname: string;
+    telephone: string;
+    email: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface ISelectedStaff{
+    id: string
     name: string;
     surname: string;
     telephone: string;

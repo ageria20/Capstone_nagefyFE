@@ -6,6 +6,7 @@ import usersReducer from '../reducers/usersReducer';
 import treatmentsReducer from '../reducers/treatmentsReducer';
 import staffSlice from "../slices/staffSlice"
 import orariSlice from "../slices/orariSlice"
+import appointmentsSlice from "../slices/appointmentsSlice"
 
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   users: usersReducer as Reducer,
   treatments: treatmentsReducer as Reducer, 
   staffList: staffSlice, 
-  orari: orariSlice
+  orari: orariSlice,
+  appointments: appointmentsSlice
 })
 
 const store = configureStore({

@@ -17,8 +17,8 @@ interface CustomToolbarProps {
     onNavigate: (action: NavigateAction, date?: Date) => void;
     onView: (view: View) => void;
     handleToday: () => void;
-    setSelectedStaff: (staff: IStaff) => void;
-    selectedStaff: IStaff;
+    setSelectedStaff: (staff: string) => void;
+    selectedStaff: string;
     setCurrentDate: (currentDate: Date) => void;
     currentDate: Date;
     formattedDate: string;
