@@ -7,7 +7,7 @@ interface IAppointment {
     treatments: ITreatment[];
     staffMember: string | undefined;
     startDateTime: string;
-    ednDateTime?: Date
+    ednDateTime?: string
 }
 
 

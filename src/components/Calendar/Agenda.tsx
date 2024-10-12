@@ -61,17 +61,12 @@ const Agenda: React.FC = () => {
         setShowModal(true); 
     };
 
-    const createDate = (isoString) => {
-      const date = new Date(isoString);
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
-    };
-
+   
     useEffect(() => {
       const formattedEvents = appointments.map((appointment, _i) =>({
         id: _i + 1,
         title: appointment.user, 
-        start: createDate(appointment.startDateTime),
-        end: createDate(appointment.ednDateTime),
+        end: appointment.ednDateTime,
         allDay: false,
         user: appointment.user,
         staff: appointment.staffMember
