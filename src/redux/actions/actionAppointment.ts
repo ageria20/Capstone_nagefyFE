@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { setAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
-import dayjs from "dayjs"
+
 import { IAppointment } from "../../interfaces/IAppointment"
 
 export const getAppointments = () => {
@@ -31,17 +31,14 @@ export const createAppointment = (appointment: IAppointment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const formattedAppointment = {
-                ...appointment, 
-                start: dayjs(appointment.startDateTime).format("YYYY-MM-DDTHH:mm:ss")
-            }
+        
             const resp = await fetch(`http://localhost:8080/appointments`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formattedAppointment)
+                body: JSON.stringify(appointment)
             })
             if(resp.ok){
                 notify("Appuntamento creato")

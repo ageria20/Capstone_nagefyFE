@@ -1,5 +1,3 @@
-// Agenda.tsx
-
 import React, { useEffect, useState } from "react";
 import { Calendar, dayjsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -12,8 +10,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
 import { getAppointments } from "../../redux/actions/actionAppointment";
-import { start } from "repl";
 import { IEvents } from "../../interfaces/IUser";
+import {  IAppointments } from "../../interfaces/IAppointment";
 
 const localizer = dayjsLocalizer(dayjs);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -29,20 +27,28 @@ const Agenda: React.FC = () => {
     const treatments = useAppSelector((state) => state.treatments.treatments);
     const staffs = useAppSelector((state) => state.staffList.staffs);
     const appointments = useAppSelector((state) => state.appointments.appointments);
-    const [events, setEvents] = useState<IEvents[]>([{
-        id: 1,
-        title: "Mirko",
-        start: new Date(2024,9,13,9,30),
-        end: new Date(2024,9,13,10,30),
-        staff: "Desiree" 
-    }]);
-    
-    
+
+    // Aggiornato per mappare correttamente gli appuntamenti negli eventi del calendario
+    const [events, setEvents] = useState<IEvents[]>([]);
+
+    useEffect(() => {
+        
+        const formattedEvents = appointments.map((appointment: IAppointments, _i: number) => ({
+            id: _i + 1,
+            title: `${appointment.user.name} ${appointment.user.surname}`, 
+            start: new Date(dayjs(appointment.startTime).toDate()),
+            end: new Date(dayjs(appointment.endTime).toDate()), 
+            staff: `${appointment.staff.name}`,
+        }));
+        setEvents(formattedEvents);
+        console.log("Formatted EVENTS: ", formattedEvents)
+        console.log("APPOINTMENT: ", appointments[5])
+        console.log("DATE: ", new Date(2024,10,13,21,56))
+    }, [appointments]);
 
     const handleNavigate = (newDate: Date, view: View) => {
         setCurrentDate(newDate);
     };
-
 
     const filterStaffEvents = selectedStaff
         ? events.filter((e) => e.staff === selectedStaff)
@@ -61,34 +67,16 @@ const Agenda: React.FC = () => {
     };
 
     const handleSelectSlot = ({ start }: { start: Date }) => {
-        const startString = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
-        setSelectedSlot(startString); 
-        console.log("DATE", startString)
-        setShowModal(true); 
+        // const startString = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
+        setSelectedSlot(start);
+        console.log("DATE: ",start)
+        setShowModal(true);
     };
 
-   
     useEffect(() => {
-        
-    //   const formattedEvents = appointments.map((appointment, _i) =>({
-    //     id: _i + 1,
-    //     title: appointment.user, 
-    //     start: appointment.startDateTime,
-    //     end: appointment.ednDateTime,
-    //     allDay: false,
-    //     user: appointment.user,
-    //     staff: appointment.staff
-    //   }))
-    //   setEvents(formattedEvents)
-    //   console.log("formatted", formattedEvents)
-    dispatch(getStaffs());
-    console.log("Staffs", staffs)
-    console.log("SELECTED STAFF: ", selectedSlot)
-    console.log("EVENT", events)
+        dispatch(getStaffs());
         dispatch(getAppointments());
-        console.log("APPOINTMENTS: ",appointments)
     }, [dispatch]);
-
 
     const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");
 
@@ -99,12 +87,12 @@ const Agenda: React.FC = () => {
                 events={filterStaffEvents}
                 defaultView="day"
                 draggableAccessor={() => true}
-                step={15} 
+                step={15}
                 timeslots={1}
                 min={new Date(2024, 9, 9, 8, 0)}
                 max={new Date(2024, 9, 9, 20, 0)}
                 date={currentDate}
-                className="calendar  rounded-4 shadow-lg mt-2 p-2"
+                className="calendar rounded-4 shadow-lg mt-2 p-2"
                 onNavigate={handleNavigate}
                 onEventDrop={handleEventDrop}
                 selectable={true}

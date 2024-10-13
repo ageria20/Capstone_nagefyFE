@@ -31,8 +31,8 @@ export interface IClient {
 export interface IEvents {
     id?: number ;
     title: string;
-    start: stringOrDate;
-    end: stringOrDate;
+    start: Date;
+    end: Date;
     staff: string
 }
 

@@ -6,6 +6,8 @@ import { getClients } from "../../redux/actions/actionClients";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 import dayjs from "dayjs";
+import { IClient } from "../../interfaces/IUser";
+import { IAppointment } from "../../interfaces/IAppointment";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -27,50 +29,50 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
-    user: "",
+    user: "", // Inizializza come oggetto vuoto
     treatments: [],
-    staffMember: "",
+    staff: "", // Inizializza come oggetto vuoto
     startDateTime: startDateTime,
-  });
-  const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
-  const [queryClient, setQueryClient] = useState("");
-  const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
+});
+const [selectedStaff, setSelectedStaff] = useState<ISelectedStaff | null>(null);
+const [queryClient, setQueryClient] = useState("");
+const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
 
-  const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const staffMemberName = e.target.value;
     const staffObject = staffs.find(s => s.name === staffMemberName);
     if (staffObject) {
-        setNewAppointment(prevAppointment => ({ ...prevAppointment, staffMember: staffObject.id }));
-        setSelectedStaff(staffObject); 
+      console.log("STAFF: ", staffObject)
+        setSelectedStaff(staffObject);
+        setNewAppointment(prevAppointment => ({ ...prevAppointment, staff: staffObject.id }));
     } else {
-        setSelectedStaff(null); 
+        setSelectedStaff(null);
     }
-  };
+};
 
-  const handleClientSelect = (client: IClient) => {
+const handleClientSelect = (client: IClient) => {
     setNewAppointment((prevAppointment) => ({ ...prevAppointment, user: client.id }));
-    setQueryClient(client.name);  
-    setFilteredClients([]); 
-  };
+    setQueryClient(client.name);
+    setFilteredClients([]);
+};
 
-  const handleSaveAppointment = async () => {
+const handleSaveAppointment = async () => {
     const updatedAppointment: IAppointment = {
-        user: newAppointment.user, 
-        treatments: selectedTreatment, 
-        staffMember: newAppointment.staffMember, 
-        startDateTime: newAppointment.startDateTime, 
+        ...newAppointment,
+        treatments: selectedTreatment,
     };
+    console.log("UPDATED APPOINTMENT: ", updatedAppointment)
     dispatch(createAppointment(updatedAppointment));
     handleClose();
     setNewAppointment({
-      user: "",
-      treatments: [],
-      staffMember: "",
-      startDateTime: "",
+        user: "",
+        treatments: [],
+        staff: "",
+        startDateTime: "",
     });
     setSelectedTreatment([]);
     setQueryClient("");
-  };
+};
 
   const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const treatmentName = e.target.value;
