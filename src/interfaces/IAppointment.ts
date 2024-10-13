@@ -5,7 +5,7 @@ interface IAppointment {
     id?: string
     user: string;
     treatments: ITreatment[];
-    staffMember: string | undefined;
+    staff: string | undefined;
     startDateTime: string;
     ednDateTime?: string
 }

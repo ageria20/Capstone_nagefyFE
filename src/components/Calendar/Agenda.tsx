@@ -34,9 +34,6 @@ const Agenda: React.FC = () => {
         setCurrentDate(newDate);
     };
 
-    const handleEvents = () => {
-     
-    }
 
     const filterStaffEvents = selectedStaff
         ? events.filter((e) => e.staff === selectedStaff)
@@ -70,7 +67,7 @@ const Agenda: React.FC = () => {
         end: appointment.ednDateTime,
         allDay: false,
         user: appointment.user,
-        staff: appointment.staffMember
+        staff: appointment.staff
       }))
       setEvents(formattedEvents)
       console.log("formatted", formattedEvents)

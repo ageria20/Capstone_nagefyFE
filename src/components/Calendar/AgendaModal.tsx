@@ -29,7 +29,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
     user: "",
     treatments: [],
-    staffMember: "",
+    staff: "",
     startDateTime: startDateTime,
   });
   const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
@@ -40,7 +40,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     const staffMemberName = e.target.value;
     const staffObject = staffs.find(s => s.name === staffMemberName);
     if (staffObject) {
-        setNewAppointment(prevAppointment => ({ ...prevAppointment, staffMember: staffObject.id }));
+        setNewAppointment(prevAppointment => ({ ...prevAppointment, staff: staffObject.id }));
         setSelectedStaff(staffObject); 
     } else {
         setSelectedStaff(null); 
@@ -57,7 +57,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     const updatedAppointment: IAppointment = {
         user: newAppointment.user, 
         treatments: selectedTreatment, 
-        staffMember: newAppointment.staffMember, 
+        staff: newAppointment.staff, 
         startDateTime: newAppointment.startDateTime, 
     };
 
@@ -67,7 +67,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     setNewAppointment({
       user: "",
       treatments: [],
-      staffMember: "",
+      staff: "",
       startDateTime: "",
     });
     setSelectedTreatment([]);
