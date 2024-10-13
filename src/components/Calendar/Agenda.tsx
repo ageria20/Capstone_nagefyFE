@@ -13,6 +13,7 @@ import { getAppointments } from "../../redux/actions/actionAppointment";
 import { IEvents } from "../../interfaces/IUser";
 import {  IAppointments } from "../../interfaces/IAppointment";
 
+
 const localizer = dayjsLocalizer(dayjs);
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -22,13 +23,12 @@ const Agenda: React.FC = () => {
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]);
-    const [selectedSlot, setSelectedSlot] = useState<string>("");
+    const [selectedSlot, setSelectedSlot] = useState<Date>(new Date());
     
-    const treatments = useAppSelector((state) => state.treatments.treatments);
-    const staffs = useAppSelector((state) => state.staffList.staffs);
+    
     const appointments = useAppSelector((state) => state.appointments.appointments);
 
-    // Aggiornato per mappare correttamente gli appuntamenti negli eventi del calendario
+    
     const [events, setEvents] = useState<IEvents[]>([]);
 
     useEffect(() => {
@@ -47,6 +47,8 @@ const Agenda: React.FC = () => {
     }, [appointments]);
 
     const handleNavigate = (newDate: Date, view: View) => {
+        console.log(view);
+        
         setCurrentDate(newDate);
     };
 
@@ -63,6 +65,7 @@ const Agenda: React.FC = () => {
         const updatedEvents = events.map((evt) =>
             evt.id === event.id ? updatedEvent : evt
         );
+        console.log("UPDATED EVENT: ", event)
         setEvents(updatedEvents);
     };
 

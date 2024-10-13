@@ -5,16 +5,16 @@ import { createAppointment } from "../../redux/actions/actionAppointment";
 import { getClients } from "../../redux/actions/actionClients";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import { getTreatments } from "../../redux/actions/actionTreatment";
-import dayjs from "dayjs";
+
 import { IClient } from "../../interfaces/IUser";
 import { IAppointment } from "../../interfaces/IAppointment";
 
 interface AddAppointmentModalProps {
     show: boolean;
     handleClose: () => void;
-    setSelectedTreatment: (treatments: ITreatment[]) => void; // Cambia il tipo qui
+    setSelectedTreatment: (treatments: ITreatment[]) => void; 
     selectedTreatment: ITreatment[];
-    startDateTime: string
+    startDateTime: Date
 }
 
 const AgendaModal: React.FC<AddAppointmentModalProps> = ({
@@ -29,10 +29,10 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
-    user: "", // Inizializza come oggetto vuoto
+    user: "", 
     treatments: [],
-    staff: "", // Inizializza come oggetto vuoto
-    startDateTime: startDateTime,
+    staff: "", 
+    startTime: startDateTime,
 });
 const [selectedStaff, setSelectedStaff] = useState<ISelectedStaff | null>(null);
 const [queryClient, setQueryClient] = useState("");
@@ -56,23 +56,37 @@ const handleClientSelect = (client: IClient) => {
     setFilteredClients([]);
 };
 
+useEffect(() => {
+  setNewAppointment((prev) => ({
+      ...prev,
+      startTime: startDateTime, 
+  }));
+}, [startDateTime]);
+
 const handleSaveAppointment = async () => {
-    const updatedAppointment: IAppointment = {
-        ...newAppointment,
-        treatments: selectedTreatment,
-    };
-    console.log("UPDATED APPOINTMENT: ", updatedAppointment)
-    dispatch(createAppointment(updatedAppointment));
-    handleClose();
-    setNewAppointment({
-        user: "",
-        treatments: [],
-        staff: "",
-        startDateTime: "",
-    });
-    setSelectedTreatment([]);
-    setQueryClient("");
+  const updatedAppointment: IAppointment = {
+      ...newAppointment,
+      treatments: selectedTreatment,
+  };
+  console.log("UPDATED APPOINTMENT: ", updatedAppointment);
+  if (!updatedAppointment.startTime) {
+    console.error("Start time is missing or invalid!");
+    return; 
+}
+  
+  await dispatch(createAppointment(updatedAppointment)); 
+  
+  
+  setNewAppointment({
+      user: "",
+      treatments: [],
+      staff: "",
+      startTime: new Date(), 
+  });
+  setSelectedTreatment([]);
+  setQueryClient("");
 };
+
 
   const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const treatmentName = e.target.value;
@@ -93,7 +107,7 @@ const handleSaveAppointment = async () => {
   useEffect(() => {
     setNewAppointment((prev) => ({
         ...prev,
-        startDateTime: startDateTime,
+        startTime: startDateTime,
     }));
   }, [startDateTime]);
 
