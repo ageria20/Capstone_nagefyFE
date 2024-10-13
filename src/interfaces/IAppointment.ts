@@ -1,11 +1,12 @@
+import { IClient } from "./IUser";
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface IAppointment {
+export interface IAppointment {
     id?: string
-    user: string;
+    user: IClient;
     treatments: ITreatment[];
-    staff: string | undefined;
+    staff: ISelectedStaff;
     startDateTime: string;
     ednDateTime?: string
 }

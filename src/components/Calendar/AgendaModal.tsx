@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 interface AddAppointmentModalProps {
     show: boolean;
     handleClose: () => void;
-    setSelectedTreatment: (treatments: ITreatment[]) => void; 
+    setSelectedTreatment: (treatments: ITreatment[]) => void; // Cambia il tipo qui
     selectedTreatment: ITreatment[];
     startDateTime: string
 }
@@ -29,7 +29,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
     user: "",
     treatments: [],
-    staff: "",
+    staffMember: "",
     startDateTime: startDateTime,
   });
   const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
@@ -40,7 +40,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     const staffMemberName = e.target.value;
     const staffObject = staffs.find(s => s.name === staffMemberName);
     if (staffObject) {
-        setNewAppointment(prevAppointment => ({ ...prevAppointment, staff: staffObject.id }));
+        setNewAppointment(prevAppointment => ({ ...prevAppointment, staffMember: staffObject.id }));
         setSelectedStaff(staffObject); 
     } else {
         setSelectedStaff(null); 
@@ -57,17 +57,15 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     const updatedAppointment: IAppointment = {
         user: newAppointment.user, 
         treatments: selectedTreatment, 
-        staff: newAppointment.staff, 
+        staffMember: newAppointment.staffMember, 
         startDateTime: newAppointment.startDateTime, 
     };
-
-    console.log(updatedAppointment)
-    await dispatch(createAppointment(updatedAppointment));
+    dispatch(createAppointment(updatedAppointment));
     handleClose();
     setNewAppointment({
       user: "",
       treatments: [],
-      staff: "",
+      staffMember: "",
       startDateTime: "",
     });
     setSelectedTreatment([]);
@@ -186,7 +184,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
             {selectedStaff && (
               <div>
                 <h5>Membro dello staff selezionato:</h5>
-                <p>{selectedStaff.name}</p>
+                <p>{selectedStaff.name}</p> {/* Corretto */}
               </div>
             )}
           </Form.Group>

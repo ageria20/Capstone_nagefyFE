@@ -3,6 +3,7 @@ import { setAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
 import dayjs from "dayjs"
+import { IAppointment } from "../../interfaces/IAppointment"
 
 export const getAppointments = () => {
     return async (dispatch: Dispatch)=>{

@@ -12,6 +12,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
 import { getAppointments } from "../../redux/actions/actionAppointment";
+import { start } from "repl";
+import { IEvents } from "../../interfaces/IUser";
 
 const localizer = dayjsLocalizer(dayjs);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -27,8 +29,15 @@ const Agenda: React.FC = () => {
     const treatments = useAppSelector((state) => state.treatments.treatments);
     const staffs = useAppSelector((state) => state.staffList.staffs);
     const appointments = useAppSelector((state) => state.appointments.appointments);
+    const [events, setEvents] = useState<IEvents[]>([{
+        id: 1,
+        title: "Mirko",
+        start: new Date(2024,9,13,9,30),
+        end: new Date(2024,9,13,10,30),
+        staff: "Desiree" 
+    }]);
     
-    const [events, setEvents] = useState<IEvents[]>([]);
+    
 
     const handleNavigate = (newDate: Date, view: View) => {
         setCurrentDate(newDate);
@@ -60,21 +69,24 @@ const Agenda: React.FC = () => {
 
    
     useEffect(() => {
-      const formattedEvents = appointments.map((appointment, _i) =>({
-        id: _i + 1,
-        title: appointment.user, 
-        start: appointment.startDateTime,
-        end: appointment.ednDateTime,
-        allDay: false,
-        user: appointment.user,
-        staff: appointment.staff
-      }))
-      setEvents(formattedEvents)
-      console.log("formatted", formattedEvents)
-        dispatch(getStaffs());
-        console.log("Staffs", staffs)
+        
+    //   const formattedEvents = appointments.map((appointment, _i) =>({
+    //     id: _i + 1,
+    //     title: appointment.user, 
+    //     start: appointment.startDateTime,
+    //     end: appointment.ednDateTime,
+    //     allDay: false,
+    //     user: appointment.user,
+    //     staff: appointment.staff
+    //   }))
+    //   setEvents(formattedEvents)
+    //   console.log("formatted", formattedEvents)
+    dispatch(getStaffs());
+    console.log("Staffs", staffs)
+    console.log("SELECTED STAFF: ", selectedSlot)
+    console.log("EVENT", events)
         dispatch(getAppointments());
-        console.log(appointments)
+        console.log("APPOINTMENTS: ",appointments)
     }, [dispatch]);
 
 

@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-interface IUser {
+import { stringOrDate } from "react-big-calendar";
+
+export interface IUser {
     id?: string;
     name: string;
     surname: string;
@@ -10,7 +12,7 @@ interface IUser {
     role?: string
     avatar?: string
 }
-interface INewUser {
+export interface INewUser {
     id?:string
     name: string;
     surname: string;
@@ -18,7 +20,7 @@ interface INewUser {
     email: string;
 }
 
-interface IClient {
+export interface IClient {
     id:string
     name: string;
     surname: string;
@@ -26,11 +28,11 @@ interface IClient {
     email: string;
 }
 
-interface IEvents {
-    id: string | undefined;
+export interface IEvents {
+    id?: number ;
     title: string;
-    start: Date;
-    end: Date;
+    start: stringOrDate;
+    end: stringOrDate;
     staff: string
 }
 
