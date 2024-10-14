@@ -11,7 +11,7 @@ import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
 import { getAppointments } from "../../redux/actions/actionAppointment";
 import { IEvents } from "../../interfaces/IUser";
-import {  IAppointments } from "../../interfaces/IAppointment";
+import {  IAppointment, IAppointments } from "../../interfaces/IAppointment";
 
 
 const localizer = dayjsLocalizer(dayjs);
@@ -23,7 +23,7 @@ const Agenda: React.FC = () => {
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]);
-    const [selectedSlot, setSelectedSlot] = useState<Date>(new Date());
+    const [selectedSlot, setSelectedSlot] = useState<Date>();
     
     
     const appointments = useAppSelector((state) => state.appointments.appointments);
@@ -36,13 +36,13 @@ const Agenda: React.FC = () => {
         const formattedEvents = appointments.map((appointment: IAppointments, _i: number) => ({
             id: _i + 1,
             title: `${appointment.user.name} ${appointment.user.surname}`, 
-            start: new Date(dayjs(appointment.startTime).toDate()),
-            end: new Date(dayjs(appointment.endTime).toDate()), 
+            start: new Date(dayjs(appointment.startTime).toISOString()),
+            end: new Date(dayjs(appointment.endTime).toISOString()), 
             staff: `${appointment.staff.name}`,
         }));
         setEvents(formattedEvents);
         console.log("Formatted EVENTS: ", formattedEvents)
-        console.log("APPOINTMENT: ", appointments[5])
+        console.log("APPOINTMENT: ", appointments)
         console.log("DATE: ", new Date(2024,10,13,21,56))
     }, [appointments]);
 
@@ -70,9 +70,9 @@ const Agenda: React.FC = () => {
     };
 
     const handleSelectSlot = ({ start }: { start: Date }) => {
-        // const startString = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
-        setSelectedSlot(start);
-        console.log("DATE: ",start)
+        const startString: string = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
+        setSelectedSlot(startString);
+        console.log("DATE: ",startString)
         setShowModal(true);
     };
 

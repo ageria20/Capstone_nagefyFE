@@ -34,7 +34,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     staff: "", 
     startTime: startDateTime,
 });
-const [selectedStaff, setSelectedStaff] = useState<ISelectedStaff | null>(null);
+const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
 const [queryClient, setQueryClient] = useState("");
 const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
 
@@ -73,10 +73,10 @@ const handleSaveAppointment = async () => {
     console.error("Start time is missing or invalid!");
     return; 
 }
-  
+  console.log("START TIME", updatedAppointment.startTime)
+  console.log("START TIME", updatedAppointment.staff)
   await dispatch(createAppointment(updatedAppointment)); 
-  
-  
+  handleClose()
   setNewAppointment({
       user: "",
       treatments: [],

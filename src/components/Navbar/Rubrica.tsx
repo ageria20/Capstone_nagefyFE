@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { deleteClient, getClients, searchClients } from '../../redux/actions/actionClients';
 import NewUserModal from './NewUserModal';
 import { ToastContainer } from 'react-toastify';
+import { IUser } from '../../interfaces/IUser';
 
 
 const Rubrica = () => {
