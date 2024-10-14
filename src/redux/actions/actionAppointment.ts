@@ -3,7 +3,7 @@ import { setAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
 
-import { IAppointment } from "../../interfaces/IAppointment"
+import { IAppointment, IAppointments } from "../../interfaces/IAppointment"
 
 export const getAppointments = () => {
     return async (dispatch: Dispatch)=>{
@@ -16,6 +16,7 @@ export const getAppointments = () => {
             })
             if(resp.ok){
                 const appointments = await resp.json()
+                console.log("Appuntamenti ricevuti dal backend:", appointments.content);
                 dispatch(setAppointment(appointments.content))
             } else{
                 throw new Error("Get clients error")
@@ -53,7 +54,7 @@ export const createAppointment = (appointment: IAppointment) => {
     }
 }
 
-export const updateAppointment = (appointmentId: string, appointment: IAppointment) => {
+export const updateAppointment = (appointmentId: string, appointment: IAppointments) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
@@ -67,6 +68,8 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
                 body: JSON.stringify(appointment)
             })
             if(resp.ok){
+                const updatedData = await resp.json();
+                console.log("Risposta dal backend:", updatedData);
                 notify("Appuntamento modificato")
                 dispatch(getAppointments())
             } else{

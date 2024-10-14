@@ -8,6 +8,7 @@ import { getTreatments } from "../../redux/actions/actionTreatment";
 
 import { IClient } from "../../interfaces/IUser";
 import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
+import dayjs from "dayjs";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -15,7 +16,7 @@ interface AddAppointmentModalProps {
     setSelectedTreatment: (treatments: ITreatment[]) => void; 
     selectedTreatment: ITreatment[];
     startDateTime: Date
-    selectedEvent: IAppointments | null
+    selectedEvent: IAppointments 
 }
 
 const AgendaModal: React.FC<AddAppointmentModalProps> = ({
@@ -76,10 +77,10 @@ const handleSaveAppointment = async () => {
     console.error("Start time is missing or invalid!");
     return; 
   }
-
-  if (newAppointment.id) {
-    console.log("Updating existing appointment: ", updatedAppointment);
-    await dispatch(updateAppointment(newAppointment.id, updatedAppointment)); 
+  
+  if (selectedEvent.id) {
+    console.log("Updating existing appointment: ", selectedEvent);
+    await dispatch(updateAppointment(selectedEvent.id, selectedEvent)); 
   } else {
    
     console.log("Creating new appointment: ", updatedAppointment);
@@ -175,7 +176,12 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Nuovo Appuntamento</Modal.Title>
+        <Modal.Title>Nuovo Appuntamento <p>
+      {selectedEvent ? 
+        dayjs(selectedEvent.startTime).format(' HH:mm') 
+        : dayjs(startDateTime).format(' HH:mm')}
+    </p>
+    </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -184,7 +190,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   <Form.Control
     type="text"
     placeholder="Cerca cliente"
-    value={queryClient} // Mostra il nome del cliente selezionato
+    value={queryClient ?? ""}
     onChange={(e) => setQueryClient(e.target.value)} 
     className="m-2"
   />
