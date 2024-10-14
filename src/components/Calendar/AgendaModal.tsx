@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import { Button, Form, Modal } from "react-bootstrap";
-import { createAppointment } from "../../redux/actions/actionAppointment";
+import { createAppointment, updateAppointment } from "../../redux/actions/actionAppointment";
 import { getClients } from "../../redux/actions/actionClients";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 
 import { IClient } from "../../interfaces/IUser";
-import { IAppointment } from "../../interfaces/IAppointment";
+import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -15,6 +15,7 @@ interface AddAppointmentModalProps {
     setSelectedTreatment: (treatments: ITreatment[]) => void; 
     selectedTreatment: ITreatment[];
     startDateTime: Date
+    selectedEvent: IAppointments | null
 }
 
 const AgendaModal: React.FC<AddAppointmentModalProps> = ({
@@ -22,7 +23,8 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   handleClose,
   selectedTreatment,
   setSelectedTreatment,
-  startDateTime
+  startDateTime,
+  selectedEvent
 }) => {
   const dispatch = useAppDispatch();
   const clients = useAppSelector((state) => state.clientsList.clients);
@@ -34,8 +36,9 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
     staff: "", 
     startTime: startDateTime,
 });
-const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
 const [queryClient, setQueryClient] = useState("");
+const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
+
 const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
 
 const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,41 +71,53 @@ const handleSaveAppointment = async () => {
       ...newAppointment,
       treatments: selectedTreatment,
   };
-  console.log("UPDATED APPOINTMENT: ", updatedAppointment);
+
   if (!updatedAppointment.startTime) {
     console.error("Start time is missing or invalid!");
     return; 
-}
-  console.log("START TIME", updatedAppointment.startTime)
-  console.log("START TIME", updatedAppointment.staff)
-  await dispatch(createAppointment(updatedAppointment)); 
-  handleClose()
+  }
+
+  if (newAppointment.id) {
+    console.log("Updating existing appointment: ", updatedAppointment);
+    await dispatch(updateAppointment(newAppointment.id, updatedAppointment)); 
+  } else {
+   
+    console.log("Creating new appointment: ", updatedAppointment);
+    await dispatch(createAppointment(updatedAppointment)); 
+  }
+
+  // Reset del form e chiusura del modale
+  handleClose();
   setNewAppointment({
       user: "",
       treatments: [],
       staff: "",
-      startTime: new Date(), 
+      startTime: new Date(),
   });
   setSelectedTreatment([]);
   setQueryClient("");
 };
 
+const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const treatmentName = e.target.value;
 
-  const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const treatmentName = e.target.value;
+  const selectedTreatmentObject = treatments.find(treatment => treatment.name === treatmentName);
 
-    const selectedTreatmentObject = treatments.find(treatment => treatment.name === treatmentName);
-
-    if (selectedTreatmentObject) {
-        setSelectedTreatment(prevSelected => {
-            if (prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id)) {
-                return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
-            } else {
-                return [...prevSelected, selectedTreatmentObject];
-            }
-        });
-    }
-  };
+  if (selectedTreatmentObject) {
+      setSelectedTreatment(prevSelected => {
+          // Verifica che prevSelected sia un array prima di chiamare .some()
+          if (Array.isArray(prevSelected)) {
+              if (prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id)) {
+                  return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
+              } else {
+                  return [...prevSelected, selectedTreatmentObject];
+              }
+          }
+          // Se prevSelected non è un array, restituisci un array contenente il trattamento selezionato
+          return [selectedTreatmentObject];
+      });
+  }
+};
 
   useEffect(() => {
     setNewAppointment((prev) => ({
@@ -110,6 +125,35 @@ const handleSaveAppointment = async () => {
         startTime: startDateTime,
     }));
   }, [startDateTime]);
+
+  useEffect(() => {
+    if (selectedEvent) {
+      
+      console.log("SELECTED EVENT", selectedEvent)
+      setNewAppointment({
+        user: selectedEvent.user?.id || "",
+        treatments: selectedEvent.treatments, 
+        staff: selectedEvent.staff.id, 
+        startTime: selectedEvent.startTime, 
+        id: selectedEvent.id, 
+      });
+      setQueryClient(selectedEvent.user?.name); 
+      setSelectedTreatment(selectedEvent.treatments); 
+      setSelectedStaff(selectedEvent.staff); 
+    } else {
+      
+      setNewAppointment({
+        user: "",
+        treatments: [],
+        staff: "",
+        startTime: startDateTime,
+        id: undefined,
+      });
+      setQueryClient("");
+      setSelectedTreatment([]);
+      setSelectedStaff(null);
+    }
+  }, [selectedEvent, startDateTime]);
 
   useEffect(() => {
     if (queryClient) {
@@ -135,75 +179,81 @@ const handleSaveAppointment = async () => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formClientSearch">
-            <Form.Label>Cliente</Form.Label>
-            <Form.Control
-                type="text"
-                placeholder="Cerca cliente"
-                value={queryClient}
-                onChange={(e) => setQueryClient(e.target.value)} 
-            />
-            
-            {filteredClients.length > 0 && (
-                <ul className="client-dropdown">
-                    {filteredClients.map(client => (
-                        <li 
-                            key={client.id}
-                            onClick={() => handleClientSelect(client)} 
-                            className="dropdown-item"
-                        >
-                            {client.name} - {client.telephone}
-                        </li>
-                    ))}
-                </ul>
-            )}
-          </Form.Group>
+        <Form.Group controlId="formClientSearch">
+  <Form.Label>Cliente</Form.Label>
+  <Form.Control
+    type="text"
+    placeholder="Cerca cliente"
+    value={queryClient} // Mostra il nome del cliente selezionato
+    onChange={(e) => setQueryClient(e.target.value)} 
+    className="m-2"
+  />
+  {filteredClients.length > 0 && (
+    <ul className="client-dropdown">
+      {filteredClients.map(client => (
+        <li 
+          key={client.id}
+          onClick={() => handleClientSelect(client)} 
+          className="dropdown-item"
+        >
+          {client.name} - {client.telephone}
+        </li>
+      ))}
+    </ul>
+  )}
+</Form.Group>
 
-          <Form.Group controlId="formClientSurname">
-            <Form.Label>Trattamenti</Form.Label>
-            <select
-              onChange={handleTreatmentChange}
-              className="rounded-5 px-2 py-1 w-sm-100 me-auto"
-            >
-              <option value="">Seleziona un trattamento</option>
-              {treatments.map((treatment) => (
-                <option key={treatment.id} value={treatment.name}>
-                  {treatment.name}
-                </option>
-              ))}
-            </select>
-            {selectedTreatment.length > 0 && (
-              <div>
-                <h5>Trattamenti Selezionati:</h5>
-                <ul>
-                  {selectedTreatment.map((treatment) => (
-                    <li key={treatment.id}>{treatment.name}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </Form.Group>
-          <Form.Group controlId="formStaffMember">
-            <Form.Label>Staff</Form.Label>
-            <select
-              onChange={handleStaffChange}
-              value={selectedStaff ? selectedStaff.name : ""}
-              className="rounded-5 px-2 py-1 w-sm-100 me-auto"
-            >
-              <option value="">Seleziona un membro dello staff</option>
-              {staffs.map((staff) => (
-                <option key={staff.id} value={staff.name}>
-                  {staff.name}
-                </option>
-              ))}
-            </select>
-            {selectedStaff && (
-              <div>
-                <h5>Membro dello staff selezionato:</h5>
-                <p>{selectedStaff.name}</p> {/* Corretto */}
-              </div>
-            )}
-          </Form.Group>
+<Form.Group controlId="formClientSurname">
+  <Form.Label>Trattamenti</Form.Label>
+  <select
+    onChange={handleTreatmentChange}
+    value={selectedTreatment && selectedTreatment.length > 0 ? selectedTreatment[0].name : ""} 
+    className="rounded-5 px-2 py-1 w-sm-100 me-auto m-2"
+  >
+    <option value="">Seleziona un trattamento</option>
+    {treatments.map((treatment) => (
+      <option key={treatment.id} value={treatment.name}>
+        {treatment.name}
+      </option>
+    ))}
+  </select>
+  {selectedTreatment && selectedTreatment.length > 0 && (
+    <div>
+      <h5>Trattamenti Selezionati:</h5>
+      <ul>
+        {selectedTreatment.map((treatment) => (
+          <li key={treatment.id}>{treatment.name}</li>
+        ))}
+      </ul>
+    </div>
+  )}
+</Form.Group>
+
+<Form.Group controlId="formStaffMember">
+  <Form.Label>Staff</Form.Label>
+  <select
+    onChange={handleStaffChange}
+    value={selectedStaff ? selectedStaff.name : ""} 
+    className="rounded-5 px-2 py-1 w-sm-100 me-auto m-2"
+  >
+    <option value="">Seleziona un membro dello staff</option>
+    {staffs.map((staff) => (
+      <option key={staff.id} value={staff.name}>
+        {staff.name}
+      </option>
+    ))}
+  </select>
+  {selectedStaff && (
+    <div>
+      <h5>Membro dello staff selezionato:</h5>
+      <p>{selectedStaff.name}</p>
+    </div>
+  )}
+</Form.Group>
+          {/* <Form.Group controlId="formStaffMember">
+            <Form.Label>Ora inizio</Form.Label>
+            <p>{(newAppointment.startTime).toDateString()}</p>
+          </Form.Group> */}
         </Form>
       </Modal.Body>
       <Modal.Footer>

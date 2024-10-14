@@ -52,6 +52,34 @@ export const createAppointment = (appointment: IAppointment) => {
         }
     }
 }
+
+export const updateAppointment = (appointmentId: string, appointment: IAppointment) => {
+    return async (dispatch: AppDispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+        
+            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: "Bearer "+accessToken,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(appointment)
+            })
+            if(resp.ok){
+                notify("Appuntamento modificato")
+                dispatch(getAppointments())
+            } else{
+                console.log(resp.statusText)
+                notifyErr("Errore nella creazione ")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+
 export const deleteStaff = (appointmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {

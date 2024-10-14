@@ -11,7 +11,8 @@ import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
 import { getAppointments } from "../../redux/actions/actionAppointment";
 import { IEvents } from "../../interfaces/IUser";
-import {  IAppointment, IAppointments } from "../../interfaces/IAppointment";
+import {  IAppointments } from "../../interfaces/IAppointment";
+import { getTreatments } from "../../redux/actions/actionTreatment";
 
 
 const localizer = dayjsLocalizer(dayjs);
@@ -23,7 +24,8 @@ const Agenda: React.FC = () => {
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]);
-    const [selectedSlot, setSelectedSlot] = useState<Date>();
+    const [selectedEvent, setSelectedEvent] = useState<IAppointments | null>(null);
+    const [selectedSlot, setSelectedSlot] = useState<Date>(new Date());
     
     
     const appointments = useAppSelector((state) => state.appointments.appointments);
@@ -70,11 +72,33 @@ const Agenda: React.FC = () => {
     };
 
     const handleSelectSlot = ({ start }: { start: Date }) => {
-        const startString: string = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
+        const startString: string= dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
         setSelectedSlot(startString);
         console.log("DATE: ",startString)
         setShowModal(true);
     };
+
+    const handleEventSelect = (event) => {
+        console.log("CLICKED EVENT: ", event);
+      
+        // Cerca l'appuntamento completo dal Redux store utilizzando l'ID
+        const fullAppointment = appointments.find(appointment => {
+          const fullStartTime = new Date(dayjs(appointment.startTime).toISOString()).getTime();
+          const eventStartTime = new Date(event.start).getTime();
+          return fullStartTime === eventStartTime; 
+        });
+      
+        if (fullAppointment) {
+          console.log("FULL APPOINTMENT: ", fullAppointment);
+          setSelectedEvent(fullAppointment);
+        }
+      
+        dispatch(getTreatments()); 
+        setShowModal(true);
+      };
+    
+    
+
 
     useEffect(() => {
         dispatch(getStaffs());
@@ -98,6 +122,7 @@ const Agenda: React.FC = () => {
                 className="calendar rounded-4 shadow-lg mt-2 p-2"
                 onNavigate={handleNavigate}
                 onEventDrop={handleEventDrop}
+                onSelectEvent={handleEventSelect}
                 selectable={true}
                 onSelectSlot={handleSelectSlot}
                 components={{
@@ -113,7 +138,6 @@ const Agenda: React.FC = () => {
                         />
                     ),
                 }}
-                onSelectEvent={() => setShowModal(true)}
             />
 
             <AgendaModal 
@@ -122,6 +146,7 @@ const Agenda: React.FC = () => {
                 selectedTreatment={selectedTreatment}
                 setSelectedTreatment={setSelectedTreatment}
                 startDateTime={selectedSlot}
+                selectedEvent={selectedEvent}
             />
         </Container>
     );
