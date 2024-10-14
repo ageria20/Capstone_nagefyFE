@@ -69,7 +69,7 @@ const Agenda: React.FC = () => {
         setCurrentDate(new Date());
     };
 
-    const handleEventDrop = ({ event, start, end }) => {
+    const handleEventDrop = async ({ event, start, end }: any) => {
         const updatedEvent = {
             ...event,
             start: start,
@@ -92,16 +92,15 @@ const Agenda: React.FC = () => {
                 startTime: dayjs(start).toISOString(),
                 endTime: dayjs(end).toISOString(),
             };
-    
-            dispatch(updateAppointment(fullAppointment.id, updatedAppointment))
-                .then(() => {
+        
+                try {
+                    await dispatch(updateAppointment(fullAppointment.id, updatedAppointment));
                     console.log("Appuntamento aggiornato con successo!");
-                    dispatch(getAppointments()); // Recupera di nuovo gli appuntamenti
-                })
-                .catch(err => {
+                    dispatch(getAppointments()); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
+                } catch (err) {
                     console.error("Errore nell'aggiornamento dell'appuntamento: ", err);
-                });
-        }
+                }
+            }
     };
 
     // const handleEventDrop = ({ event, start, end }: any) => {
