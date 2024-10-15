@@ -29,7 +29,7 @@ export interface IClient {
 }
 
 export interface IEvents {
-    id?: number ;
+    id?: string ;
     title: string;
     start: Date;
     end: Date;

@@ -8,8 +8,8 @@ export interface IAppointment {
     user: string;
     treatments: ITreatment[];
     staff?: string;
-    startTime: Date;
-    endTime?: Date
+    startTime: Date | string;
+    endTime?: Date | string;
 }
 
 export interface IAppointments {

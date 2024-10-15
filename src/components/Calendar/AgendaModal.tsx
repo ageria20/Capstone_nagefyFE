@@ -78,13 +78,11 @@ const handleSaveAppointment = async () => {
     return; 
   }
   
-  if (selectedEvent.id) {
-    console.log("Updating existing appointment: ", selectedEvent);
-    await dispatch(updateAppointment(selectedEvent.id, selectedEvent)); 
+ if (selectedEvent && selectedEvent.id) {
+    await dispatch(updateAppointment(selectedEvent.id, updatedAppointment));
   } else {
-   
-    console.log("Creating new appointment: ", updatedAppointment);
-    await dispatch(createAppointment(updatedAppointment)); 
+    // Create new appointment
+    await dispatch(createAppointment(updatedAppointment));
   }
 
   // Reset del form e chiusura del modale

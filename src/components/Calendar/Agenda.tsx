@@ -11,7 +11,7 @@ import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
 import { getAppointments, updateAppointment } from "../../redux/actions/actionAppointment";
 import { IClient, IEvents } from "../../interfaces/IUser";
-import {  IAppointments } from "../../interfaces/IAppointment";
+import {  IAppointment, IAppointments } from "../../interfaces/IAppointment";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 
 
@@ -42,8 +42,8 @@ const Agenda: React.FC = () => {
 
     useEffect(() => {
         
-        const formattedEvents = appointments.map((appointment: IAppointments, _i: number) => ({
-            id: _i + 1,
+        const formattedEvents = appointments.map((appointment: IAppointments) => ({
+            id: appointment.id,
             title: `${appointment.user.name} ${appointment.user.surname}`, 
             start: new Date(dayjs(appointment.startTime).toISOString()),
             end: new Date(dayjs(appointment.endTime).toISOString()), 
@@ -76,25 +76,34 @@ const Agenda: React.FC = () => {
             end: end,
         };
     
-        // Aggiorna l'appuntamento nel tuo stato
+        
         const updatedEvents = events.map(evt => 
             evt.id === event.id ? updatedEvent : evt
         );
     
-        // Aggiorna lo stato degli eventi
+        console.log("UPDATED EVENTS", updatedEvent.id)
+        console.log("START EVENTS", updatedEvent.start)
         setEvents(updatedEvents);
     
-        // Qui chiami la tua funzione per aggiornare l'appuntamento nel server
-        const fullAppointment = appointments.find(appointment => appointment.id === event.id);
+       
+        // const fullAppointment = appointments.find(appointment => appointment.id === event.id);
+        const fullAppointment = appointments.find(appointment => {
+            const fullStartTime = new Date(dayjs(appointment.startTime).toISOString()).getTime();
+            const eventStartTime = new Date(event.start).getTime();
+            return fullStartTime === eventStartTime; 
+        });
         if (fullAppointment) {
-            const updatedAppointment = {
-                ...fullAppointment,
-                startTime: dayjs(start).toISOString(),
-                endTime: dayjs(end).toISOString(),
+            console.log("FULL APPOINTMENT: ", fullAppointment)
+            const updatedAppointment: IAppointment = {
+                id: fullAppointment.id,
+                treatments: fullAppointment.treatmentsList,
+                staff: fullAppointment.staff.id,
+                startTime: dayjs(start).format("YYYY-MM-DDTHH:mm:ss"),
             };
+            console.log("UPDATED APPOINTMENT: ", updatedAppointment)
         
                 try {
-                    await dispatch(updateAppointment(fullAppointment.id, updatedAppointment));
+                    await dispatch(updateAppointment(updatedAppointment.id, updatedAppointment));
                     console.log("Appuntamento aggiornato con successo!");
                     dispatch(getAppointments()); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
                 } catch (err) {
@@ -149,6 +158,7 @@ const Agenda: React.FC = () => {
         const startString: string= dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
         setSelectedSlot(startString);
         console.log("DATE: ",startString)
+        console.log("SELECTED SLOT: ", selectedSlot)
         setShowModal(true);
     };
 

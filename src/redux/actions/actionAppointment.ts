@@ -3,7 +3,7 @@ import { setAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
 
-import { IAppointment, IAppointments } from "../../interfaces/IAppointment"
+import { IAppointment } from "../../interfaces/IAppointment"
 
 export const getAppointments = () => {
     return async (dispatch: Dispatch)=>{
@@ -54,7 +54,7 @@ export const createAppointment = (appointment: IAppointment) => {
     }
 }
 
-export const updateAppointment = (appointmentId: string, appointment: IAppointments) => {
+export const updateAppointment = (appointmentId: string, appointment: IAppointment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
