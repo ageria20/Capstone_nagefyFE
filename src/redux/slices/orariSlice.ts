@@ -7,10 +7,10 @@ interface OrariState {
 const initialState: OrariState = {
     days: [
         {
-            day: "Domenica", open: false, hours: []
+            day: "Domenica", open: false, hours: [{from: "08:30", to: "19:30"}]
         }, 
         {
-            day: "Lunedì", open: false, hours: []
+            day: "Lunedì", open: false, hours: [{from: "08:30", to: "19:30"}]
         }, 
         {
             day: "Martedì", open: true, hours: [{from: "08:30", to: "19:30"}]
