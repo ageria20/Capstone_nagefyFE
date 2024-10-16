@@ -7,20 +7,29 @@ import { IoTimeOutline } from "react-icons/io5";
 import { BsClipboardData } from "react-icons/bs";
 import { PiScissors } from "react-icons/pi";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { BoxArrowRight, List, Person, X } from "react-bootstrap-icons";
 
 import { ToggleSidebarAction } from "../../redux/actions/action";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 
+
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.sidebar.isOpen);
-  const loggedUser = useAppSelector((state) => state.users.user);
+  const navigate = useNavigate()
+ 
 
   const toggleSidebar = () => {
     dispatch({ type: "TOGGLE_SIDEBAR" } as ToggleSidebarAction);
   };
+
+  const handleLogout = () =>{
+    localStorage.removeItem("accessToken")
+    navigate("/")
+  }
+
+  
 
   return (
     <div>
@@ -95,18 +104,17 @@ const Sidebar = () => {
             className="nav-link menu__item my-3"
             onClick={toggleSidebar}
           >
-            {loggedUser ? (
-              <>
-                <BoxArrowRight size={24} />
-                {isOpen && <span className="ms-2 menu__text">Logout</span>}
-              </>
-            ) : (
-              <>
                 <Person size={isOpen ? 24 : 24} />
                 {isOpen && <span className="ms-2 menu__text">Profilo</span>}
-              </>
-            )}
           </Link>
+          <button
+          
+            className="menu__item my-3"
+            onClick={handleLogout}
+          >
+          <BoxArrowRight size={24} />
+          {isOpen && <span className="ms-2 menu__text">Logout</span>}
+          </button>
           <div className="copyright mb-3">
             {isOpen ? "©Andrea Geria 2024" : ""}
           </div>

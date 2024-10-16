@@ -51,31 +51,35 @@ const Orari = () => {
         <Container fluid className=" p-2 rounded-4 shadow-lg mt-2 mx-0">
       {orari.map((day: DaySchedule) => (
         <Row key={day.day} className="px-4 ">
-        <Col className="d-flex align-items-center justify-content-between border-top border-bottom p-2">
+        <Col className="d-flex align-items-center justify-content-between border-bottom p-2">
           <h5>{day.day}</h5>
           <Row>
-            <Col className="d-flex align-items-center justify-content-between">
+            <Col className="d-flex align-items-center justify-content-between form-check form-switch">
           <label>
-            <input 
-              type="checkbox" 
+            <input
+              className="form-check-input ms-auto" 
+              type="checkbox"
+              role="switch"
               checked={day.open} 
               onChange={() => handleToggleDay(day.day)} 
             />
-            {" "}{day.open ? "Aperto" : "Chiuso"}
+            <span className="ms-2">{" "}{day.open ? "Aperto" : "Chiuso"}</span>
            {day.open ? ( day.hours.map((hour, _i) => (
-                <p key={_i}><span>DALLE{" "}{hour.from}{" "}ALLE{" "}{hour.to}</span></p>
+                <p key={_i}><span style={{fontSize: "0.7rem"}}>DALLE{" "}{hour.from}{" "}ALLE{" "}{hour.to}</span></p>
             ))) : ""}
           </label>
-          </Col>
-          </Row>
-          </Col>
-          {day.open && (
+          {day.open ? (
             <div>
-              <Button onClick={() => handleShowModal(day)}>
-                Aggiungi Fascia Oraria
+              <Button className="ms-2 px-1 py-0" onClick={() => handleShowModal(day)} style={{cursor: "pointer", fontSize: "0.7rem"}}>
+                Modifica
               </Button>
             </div>
-          )}
+          ): ""}
+          </Col>
+         
+          </Row>
+          </Col>
+         
          {selectedDay && <OrariModal show={showModal} handleClose={handleCloseModal} selectedDay={selectedDay}/>}
         </Row>
       ))}

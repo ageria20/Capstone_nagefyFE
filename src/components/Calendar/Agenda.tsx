@@ -3,9 +3,10 @@ import { Calendar, dayjsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import dayjs from "dayjs";
+import "dayjs/locale/it";
 import "./Agenda.css";
 import CustomToolbar from "./CustomToolbar";
-import { Container } from "react-bootstrap";
+import { Container, ToastContainer } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
@@ -15,7 +16,7 @@ import {  IAppointment, IAppointments } from "../../interfaces/IAppointment";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 
 
-
+dayjs.locale("it");
 const localizer = dayjsLocalizer(dayjs);
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -36,6 +37,7 @@ const Agenda: React.FC = () => {
     
     
     const appointments = useAppSelector((state) => state.appointments.appointments);
+    const orari = useAppSelector((state) => state.orari.days)
 
     
     const [events, setEvents] = useState<IEvents[]>([]);
@@ -54,6 +56,31 @@ const Agenda: React.FC = () => {
         console.log("APPOINTMENT: ", appointments)
         console.log("DATE: ", new Date(2024,10,13,21,56))
     }, [appointments]);
+
+
+    const currentDay = dayjs(currentDate).format("dddd")
+    const todayOrari = orari.find(day => day.day.toLocaleUpperCase() === currentDay.toLocaleUpperCase())
+    const isDayOpen = todayOrari?.open && todayOrari.hours.length > 0
+
+    const minTime = isDayOpen
+    ? new Date(
+        currentDate.getFullYear(), 
+        currentDate.getMonth(), 
+        currentDate.getDate(), 
+        parseInt(todayOrari.hours[0].from.split(":")[0]),  
+        parseInt(todayOrari.hours[0].from.split(":")[1])  
+    ) 
+    : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0);
+
+const maxTime = isDayOpen
+    ? new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[0]), 
+        parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[1])
+    )
+    : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59);
 
     const handleNavigate = (newDate: Date, view: View) => {
         console.log(view);
@@ -112,48 +139,6 @@ const Agenda: React.FC = () => {
             }
     };
 
-    // const handleEventDrop = ({ event, start, end }: any) => {
-       
-    //     const fullAppointment = appointments.find(appointment => {
-    //         const fullStartTime = new Date(dayjs(appointment.startTime).toISOString()).getTime();
-    //         const eventStartTime = new Date(event.start).getTime();
-    //         return fullStartTime === eventStartTime; 
-    //       });
-    //       if(fullAppointment){
-    //         const updatedAppointment = {
-    //             ...fullAppointment, 
-    //             startTime: dayjs(start).toISOString(), // Nuovo start time
-    //             endTime: dayjs(end).toISOString() // Nuovo end time
-    //         };
-    //         const updatedEvents = events.map((evt) => {
-    //             if (evt.id === event.id) {
-    //                 return {
-    //                     ...evt,
-    //                     start: new Date(start),
-    //                     end: new Date(end)
-    //                 };
-    //             } 
-    //             return evt; 
-    //         });
-    //         setEvents(updatedEvents);
-    //         console.log("APPUNTAMENTO AGGIORNATO: ", updatedAppointment);
-    //         console.log("EVENTO AGGIORNATO: ", updatedEvents);
-    //         console.log("FULL APPOINTMENT: ",fullAppointment)
-    //         if(selectedEvent.id){
-    //         dispatch(updateAppointment(selectedEvent.id, updatedAppointment))
-    //         .then(() => {
-    //             console.log("Appuntamento aggiornato con successo!");
-    //             dispatch(getAppointments());
-                
-                
-    //         })
-    //         .catch(err => {
-    //             console.error("Errore nell'aggiornamento dell'appuntamento: ", err);
-    //         }); 
-    //     }
-    //       }
-    //     }
-
     const handleSelectSlot = ({ start }: { start: Date }) => {
         const startString: string= dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
         setSelectedSlot(startString);
@@ -187,11 +172,13 @@ const Agenda: React.FC = () => {
     useEffect(() => {
         dispatch(getStaffs());
         dispatch(getAppointments());
+        console.log("CURRENT DATE",dayjs(currentDate).format("dddd").toLocaleUpperCase())
     }, [dispatch]);
 
     const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");
 
     return (
+        
         <Container fluid className="d-flex flex-column justify-content-center align-items-center">
             <DnDCalendar
                 localizer={localizer}
@@ -200,8 +187,9 @@ const Agenda: React.FC = () => {
                 draggableAccessor={() => true}
                 step={15}
                 timeslots={1}
-                min={new Date(2024, 9, 9, 8, 0)}
-                max={new Date(2024, 9, 9, 20, 0)}
+                min={minTime}
+                max={maxTime}
+                scrollToTime={minTime}
                 date={currentDate}
                 className="calendar rounded-4 shadow-lg mt-2 p-2"
                 onNavigate={handleNavigate}
@@ -232,7 +220,9 @@ const Agenda: React.FC = () => {
                 startDateTime={selectedSlot}
                 selectedEvent={selectedEvent}
             />
+        <ToastContainer/>
         </Container>
+        
     );
 };
 
