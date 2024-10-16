@@ -95,7 +95,7 @@
     }
 
     .arrowRight, .arrowLeft, .today, .sectionToolbar {
-        width: 12%;
+        width: 20%;
     }
 }
 
@@ -110,7 +110,7 @@
     }
 
     .arrowRight, .arrowLeft, .today {
-        width: 15%;
+        width: 20%;
     }
 
     .sectionToolbar {

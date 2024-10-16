@@ -62,25 +62,22 @@ const Agenda: React.FC = () => {
     const todayOrari = orari.find(day => day.day.toLocaleUpperCase() === currentDay.toLocaleUpperCase())
     const isDayOpen = todayOrari?.open && todayOrari.hours.length > 0
 
-    const minTime = isDayOpen
-    ? new Date(
+    const minTime = todayOrari && isDayOpen ? new Date(
         currentDate.getFullYear(), 
         currentDate.getMonth(), 
         currentDate.getDate(), 
-        parseInt(todayOrari.hours[0].from.split(":")[0]),  
-        parseInt(todayOrari.hours[0].from.split(":")[1])  
-    ) 
-    : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0);
+        todayOrari ? parseInt(todayOrari.hours[0].from.split(":")[0]): 0,  
+        todayOrari ? parseInt(todayOrari.hours[0].from.split(":")[1]):0 
+    ) : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 8, 30);
+   
 
-const maxTime = isDayOpen
-    ? new Date(
+const maxTime = todayOrari && isDayOpen ? new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
         currentDate.getDate(),
-        parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[0]), 
-        parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[1])
-    )
-    : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59);
+        todayOrari ? parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[0]): 23, 
+        todayOrari ? parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[1]): 59
+    ) : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 30);
 
     const handleNavigate = (newDate: Date, view: View) => {
         console.log(view);
@@ -195,7 +192,7 @@ const maxTime = isDayOpen
                 onNavigate={handleNavigate}
                 onEventDrop={handleEventDrop}
                 onSelectEvent={handleEventSelect}
-                selectable={true}
+                selectable={isDayOpen}
                 onSelectSlot={handleSelectSlot}
                 components={{
                     toolbar: (props) => (
