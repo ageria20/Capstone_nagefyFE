@@ -7,6 +7,7 @@ import treatmentsReducer from '../reducers/treatmentsReducer';
 import staffSlice from "../slices/staffSlice"
 import orariSlice from "../slices/orariSlice"
 import appointmentsSlice from "../slices/appointmentsSlice"
+import cashSlice from "../slices/cashSlice"
 
 
 const rootReducer = combineReducers({
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   treatments: treatmentsReducer as Reducer, 
   staffList: staffSlice, 
   orari: orariSlice,
-  appointments: appointmentsSlice
+  appointments: appointmentsSlice,
+  cash: cashSlice
 })
 
 const store = configureStore({

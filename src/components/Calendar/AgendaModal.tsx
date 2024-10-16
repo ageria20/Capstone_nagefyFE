@@ -10,6 +10,7 @@ import { IClient } from "../../interfaces/IUser";
 import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
 import dayjs from "dayjs";
 import { Trash } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -40,6 +41,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
 });
 const [queryClient, setQueryClient] = useState("");
 const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
+const navigate = useNavigate()
 
 const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
 
@@ -278,6 +280,12 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </Button>
         <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={handleSaveAppointment}>
           Salva
+        </Button>
+        <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={() => {
+          handleSaveAppointment()
+          navigate(`/cash/${selectedEvent.id}`)
+          }}>
+          Paga
         </Button>
        
       </Modal.Footer>
