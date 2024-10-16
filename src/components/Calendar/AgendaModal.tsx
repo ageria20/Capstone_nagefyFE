@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import { Button, Form, Modal } from "react-bootstrap";
-import { createAppointment, updateAppointment } from "../../redux/actions/actionAppointment";
+import { createAppointment, deleteAppointment, updateAppointment } from "../../redux/actions/actionAppointment";
 import { getClients } from "../../redux/actions/actionClients";
 import { getStaffs } from "../../redux/actions/actionStaff";
 import { getTreatments } from "../../redux/actions/actionTreatment";
@@ -9,6 +9,7 @@ import { getTreatments } from "../../redux/actions/actionTreatment";
 import { IClient } from "../../interfaces/IUser";
 import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
 import dayjs from "dayjs";
+import { Trash } from "react-bootstrap-icons";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -261,12 +262,21 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+      <Button 
+            className='my-3 border-danger bg-transparent me-auto text-danger delete-btn'
+            onClick={() => {
+              dispatch(deleteAppointment(selectedEvent.id))
+              handleClose()
+              }}>
+            <Trash className='my-1 d-flex w-100'/>
+            </Button>
+        <Button variant="secondary" className='my-3 border-secondary bg-transparent text-secondary undo-btn' onClick={handleClose}>
           Annulla
         </Button>
-        <Button variant="primary" onClick={handleSaveAppointment}>
+        <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={handleSaveAppointment}>
           Salva
         </Button>
+       
       </Modal.Footer>
     </Modal>
   );

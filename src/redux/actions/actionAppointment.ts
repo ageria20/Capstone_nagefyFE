@@ -83,7 +83,7 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
 }
 
 
-export const deleteStaff = (appointmentId: string | undefined) => {
+export const deleteAppointment = (appointmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")

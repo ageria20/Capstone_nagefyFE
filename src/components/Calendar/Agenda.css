@@ -55,6 +55,19 @@
     overflow-y: auto;
     z-index: 1000;
 }
+.delete-btn:hover{
+    background-color: red !important;
+    color: white !important;
+}
+.undo-btn:hover{
+    background-color: grey !important;
+    color: white !important;
+}
+
+.save-btn:hover{
+    background-color: blue !important;
+    color: white !important;
+}
 
 .client-dropdown .dropdown-item {
     padding: 8px;
