@@ -10,11 +10,12 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { getAppointmentsById } from "../../redux/actions/actionAppointment";
 import { createCash } from "../../redux/actions/actionCash";
+import { setIsPayed } from "../../redux/slices/cashSlice";
 
 const Cash = () => {
   const params = useParams();
   const appointmentId = params.id
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const appointment = useAppSelector(
     (state) => state.appointments.selectedAppointment
   );
@@ -31,14 +32,14 @@ const Cash = () => {
   const [newCash, setNewCash] = useState<ICash>({
     paymentMethod: paymentMethod || "N/A",
     appointment: "",
-    total: 0.0,
+    total: 0,
   });
 
+  const totalPrice = appointment?.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0 || 0)
 
   useEffect(() => {
     if(appointmentId){
     dispatch(getAppointmentsById(appointmentId));
-    const totalPrice = appointment?.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0 || 0)
     setNewCash({
         ...newCash, 
         appointment: appointmentId, 
@@ -52,6 +53,7 @@ const Cash = () => {
   const handleSaveCash = () => {
     dispatch(createCash(newCash))
     navigate("/agenda")
+    setIsPayed(true)
     console.log("NEW CASH: ", newCash)
   }
 
@@ -112,10 +114,7 @@ const Cash = () => {
                 </Col>
                 <Col xs={12} md={4}>
                   <p>
-                    {appointment?.treatmentsList.reduce(
-                      (acc, treatment) => acc + treatment.price,
-                      0
-                    )}
+                   {totalPrice}
                     €
                   </p>
                 </Col>

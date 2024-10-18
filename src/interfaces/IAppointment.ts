@@ -1,3 +1,4 @@
+import { ITreatment } from "./ITreatment";
 import { IClient } from "./IUser";
 
 
@@ -18,12 +19,12 @@ export interface IAppointments {
     treatmentsList: ITreatment[];
     staff: ISelectedStaff;
     startTime: Date;
-    endTime?: Date
+    endTime?: Date;
+    isPayed?: boolean
 }
 
 export interface IUpdateAppointment {
     id: string
-    
     treatments: ITreatment[];
     staff: string;
     startTime: Date | string;

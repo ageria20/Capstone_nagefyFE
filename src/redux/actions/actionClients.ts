@@ -1,6 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit"
 import { ADD_CLIENT, ClientAction, CLIENTS, notify, notifyErr } from "./action"
 import { AppDispatch } from "../store/store"
+import { INewUser } from "../../interfaces/IUser"
 
 
 

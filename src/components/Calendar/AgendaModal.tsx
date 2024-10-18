@@ -7,7 +7,7 @@ import { getStaffs } from "../../redux/actions/actionStaff";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 
 import { IClient } from "../../interfaces/IUser";
-import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
+import { IAppointment, IAppointments, IUpdateAppointment } from "../../interfaces/IAppointment";
 import dayjs from "dayjs";
 import { Trash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +18,7 @@ interface AddAppointmentModalProps {
     setSelectedTreatment: (treatments: ITreatment[]) => void; 
     selectedTreatment: ITreatment[];
     startDateTime: Date
-    selectedEvent: IAppointments 
+    selectedEvent: IAppointments | null
 }
 
 const AgendaModal: React.FC<AddAppointmentModalProps> = ({
@@ -161,6 +161,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       setSelectedTreatment([]);
       setSelectedStaff(null);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEvent, startDateTime]);
 
   useEffect(() => {
@@ -183,10 +184,11 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Nuovo Appuntamento <p>
+        <Modal.Title className="text-center">
+      <p >
       {selectedEvent ? 
-        dayjs(selectedEvent.startTime).format(' HH:mm') 
-        : dayjs(startDateTime).format(' HH:mm')}
+        dayjs(selectedEvent.startTime).format('ddd D - HH:mm').toLocaleUpperCase()
+        : dayjs(startDateTime).format('ddd D - HH:mm').toLocaleUpperCase()}
     </p>
     </Modal.Title>
       </Modal.Header>
@@ -271,14 +273,15 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-    {selectedEvent &&  <Button 
+    {selectedEvent &&  
+    <Button 
             className='my-3 border-danger bg-transparent me-auto text-danger delete-btn'
             onClick={() => {
               dispatch(deleteAppointment(selectedEvent.id))
               handleClose()
               }}>
             <Trash className='my-1 d-flex w-100'/>
-            </Button>}
+        </Button>}
         <Button variant="secondary" className='my-3 border-secondary bg-transparent text-secondary undo-btn' onClick={handleClose}>
           Annulla
         </Button>
@@ -286,7 +289,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           Salva
         </Button>
         <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={() => {
-          navigate(`/cash/${selectedEvent.id}`)
+          navigate(`/cash/${selectedEvent?.id}`)
           }}>
           Cassa
         </Button>

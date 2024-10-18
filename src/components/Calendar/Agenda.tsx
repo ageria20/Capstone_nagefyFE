@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, dayjsLocalizer, View } from "react-big-calendar";
+import { Calendar, dayjsLocalizer, EventProps, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import dayjs from "dayjs";
@@ -24,6 +24,7 @@ const Agenda: React.FC = () => {
     const dispatch = useAppDispatch();
     const [selectedStaff, setSelectedStaff] = useState<string>("");
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
+    const isPayed = useAppSelector((state) => state.cash.isPayed)
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<IAppointments | null>({
@@ -31,7 +32,8 @@ const Agenda: React.FC = () => {
         treatmentsList: [] as ITreatment[],
         staff: {} as ISelectedStaff,
         startTime: new Date(),
-        endTime: new Date()
+        endTime: new Date(), 
+        isPayed: isPayed
     });
     const [selectedSlot, setSelectedSlot] = useState<Date>(new Date());
     
@@ -41,21 +43,25 @@ const Agenda: React.FC = () => {
 
     
     const [events, setEvents] = useState<IEvents[]>([]);
-
     useEffect(() => {
-        
-        const formattedEvents = appointments.map((appointment: IAppointments) => ({
-            id: appointment.id,
-            title: `${appointment.user.name} ${appointment.user.surname}`, 
-            start: new Date(dayjs(appointment.startTime).toISOString()),
-            end: new Date(dayjs(appointment.endTime).toISOString()), 
-            staff: `${appointment.staff.name}`,
-        }));
+        const formattedEvents = appointments.map((appointment: IAppointments) => {
+            const start = new Date(dayjs(appointment.startTime).toISOString());
+            const end = new Date(dayjs(appointment.endTime).toISOString());
+            return {
+                id: appointment.id,
+                title: `${appointment.user.name} ${appointment.user.surname}`,
+                start,
+                end,
+                staff: `${appointment.staff.name}`,
+                isPayed: isPayed,
+                treatmentsList: appointment.treatmentsList
+            };
+        });
         setEvents(formattedEvents);
-        console.log("Formatted EVENTS: ", formattedEvents)
-        console.log("EVENTS", events)
-        console.log("APPOINTMENT: ", appointments)
-        console.log("DATE: ", new Date(2024,10,13,21,56))
+          // console.log("Formatted EVENTS: ", formattedEvents)
+        // console.log("EVENTS", events)
+        // console.log("APPOINTMENT: ", appointments)
+        // console.log("DATE: ", new Date(2024,10,13,21,56))
     }, [appointments]);
 
 
@@ -89,7 +95,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     const filterStaffEvents = selectedStaff
         ? events.filter((e) => e.staff === selectedStaff)
         : events;
-
+    console.log("FILTERED EVENTS: ", filterStaffEvents)
     const handleToday = () => {
         setCurrentDate(new Date());
     };
@@ -164,6 +170,23 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         dispatch(getTreatments()); 
         setShowModal(true);
       };
+
+      const eventStyleGetter = (event) => {
+        const backgroundColor = event.isPayed ? 'lightgreen' : '#3074AC';
+        const style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '0.7rem',
+            width: '100%',
+            padding: '0.5rem',
+            opacity: 0.8,
+            color: 'white',
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    };
     
     
 
@@ -197,7 +220,18 @@ const maxTime = todayOrari && isDayOpen ? new Date(
                 onSelectEvent={handleEventSelect}
                 selectable={isDayOpen}
                 onSelectSlot={handleSelectSlot}
+                eventPropGetter={eventStyleGetter}
                 components={{
+                    event: (eventProps: EventProps<IEvents>) => {
+                        const { event } = eventProps; 
+                
+                        return (
+                            <div>
+                                <h6>{event.title}</h6>
+                                <p>{event.treatmentsList.length> 0 ? event.treatmentsList[0]?.name : "Nessun trattamento disponibile"}</p>
+                            </div>
+                        );
+                    },
                     toolbar: (props) => (
                         <CustomToolbar
                             {...props}

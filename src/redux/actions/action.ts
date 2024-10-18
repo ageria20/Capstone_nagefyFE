@@ -1,5 +1,6 @@
 import { Bounce, toast } from "react-toastify";
 import { INewUser, IUser } from "../../interfaces/IUser";
+import { ITreatment } from "../../interfaces/ITreatment";
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const CLIENTS = 'CLIENTS';

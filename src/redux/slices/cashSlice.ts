@@ -3,11 +3,12 @@ import { ICash } from "../../interfaces/ICash";
 
 interface CashState {
     cash: ICash | null;
-    
+    isPayed: boolean
 }
 
 const initialState: CashState ={
-    cash: null
+    cash: null,
+    isPayed: false
 }
 
 const cashSlice = createSlice({
@@ -17,8 +18,11 @@ const cashSlice = createSlice({
         setCash: (state, action) => {
         state.cash = action.payload;
     },
+    setIsPayed: (state, action) => {
+        state.isPayed = action.payload
+    }
 }
 })
 
-export const {setCash} = cashSlice.actions;
+export const {setCash, setIsPayed} = cashSlice.actions;
 export default cashSlice.reducer;
