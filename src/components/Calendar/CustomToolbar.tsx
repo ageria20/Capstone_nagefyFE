@@ -94,7 +94,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         <section className='sectionToolbar my-2'>
         <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1 w-sm-100 me-auto'>
             <option value="">Tutti</option>
-            {staffs.map(member => (
+            {staffs.map((member: IStaff) => (
                 <option key={member.id} value={member.name}>{member.name}</option>
             ))}
         </select>

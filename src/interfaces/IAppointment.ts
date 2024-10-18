@@ -15,9 +15,17 @@ export interface IAppointment {
 export interface IAppointments {
     id?: string
     user: IClient;
-    treatments: ITreatment[];
+    treatmentsList: ITreatment[];
     staff: ISelectedStaff;
     startTime: Date;
     endTime?: Date
+}
+
+export interface IUpdateAppointment {
+    id: string
+    
+    treatments: ITreatment[];
+    staff: string;
+    startTime: Date | string;
 }
 

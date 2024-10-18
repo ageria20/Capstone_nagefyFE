@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IAppointments } from "../../interfaces/IAppointment";
 
 interface AppointmentState {
-    appointments: IAppointment[];
+    appointments: IAppointments[];
+    selectedAppointment: IAppointments | null;
 }
 
 const initialState: AppointmentState ={
-    appointments: []
+    appointments: [],
+    selectedAppointment: null
 }
 
 const appointmentsSlice = createSlice({
@@ -15,8 +18,11 @@ const appointmentsSlice = createSlice({
         setAppointment: (state, action) => {
         state.appointments = action.payload;
     },
+    setSelectedAppointment: (state, action) => {
+        state.selectedAppointment = action.payload
+    }
 }
 })
 
-export const {setAppointment} = appointmentsSlice.actions;
+export const {setAppointment, setSelectedAppointment} = appointmentsSlice.actions;
 export default appointmentsSlice.reducer;

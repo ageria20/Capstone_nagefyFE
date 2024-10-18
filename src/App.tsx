@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Treatments from './components/Treatments/Treatments'
 import Staff from './components/Staff/Staff'
 import Orari from './components/Orari/Orari'
+import Cash from './components/Cash/Cash'
 
 
 
@@ -27,6 +28,7 @@ function App() {
      <Route path='/trattamenti' element={<Treatments/>}/>
      <Route path='/staff' element={<Staff/>}/>
      <Route path='/orari' element={<Orari/>}/>
+     <Route path='/cash/:id' element={<Cash/>}/>
     
      </Routes>
      

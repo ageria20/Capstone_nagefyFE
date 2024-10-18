@@ -12,7 +12,7 @@ import { getStaffs } from "../../redux/actions/actionStaff";
 import AgendaModal from './AgendaModal';
 import { getAppointments, updateAppointment } from "../../redux/actions/actionAppointment";
 import { IClient, IEvents } from "../../interfaces/IUser";
-import {  IAppointment, IAppointments } from "../../interfaces/IAppointment";
+import {  IAppointments, IUpdateAppointment } from "../../interfaces/IAppointment";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 
 
@@ -26,9 +26,9 @@ const Agenda: React.FC = () => {
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]);
-    const [selectedEvent, setSelectedEvent] = useState<IAppointments>({
+    const [selectedEvent, setSelectedEvent] = useState<IAppointments | null>({
         user: {} as IClient, 
-        treatments: [] as ITreatment[],
+        treatmentsList: [] as ITreatment[],
         staff: {} as ISelectedStaff,
         startTime: new Date(),
         endTime: new Date()
@@ -53,6 +53,7 @@ const Agenda: React.FC = () => {
         }));
         setEvents(formattedEvents);
         console.log("Formatted EVENTS: ", formattedEvents)
+        console.log("EVENTS", events)
         console.log("APPOINTMENT: ", appointments)
         console.log("DATE: ", new Date(2024,10,13,21,56))
     }, [appointments]);
@@ -116,9 +117,9 @@ const maxTime = todayOrari && isDayOpen ? new Date(
             const eventStartTime = new Date(event.start).getTime();
             return fullStartTime === eventStartTime; 
         });
-        if (fullAppointment) {
+        if (fullAppointment && fullAppointment.id) {
             console.log("FULL APPOINTMENT: ", fullAppointment)
-            const updatedAppointment: IAppointment = {
+            const updatedAppointment: IUpdateAppointment = {
                 id: fullAppointment.id,
                 treatments: fullAppointment.treatmentsList,
                 staff: fullAppointment.staff.id,
@@ -139,6 +140,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     const handleSelectSlot = ({ start }: { start: Date }) => {
         const startString: string= dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
         setSelectedSlot(startString);
+        setSelectedEvent(null)
         console.log("DATE: ",startString)
         console.log("SELECTED SLOT: ", selectedSlot)
         setShowModal(true);
@@ -169,6 +171,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     useEffect(() => {
         dispatch(getStaffs());
         dispatch(getAppointments());
+        setSelectedSlot(new Date())
         console.log("CURRENT DATE",dayjs(currentDate).format("dddd").toLocaleUpperCase())
     }, [dispatch]);
 

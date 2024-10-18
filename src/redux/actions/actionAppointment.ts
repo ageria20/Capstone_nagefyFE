@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { setAppointment } from "../slices/appointmentsSlice"
+import { setAppointment, setSelectedAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
 
@@ -18,6 +18,28 @@ export const getAppointments = () => {
                 const appointments = await resp.json()
                 console.log("Appuntamenti ricevuti dal backend:", appointments.content);
                 dispatch(setAppointment(appointments.content))
+            } else{
+                throw new Error("Get clients error")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export const getAppointmentsById = (appointmentId: string | undefined) => {
+    return async (dispatch: Dispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+                headers: {
+                    Authorization: "Bearer "+accessToken
+                },
+            })
+            if(resp.ok){
+                const appointment = await resp.json()
+                console.log("Appuntamento con ID ricevuto dal backend:", appointment);
+                dispatch(setSelectedAppointment(appointment))
             } else{
                 throw new Error("Get clients error")
             }

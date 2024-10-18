@@ -106,20 +106,23 @@ const handleSaveAppointment = async () => {
 const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const treatmentName = e.target.value;
 
-  const selectedTreatmentObject = treatments.find(treatment => treatment.name === treatmentName);
+  const selectedTreatmentObject: ITreatment | undefined = treatments.find(
+      (treatment: ITreatment) => treatment.name === treatmentName
+  );
 
   if (selectedTreatmentObject) {
       setSelectedTreatment(prevSelected => {
-          // Verifica che prevSelected sia un array prima di chiamare .some()
+          // Verifica se prevSelected è un array
           if (Array.isArray(prevSelected)) {
-              if (prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id)) {
+              const alreadySelected = prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id);
+              
+              if (alreadySelected) {
                   return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
               } else {
                   return [...prevSelected, selectedTreatmentObject];
               }
           }
-          // Se prevSelected non è un array, restituisci un array contenente il trattamento selezionato
-          return [selectedTreatmentObject];
+          return [selectedTreatmentObject]; // Se prevSelected non è un array
       });
   }
 };
@@ -137,13 +140,13 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       console.log("SELECTED EVENT", selectedEvent)
       setNewAppointment({
         user: selectedEvent.user?.id || "",
-        treatments: selectedEvent.treatments, 
+        treatments: selectedEvent.treatmentsList, 
         staff: selectedEvent.staff.id, 
         startTime: selectedEvent.startTime, 
         id: selectedEvent.id, 
       });
       setQueryClient(selectedEvent.user?.name); 
-      setSelectedTreatment(selectedEvent.treatments); 
+      setSelectedTreatment(selectedEvent.treatmentsList); 
       setSelectedStaff(selectedEvent.staff); 
     } else {
       
@@ -162,7 +165,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
   useEffect(() => {
     if (queryClient) {
-        const results = clients.filter(client => 
+        const results = clients.filter((client: IClient) => 
             client.name.toLowerCase().includes(queryClient.toLowerCase())
         );
         setFilteredClients(results);
@@ -196,17 +199,18 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     placeholder="Cerca cliente"
     value={queryClient ?? ""}
     onChange={(e) => setQueryClient(e.target.value)} 
-    className="m-2"
+    className=""
   />
   {filteredClients.length > 0 && (
-    <ul className="client-dropdown">
+    <ul className="p-2 rounded-3 border border-1">
       {filteredClients.map(client => (
         <li 
           key={client.id}
           onClick={() => handleClientSelect(client)} 
           className="dropdown-item"
+          style={{cursor: "pointer"}}
         >
-          {client.name} - {client.telephone}
+          {client.name}{" "}{client.surname}
         </li>
       ))}
     </ul>
@@ -221,7 +225,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     className="rounded-5 px-2 py-1 w-sm-100 me-auto m-2"
   >
     <option value="">Seleziona un trattamento</option>
-    {treatments.map((treatment) => (
+    {treatments.map((treatment: ITreatment) => (
       <option key={treatment.id} value={treatment.name}>
         {treatment.name}
       </option>
@@ -282,10 +286,9 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           Salva
         </Button>
         <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={() => {
-          handleSaveAppointment()
           navigate(`/cash/${selectedEvent.id}`)
           }}>
-          Paga
+          Cassa
         </Button>
        
       </Modal.Footer>
