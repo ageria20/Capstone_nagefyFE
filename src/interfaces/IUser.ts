@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { stringOrDate } from "react-big-calendar";
+import { ITreatment } from "./ITreatment";
 
 export interface IUser {
     id?: string;

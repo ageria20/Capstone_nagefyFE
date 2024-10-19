@@ -1,6 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit"
 import { notify, notifyErr, TreatmentAction, TREATMENTS } from "./action"
 import { AppDispatch } from "../store/store"
+import { ITreatment } from "../../interfaces/ITreatment"
 
 export const getTreatments = () => {
     return async (dispatch: Dispatch<TreatmentAction>)=>{

@@ -172,7 +172,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
       };
 
       const eventStyleGetter = (event) => {
-        const backgroundColor = event.isPayed ? 'lightgreen' : '#3074AC';
+        const backgroundColor = event.isPayed ? 'lightgreen' : 'blue';
         const style = {
             backgroundColor: backgroundColor,
             borderRadius: '0.7rem',
@@ -228,7 +228,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
                         return (
                             <div>
                                 <h6>{event.title}</h6>
-                                <p>{event.treatmentsList.length> 0 ? event.treatmentsList[0]?.name : "Nessun trattamento disponibile"}</p>
+                                <p>{event.treatmentsList[0]?.name || "Nessun trattamento disponibile"}</p>
                             </div>
                         );
                     },
