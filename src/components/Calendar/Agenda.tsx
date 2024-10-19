@@ -14,6 +14,7 @@ import { getAppointments, updateAppointment } from "../../redux/actions/actionAp
 import { IClient, IEvents } from "../../interfaces/IUser";
 import {  IAppointments, IUpdateAppointment } from "../../interfaces/IAppointment";
 import { getTreatments } from "../../redux/actions/actionTreatment";
+import { ITreatment } from "../../interfaces/ITreatment";
 
 
 dayjs.locale("it");

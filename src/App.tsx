@@ -11,6 +11,7 @@ import Treatments from './components/Treatments/Treatments'
 import Staff from './components/Staff/Staff'
 import Orari from './components/Orari/Orari'
 import Cash from './components/Cash/Cash'
+import ResetPassword from './components/Register/ResetPassword'
 
 
 
@@ -29,6 +30,7 @@ function App() {
      <Route path='/staff' element={<Staff/>}/>
      <Route path='/orari' element={<Orari/>}/>
      <Route path='/cash/:id' element={<Cash/>}/>
+     <Route path='/reset-password/:email' element={<ResetPassword/>}/>
     
      </Routes>
      

@@ -7,10 +7,11 @@ import { getStaffs } from "../../redux/actions/actionStaff";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 
 import { IClient } from "../../interfaces/IUser";
-import { IAppointment, IAppointments, IUpdateAppointment } from "../../interfaces/IAppointment";
+import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
 import dayjs from "dayjs";
 import { Trash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import { ITreatment } from "../../interfaces/ITreatment";
 
 interface AddAppointmentModalProps {
     show: boolean;

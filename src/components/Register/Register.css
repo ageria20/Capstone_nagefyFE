@@ -46,6 +46,15 @@
     font-size: 1.1rem;
     transition: background-color 0.3s;
   }
+
+  .password-toggle-icon {
+    font-size: 1.2rem;
+    color: #5e35b1; /* Colore viola per l'icona */
+  }
+  
+  .password-toggle-icon:hover {
+    color: #6a1b9a;
+  }
   
   .registerForm button:hover {
     background-color: #6a1b9a;
