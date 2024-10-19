@@ -8,7 +8,7 @@ import { notify, notifyErr } from "../../redux/actions/action"
 
 
 
-const ResetPassword = () => {
+const ResetPasswordStaff = () => {
 
 
     const [showPassword, setShwPassword] = useState(false)
@@ -39,7 +39,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     else{
         console.log("Email inviata al server:", email);
     try{
-        const resp = await fetch(`http://localhost:8080/clients/reset?email=${email}`, {
+        const resp = await fetch(`http://localhost:8080/staffs/reset?email=${email}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
@@ -75,6 +75,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
       <h3 className='p-3 text-center'><strong>Imposta la tua password</strong></h3>
       
       <Form className='loginForm mx-auto' onSubmit={handleSubmit}>
+      <h3 className='p-3 text-center'><strong>STAFF</strong></h3>
         <Form.Group className="mb-3 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="password" autoFocus required onChange={(e) => setPassword(e.target.value)}/>
@@ -102,11 +103,11 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         <div className='p-3'>
         <Button type="submit" className="mb-3 mt-3 mx-auto">Salva</Button>
         </div>
-        
+       
       </Form>
     </Container>
   </div>
   )
 }
 
-export default ResetPassword
+export default ResetPasswordStaff
