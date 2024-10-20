@@ -63,7 +63,7 @@ const Agenda: React.FC = () => {
         // console.log("EVENTS", events)
         // console.log("APPOINTMENT: ", appointments)
         // console.log("DATE: ", new Date(2024,10,13,21,56))
-    }, [appointments]);
+    }, [appointments, isPayed]);
 
 
     const currentDay = dayjs(currentDate).format("dddd")

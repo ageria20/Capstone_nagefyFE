@@ -80,6 +80,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       <h3 className='p-3 text-center'><strong>Bentornato!</strong></h3>
       
       <Form className='loginForm mx-auto' onSubmit={handleSubmit}>
+      <h3 className='p-3 text-center'><strong>ADMIN</strong></h3>
         <Form.Group className="mb-3 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required onChange={handleChange}/>

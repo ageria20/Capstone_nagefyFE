@@ -104,29 +104,31 @@ const handleSaveAppointment = async () => {
   setQueryClient("");
 };
 
-const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const treatmentName = e.target.value;
 
-  const selectedTreatmentObject: ITreatment | undefined = treatments.find(
-      (treatment: ITreatment) => treatment.name === treatmentName
-  );
 
-  if (selectedTreatmentObject) {
-      setSelectedTreatment(prevSelected => {
-          // Verifica se prevSelected è un array
-          if (Array.isArray(prevSelected)) {
-              const alreadySelected = prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id);
+ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+   const treatmentName = e.target.value;
+
+   const selectedTreatmentObject: ITreatment | undefined = treatments.find(
+       (treatment: ITreatment) => treatment.name === treatmentName
+   );
+
+   if (selectedTreatmentObject) {
+       setSelectedTreatment(prevSelected => {
+           // Verifica se prevSelected è un array
+           if (Array.isArray(prevSelected)) {
+               const alreadySelected = prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id);
               
-              if (alreadySelected) {
-                  return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
-              } else {
-                  return [...prevSelected, selectedTreatmentObject];
-              }
-          }
-          return [selectedTreatmentObject]; // Se prevSelected non è un array
-      });
-  }
-};
+               if (alreadySelected) {
+                   return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
+               } else {
+                   return [...prevSelected, selectedTreatmentObject];
+               }
+           }
+           return [selectedTreatmentObject]; // Se prevSelected non è un array
+       });
+   }
+ };
 
   useEffect(() => {
     setNewAppointment((prev) => ({

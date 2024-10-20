@@ -51,7 +51,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         if(resp.ok){
             console.log("PASSWORD", confirmedPassword)
           notify("Password impostata con successo")
-         navigate("/")
+         navigate("/login-staff")
         }
         else {
             notifyErr("Errore nel reset della password");

@@ -30,7 +30,7 @@ const Treatments = () => {
   const treatments: ITreatment[] = useAppSelector(
     (state) => state.treatments.treatments
   );
-  const [selectedTreatment, setSelectedTreatment] = useState<ITreatment>(null);
+  const [selectedTreatment, setSelectedTreatment] = useState<ITreatment>({} as ITreatment);
   const [showModal, setShowModal] = useState(false);
 
   const handleCustomerClick = (treatment: ITreatment) => {
@@ -58,7 +58,7 @@ const Treatments = () => {
     }
   };
 
-  const handleUpdateTreatment = (selectedTreatmentId: string) => {
+  const handleUpdateTreatment = (selectedTreatmentId: string | undefined) => {
     if (selectedTreatmentId) {
       dispatch(updateTreatment(selectedTreatmentId, selectedTreatment));
     }

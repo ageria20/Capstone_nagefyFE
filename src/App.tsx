@@ -13,6 +13,8 @@ import Orari from './components/Orari/Orari'
 import Cash from './components/Cash/Cash'
 import ResetPassword from './components/Register/ResetPassword'
 import ResetPasswordStaff from './components/Register/ResetPasswordStaff'
+import LoginStaff from './components/Login/LoginStaff'
+import LoginClient from './components/Login/LoginClient'
 
 
 
@@ -23,6 +25,8 @@ function App() {
     <BrowserRouter>
     <Routes>
      <Route path='/' element={<Login/>}/>
+     <Route path='/login-staff' element={<LoginStaff/>}/>
+     <Route path='/login-client' element={<LoginClient/>}/>
      <Route path='/register' element={<Register/>}/>
      <Route path='/profile' element={<ProfileSection/>}/>
      <Route path='/agenda' element={<Agenda/>}/>

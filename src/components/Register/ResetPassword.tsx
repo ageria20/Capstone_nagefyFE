@@ -40,16 +40,16 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         console.log("Email inviata al server:", email);
     try{
         const resp = await fetch(`http://localhost:8080/clients/reset?email=${email}`, {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            confirmedPassword
+            password: password
           })
         });
         if(resp.ok){
-            console.log("PASSWORD", confirmedPassword)
+            console.log("PASSWORD", password)
           notify("Password impostata con successo")
          navigate("/")
         }
