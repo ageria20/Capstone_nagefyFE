@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import { EyeFill, EyeSlashFill} from "react-bootstrap-icons"
 import { notify, notifyErr } from "../../redux/actions/action"
+import { ToastContainer } from "react-toastify"
 
 
 
@@ -40,7 +41,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         console.log("Email inviata al server:", email);
     try{
         const resp = await fetch(`http://localhost:8080/clients/reset?email=${email}`, {
-          method: "PATCH",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json"
           },
@@ -49,9 +50,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
           })
         });
         if(resp.ok){
-            console.log("PASSWORD", password)
           notify("Password impostata con successo")
-         navigate("/")
+         navigate("/login-client")
         }
         else {
             notifyErr("Errore nel reset della password");
@@ -104,6 +104,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         </div>
         
       </Form>
+      <ToastContainer />
     </Container>
   </div>
   )

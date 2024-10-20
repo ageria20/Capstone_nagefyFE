@@ -45,7 +45,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            confirmedPassword
+            password: password
           })
         });
         if(resp.ok){
