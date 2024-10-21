@@ -1,7 +1,21 @@
 
-.main-content{
-background: linear-gradient(180deg, rgba(197,180,218,1) 20%, rgba(197,180,218,1) 100%);
-min-height: 100vh;
-margin-inline: 0;
-width: 100vw;
+.main-content {
+    background: linear-gradient(180deg, rgba(197, 180, 218, 1) 20%, rgba(197, 180, 218, 1) 100%);
+    min-height: 100vh; /* Imposta altezza minima per riempire lo schermo */
+    width: 100vw; /* Imposta larghezza a 100% della viewport */
+}
+
+.card {
+    margin-bottom: 1rem; /* Distanza tra le schede */
+}
+
+.badge {
+    margin-left: 0.5rem; /* Distanza tra il nome del trattamento e il badge */
+}
+
+
+
+
+.navbar-toggler {
+    display: none;
 }
