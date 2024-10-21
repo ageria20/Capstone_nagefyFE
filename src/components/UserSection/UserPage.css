@@ -18,8 +18,15 @@
     background-color:#0B303B !important;
 }
 
+.edit-btn{
+    background-color: #0B303B;
+    color: white;
+}
 
-
+.modalEdit{
+    background-color: #0B303B;
+    color: white;
+}
 
 .navbar-toggler {
     display: none;

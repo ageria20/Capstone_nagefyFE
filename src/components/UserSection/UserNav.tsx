@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store/store'
 import { useEffect } from 'react'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
-import { PencilFill } from 'react-bootstrap-icons'
+import { Calendar, PencilFill } from 'react-bootstrap-icons'
 
 const ProfileNav = () => {
 const navigate = useNavigate()
@@ -34,18 +34,20 @@ useEffect(() => {
             {/* {" "}{loggedUser && `${loggedUser.name} ${loggedUser.surname}`} */}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu className='custom-dropdown'>
-              
-              <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/edit-client")}>
-              <span><PencilFill/>{" "}</span> Edit
+            <Dropdown.Menu className='custom-dropdown p-2'>
+            <Dropdown.Item className='text-white custom-dropdown-item p-2' onClick={() => navigate("/user-page")}>
+              <span><Calendar className='me-2'/>{" "}</span> Appuntamenti
+              </Dropdown.Item>
+              <Dropdown.Item className='text-white custom-dropdown-item p-2' onClick={() => navigate("/edit-client")}>
+              <span><PencilFill className='me-2'/>{" "}</span> Edit
               </Dropdown.Item>
 
              
-              <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => {
+              <Dropdown.Item className='text-white custom-dropdown-item p-2' onClick={() => {
                 navigate("/login-client")
                 localStorage.removeItem("accessToken")
                 }}>
-                <span><IoLogOut/>{" "}</span> Logout
+                <span><IoLogOut className='me-2'/>{" "}</span> Logout
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
