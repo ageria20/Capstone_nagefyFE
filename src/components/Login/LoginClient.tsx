@@ -8,6 +8,7 @@ import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch, useAppSelector } from '../../redux/store/store'
 import { getClients } from '../../redux/actions/actionClients'
+import { getClientMe } from '../../redux/actions/usersAction'
 
 const LoginClient = () => {
 const [showPassword, setShwPassword] = useState(false)
@@ -40,7 +41,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      navigate("/profile")
+      navigate("/user-page")
+      dispatch(getClientMe())
       setToken(res.accessToken)
     }
   } catch (error) {

@@ -1,19 +1,32 @@
 import { Bounce, toast } from "react-toastify";
 import { INewUser, IUser } from "../../interfaces/IUser";
 import { ITreatment } from "../../interfaces/ITreatment";
+import { IAppointments } from "../../interfaces/IAppointment";
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const CLIENTS = 'CLIENTS';
+export const CLIENT = 'CLIENT';
 export const USERS = 'USERS';
 export const ADD_CLIENT = "ADD_CLIENT"
 export const TREATMENTS = "TREATMENTS"
 export const STAFF = "STAFF"
+export const APPOINTMENTSME = "APPOINTMENTSME"
 
 export const url = import.meta.env.VITE_URL
 
 export type ClientAction = {
     type: "CLIENTS" 
     payload?: IUser[] 
+};
+
+export type ClientMeAction = {
+    type: "CLIENT" 
+    payload?: IUser 
+};
+
+export type AppointmentsMeAction = {
+    type: "APPOINTMENTSME" 
+    payload?: IAppointments[]
 };
 
 export type NewClientAction = {

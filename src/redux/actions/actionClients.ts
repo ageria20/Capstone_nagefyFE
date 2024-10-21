@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { ADD_CLIENT, ClientAction, CLIENTS, notify, notifyErr } from "./action"
 import { AppDispatch } from "../store/store"
 import { INewUser } from "../../interfaces/IUser"
+import { setClientAppointment } from "../slices/appointmentsSlice"
 
 
 
@@ -76,6 +77,29 @@ export const createClients = (client: INewUser) => {
         }
     }
 }
+
+export const getAppointmentsMe = () => {
+    return async (dispatch: Dispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/clients/me/appointments`, {
+                headers: {
+                    Authorization: "Bearer "+accessToken
+                },
+            })
+            if(resp.ok){
+                const appointmentsClient = await resp.json()
+                console.log("Appuntamenti ricevuti dal backend:", appointmentsClient.content);
+                dispatch(setClientAppointment(appointmentsClient.content))
+            } else{
+                throw new Error("Get clients error")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
 export const deleteClient = (clientId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {

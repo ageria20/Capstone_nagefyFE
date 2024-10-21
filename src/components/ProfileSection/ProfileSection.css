@@ -7,18 +7,32 @@ height: 100%;
 
 }
 
+.custom-dropdown{
+    background-color: #0B303B;
+    
+}
+
+.custom-dropdown-item:hover{
+    color:#0B303B !important;
+}
+
+.main-content {
+    margin-top: 1rem;
+}
+
 .homePage h1 {
     font-size: 6rem;
+    margin-top: 8rem;
 }
 
 .accedi-btn, .registrati-btn {
-    background: blueviolet;
+    background: blueviolet !important;
     border: none;
     cursor: pointer
 }
 
 .accedi-btn:hover, .registrati-btn:hover{
-    background-color: black;
+    background-color: #0B303B !important;
 }
 
 .first-card {
@@ -34,4 +48,22 @@ height: 100%;
 .third-card {
     background-color: #0B303B;
     color: white
+}
+
+@media only screen and (max-width: 400px) {
+    .homePage h1 {
+        font-size: 3rem;
+    }
+}
+
+
+@media only screen and (max-width: 350px) {
+.homePage{
+    padding-inline: 0 !important;
+}
+
+    .homePage h1 {
+        font-size: 2rem;
+        width: 100%;
+    }
 }

@@ -4,11 +4,13 @@ import { IAppointments } from "../../interfaces/IAppointment";
 interface AppointmentState {
     appointments: IAppointments[];
     selectedAppointment: IAppointments | null;
+    clientAppointment: IAppointments | null;
 }
 
 const initialState: AppointmentState ={
     appointments: [],
-    selectedAppointment: null
+    selectedAppointment: null, 
+    clientAppointment: null
 }
 
 const appointmentsSlice = createSlice({
@@ -20,9 +22,12 @@ const appointmentsSlice = createSlice({
     },
     setSelectedAppointment: (state, action) => {
         state.selectedAppointment = action.payload
+    },
+    setClientAppointment: (state, action) => {
+        state.clientAppointment = action.payload
     }
 }
 })
 
-export const {setAppointment, setSelectedAppointment} = appointmentsSlice.actions;
+export const {setAppointment, setSelectedAppointment, setClientAppointment} = appointmentsSlice.actions;
 export default appointmentsSlice.reducer;

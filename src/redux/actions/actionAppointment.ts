@@ -27,6 +27,8 @@ export const getAppointments = () => {
     }
 }
 
+
+
 export const getAppointmentsById = (appointmentId: string | undefined) => {
     return async (dispatch: Dispatch)=>{
         try {

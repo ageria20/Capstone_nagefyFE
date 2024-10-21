@@ -1,5 +1,5 @@
 
-import { Button, Container, Image, Nav, Navbar } from 'react-bootstrap'
+import { Button, Container, Dropdown, Image, Nav, Navbar } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./ProfileSection.css"
@@ -8,7 +8,7 @@ const ProfileNav = () => {
 const navigate = useNavigate()
 
   return (
-    <Navbar expand="lg" className="navbar  mx-auto p-0">
+    <Navbar expand="lg" className="navbar nav mx-auto p-0 fixed-top">
       <Container className="bg-white rounded-4 mb-5">
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image src={nagefyLogo} alt="nagefy_logo" width={120} />
@@ -35,9 +35,23 @@ const navigate = useNavigate()
               Prodotti
             </Nav.Link>
           </Nav>
-          <Button className="accedi-btn rounded-4 px-4" onClick={() => navigate("/")}>
-            Accedi
-          </Button>
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic" className="accedi-btn rounded-4 px-4">
+              Accedi
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className='custom-dropdown'>
+              
+              <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login-staff")}>
+                Staff
+              </Dropdown.Item>
+
+             
+              <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login-client")}>
+                Cliente
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <Button className=" registrati-btn rounded-4 px-4 ms-3" onClick={() => navigate("/register")}>
             Registrati
           </Button>

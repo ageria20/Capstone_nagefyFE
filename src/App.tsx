@@ -15,6 +15,7 @@ import ResetPassword from './components/Register/ResetPassword'
 import ResetPasswordStaff from './components/Register/ResetPasswordStaff'
 import LoginStaff from './components/Login/LoginStaff'
 import LoginClient from './components/Login/LoginClient'
+import UserPage from './components/UserSection/UserPage'
 
 
 
@@ -37,6 +38,7 @@ function App() {
      <Route path='/cash/:id' element={<Cash/>}/>
      <Route path='/reset-password/:email' element={<ResetPassword/>}/>
      <Route path='/reset-password-staff/:email' element={<ResetPasswordStaff/>}/>
+     <Route path='/user-page' element={<UserPage/>}/>
     
      </Routes>
      
