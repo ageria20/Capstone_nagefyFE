@@ -8,23 +8,26 @@ import { Trash } from 'react-bootstrap-icons'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
 import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
+import { ToastContainer } from 'react-toastify'
+import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 
 const UserPage = () => {
 
     const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<IAppointments[]>([])
-
+    const [page, setPage] = useState<number>(0)
+ 
     const totalPrice = (appointment: IAppointments) => appointment.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0 || 0)
     
 
     useEffect(() => {
         dispatch(getClientMe())
-    },[dispatch, appointments])
+    },[dispatch])
 
-    const getAppointmentsClient = async () => {
+    const getAppointmentsClient = async (page: number) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/me/appointments`, {
+            const resp = await fetch(`http://localhost:8080/clients/me/appointments?page=${page}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -43,7 +46,7 @@ const UserPage = () => {
 
 
     useEffect(() => {
-        getAppointmentsClient()
+        getAppointmentsClient(page)
     }, [dispatch])
 
   return (
@@ -55,16 +58,16 @@ const UserPage = () => {
                 {appointments.reverse().map((appointment: IAppointments) => 
                     <Col xs={12} md={3}>
                         <Card style={{minHeight: "200px"}}>
-                        <Card.Body>
+                        <Card.Body className='d-flex flex-column justify-content-between align-items-center'>
                           <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>
                           <Card.Text>
                             {appointment.treatmentsList.map(treatment => 
                                 <Row>
-                                    <Col xs={8} md={8}>
+                                    <Col xs={6} md={6} className='text-start'>
                                         <p>{treatment.name}</p>
                                     </Col>
-                                    <Col xs={4} md={4} >
-                                        <Badge className='badge'>{treatment.price}{" "}€</Badge>
+                                    <Col xs={6} md={6} className='d-flex align-items-center'>
+                                       {treatment.price}{" "}€
                                     </Col>
                                 </Row>
                             )}
@@ -72,9 +75,9 @@ const UserPage = () => {
                           <Container className='d-flex justify-content-between align-items-end px-1'>
                           <Container className='mt-auto'>
                           <Button 
-                  className='rounded-3 border-danger bg-transparent text-danger' onClick={() => {
-                    dispatch(deleteMyAppointment(appointment.id))
-                    getAppointmentsClient()
+                  className='rounded-3 border-danger bg-transparent text-danger' onClick={async () => {
+                    await dispatch(deleteMyAppointment(appointment.id))
+                    await getAppointmentsClient(page)
                     }}>
                   <Trash className='my-1 d-flex w-100'/>
                 </Button>
@@ -88,7 +91,12 @@ const UserPage = () => {
                       </Col>
                 )}
             </Row>
+            <Container className='d-flex justify-content-between align-items-center mx-auto' style={{width: "150px"}}>
+            <Button className='bg-transparent border-0' onClick={() => setPage(page - 1)}><BiLeftArrow/> Indietro</Button>
+            <Button className='bg-transparent border-0'onClick={() => setPage(page + 1)}><BiRightArrow/> Avanti</Button>
+            </Container>
         </Container>
+        <ToastContainer/>
     </Container>
   )
 }

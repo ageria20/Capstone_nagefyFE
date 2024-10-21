@@ -5,6 +5,10 @@
     width: 100vw; /* Imposta larghezza a 100% della viewport */
 }
 
+.dropdown-menu[data-bs-popper]{
+    left: initial
+}
+
 .card {
     margin-bottom: 1rem; /* Distanza tra le schede */
 }
