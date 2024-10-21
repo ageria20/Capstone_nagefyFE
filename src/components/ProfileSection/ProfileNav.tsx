@@ -8,7 +8,7 @@ const ProfileNav = () => {
 const navigate = useNavigate()
 
   return (
-    <Navbar expand="lg" className="navbar nav mx-auto p-0 fixed-top">
+    <Navbar expand="lg" className="navbar nav mx-auto p-0 fixed-top mt-4">
       <Container className="bg-white rounded-4 mb-5">
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image src={nagefyLogo} alt="nagefy_logo" width={120} />
