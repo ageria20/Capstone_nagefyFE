@@ -10,7 +10,8 @@
 }
 
 .badge {
-    margin-left: 0.5rem; /* Distanza tra il nome del trattamento e il badge */
+    margin-left: 0.5rem; 
+    background-color:#0B303B !important;
 }
 
 

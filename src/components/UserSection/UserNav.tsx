@@ -26,7 +26,7 @@ useEffect(() => {
           <Image src={nagefyLogo} alt="nagefy_logo" width={120} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav ">
+        <Container>
           
           <Dropdown className='ms-auto d-flex justify-content-end'>
             <Dropdown.Toggle id="dropdown-basic" className="bg-transparent text-black border-0 px-4">
@@ -49,7 +49,7 @@ useEffect(() => {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </Navbar.Collapse>
+        </Container>
       </Container>
     </Navbar>
   )

@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { Trash } from 'react-bootstrap-icons'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
+import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
 
 const UserPage = () => {
 
@@ -15,11 +16,10 @@ const UserPage = () => {
 
     const totalPrice = (appointment: IAppointments) => appointment.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0 || 0)
     
-    console.log(appointments)
 
     useEffect(() => {
         dispatch(getClientMe())
-    },[dispatch])
+    },[dispatch, appointments])
 
     const getAppointmentsClient = async () => {
         try {
@@ -31,8 +31,8 @@ const UserPage = () => {
             })
             if(resp.ok){
                 const appointmentsClient = await resp.json()
-                console.log("Appuntamenti ricevuti dal backend:", appointmentsClient.content);
                 setAppointments(appointmentsClient.content)
+                
             } else{
                 throw new Error("Get clients error")
             }
@@ -44,26 +44,26 @@ const UserPage = () => {
 
     useEffect(() => {
         getAppointmentsClient()
-    }, [])
+    }, [dispatch])
 
   return (
-    <Container className='main-content mx-0 p-3 my-0'>
+    <Container  fluid className='main-content p-3 my-0'>
         <UserNav/>
         <Container className='p-3'>
-            <h1>I tuoi Appuntamenti</h1>
+            <h1 className='mb-5'>I tuoi Appuntamenti</h1>
             <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
                     <Col xs={12} md={3}>
-                        <Card style={{height: "200px"}}>
+                        <Card style={{minHeight: "200px"}}>
                         <Card.Body>
                           <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>
                           <Card.Text>
                             {appointment.treatmentsList.map(treatment => 
                                 <Row>
-                                    <Col xs={12} md={8}>
+                                    <Col xs={8} md={8}>
                                         <p>{treatment.name}</p>
                                     </Col>
-                                    <Col xs={12} md={4}>
+                                    <Col xs={4} md={4} >
                                         <Badge className='badge'>{treatment.price}{" "}€</Badge>
                                     </Col>
                                 </Row>
@@ -72,12 +72,15 @@ const UserPage = () => {
                           <Container className='d-flex justify-content-between align-items-end px-1'>
                           <Container className='mt-auto'>
                           <Button 
-                  className='rounded-3 border-danger bg-transparent text-danger'>
+                  className='rounded-3 border-danger bg-transparent text-danger' onClick={() => {
+                    dispatch(deleteMyAppointment(appointment.id))
+                    getAppointmentsClient()
+                    }}>
                   <Trash className='my-1 d-flex w-100'/>
                 </Button>
                 </Container>
                 <Container className='mt-auto'>
-                          <span className='mb-auto'>Totale </span><Badge bg="primary" >{totalPrice(appointment)}{" "}€</Badge>
+                          <span className='mb-auto'>Totale </span><Badge className='badge'>{totalPrice(appointment)}{" "}€</Badge>
                           </Container>
                           </Container>
                         </Card.Body>
