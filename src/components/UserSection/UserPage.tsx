@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Badge,  Button,  Card, Container, Row } from 'react-bootstrap'
+import { Badge,  Button,  Card, Col, Container, Row } from 'react-bootstrap'
 import UserNav from "./UserNav"
 import { useAppDispatch } from '../../redux/store/store'
 import { IAppointments } from '../../interfaces/IAppointment'
@@ -53,26 +53,36 @@ const UserPage = () => {
             <h1>I tuoi Appuntamenti</h1>
             <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
-                    
-                        <Card>
+                    <Col xs={12} md={3}>
+                        <Card style={{height: "200px"}}>
                         <Card.Body>
-                          <Card.Title>{dayjs(appointment.startTime).format('ddd D - HH:mm').toLocaleUpperCase()}</Card.Title>
-                          <Card.Text className='d-flex justify-content-between align-items-center'>
+                          <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>
+                          <Card.Text>
                             {appointment.treatmentsList.map(treatment => 
-                                <>
-                                    <p>{treatment.name}</p>
-                                    <Badge className='badge'>{treatment.price}</Badge>
-                                </>
+                                <Row>
+                                    <Col xs={12} md={8}>
+                                        <p>{treatment.name}</p>
+                                    </Col>
+                                    <Col xs={12} md={4}>
+                                        <Badge className='badge'>{treatment.price}{" "}€</Badge>
+                                    </Col>
+                                </Row>
                             )}
                           </Card.Text>
-                          <Badge bg="primary">{totalPrice(appointment)}</Badge>
+                          <Container className='d-flex justify-content-between align-items-end px-1'>
+                          <Container className='mt-auto'>
                           <Button 
-                  className='my-3 rounded-4 border-danger bg-transparent text-danger'>
+                  className='rounded-3 border-danger bg-transparent text-danger'>
                   <Trash className='my-1 d-flex w-100'/>
                 </Button>
+                </Container>
+                <Container className='mt-auto'>
+                          <span className='mb-auto'>Totale </span><Badge bg="primary" >{totalPrice(appointment)}{" "}€</Badge>
+                          </Container>
+                          </Container>
                         </Card.Body>
                       </Card>
-                    
+                      </Col>
                 )}
             </Row>
         </Container>
