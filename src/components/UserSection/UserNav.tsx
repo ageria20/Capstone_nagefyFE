@@ -19,7 +19,7 @@ useEffect(() => {
 }, [dispatch])
 
   return (
-    <Navbar expand="lg" className="navbar nav mx-auto p-0 fixed-top my-5">
+    <Navbar expand="lg" className="navbar nav mx-auto p-0 my-5">
       <Container className="bg-white rounded-4 mb-5 d-flex justify-content-between">
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image src={nagefyLogo} alt="nagefy_logo" width={120} />

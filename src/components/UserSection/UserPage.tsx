@@ -47,12 +47,12 @@ const UserPage = () => {
     }, [])
 
   return (
-    <Container className='main-content mx-0 w-100'>
+    <Container className='main-content mx-0 p-3 my-0'>
         <UserNav/>
-        <Container className='p-3' style={{marginTop: "8rem"}}>
+        <Container className='p-3'>
             <h1>I tuoi Appuntamenti</h1>
             <Row>
-                {appointments.map((appointment: IAppointments) => 
+                {appointments.reverse().map((appointment: IAppointments) => 
                     
                         <Card>
                         <Card.Body>
