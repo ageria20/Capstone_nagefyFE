@@ -71,7 +71,7 @@ useEffect(() => {
   return (
     <div>
         <Container fluid>
-        <Container fluid className='d-flex align-items-center rounded-4 shadow-lg mt-2 p-2'>
+        <Container fluid className='d-flex align-items-center rounded-4 shadow-lg mt-4 p-3'>
       <Button className="toggle-button me-3" onClick={toggleSidebar}>
         {isOpen ? <X/>:<List />}
       </Button>
@@ -81,7 +81,7 @@ useEffect(() => {
         </Container>
       <Row className="min-vh-100">
         <Col xs={12} md={5} lg={3} className="border-end px-4">
-          <h4 className="my-3">Clienti</h4>
+          <h4 className="mb-3 mt-5">Clienti</h4>
         <Row className='align-items-center'>
           <Col xs={10}>
           <div className="input-group">
@@ -119,7 +119,7 @@ useEffect(() => {
         </Col>
 
         {/* Colonna destra - Dettagli cliente selezionato */}
-        <Col xs={12} md={7} lg={9} className="p-4">
+        <Col xs={12} md={7} lg={9} className="p-4 mt-4">
           {selectedClient ? (
             <Card>
               <Card.Body>

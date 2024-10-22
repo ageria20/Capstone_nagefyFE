@@ -91,7 +91,7 @@ const Treatments = () => {
       <Container fluid>
         <Container
           fluid
-          className="d-flex align-items-center  rounded-4 shadow-lg mt-2 p-2"
+          className="d-flex align-items-center  rounded-4 shadow-lg mt-4 p-3"
         >
           <Button className="toggle-button" onClick={toggleSidebar}>
             {isOpen ? <X /> : <List />}
@@ -99,7 +99,7 @@ const Treatments = () => {
           <Sidebar />
           <p className="mb-0">{getTime()}</p>
         </Container>
-        <Row className="min-vh-100">
+        <Row className="min-vh-100 mt-3 p-3">
           <Col xs={12} md={5} lg={3} className="border-end">
             <h4 className="my-3">Trattamenti</h4>
             <Row className="align-items-center">

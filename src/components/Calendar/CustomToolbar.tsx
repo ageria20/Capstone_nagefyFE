@@ -58,7 +58,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
   return (
     <>
-    <div className='custom-toolbar flex-1 border-start  rounded-4 shadow-lg mt-2 p-2'>
+    <div className='custom-toolbar border-start  rounded-4 shadow-lg mt-0 p-2'>
         <button className="toggle-button" onClick={toggleSidebar}>
         {isOpen ? <X/>:<List />} 
       </button>

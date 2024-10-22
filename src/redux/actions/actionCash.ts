@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { setCash } from "../slices/cashSlice"
+import { setCashList } from "../slices/cashSlice"
 import { AppDispatch } from "../store/store"
 import { ICash } from "../../interfaces/ICash"
 
@@ -14,7 +14,7 @@ export const getCash = () => {
             })
             if(resp.ok){
                 const cash = await resp.json()
-                dispatch(setCash(cash.content))
+                dispatch(setCashList(cash.content))
             } else{
                 throw new Error("Get clients error")
             }

@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;800&display=swap');
 
-body{
-    background-color: none !important;
-}
+
 .custom-toolbar {
     font-family: "Montserrat", sans-serif;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 1rem;
     margin-bottom: 10px;
-    gap: 1rem; /* Spazio tra gli elementi */
     flex-wrap: nowrap; /* Permette agli elementi di andare a capo se lo spazio è limitato */
 }
 

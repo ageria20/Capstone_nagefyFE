@@ -66,14 +66,14 @@ const Staff = () => {
       return (
         <div>
             <Container fluid>
-            <Container fluid className='d-flex align-items-center rounded-4 shadow-lg mt-2 p-2'>
+            <Container fluid className='d-flex align-items-center rounded-4 shadow-lg mt-4 p-3'>
           <Button className="toggle-button" onClick={toggleSidebar}>
             {isOpen ? <X/>:<List />}
           </Button>
            <Sidebar/>
             <p className='mb-0'>{getTime()}</p>
             </Container>
-          <Row className="min-vh-100">
+          <Row className="min-vh-100 mt-4 p-3">
             <Col xs={12} md={5} lg={3} className="border-end">
               <h4 className="my-3">STAFF</h4>
             <Row className='align-items-center'>

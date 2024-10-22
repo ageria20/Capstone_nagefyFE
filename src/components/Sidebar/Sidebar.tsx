@@ -36,19 +36,20 @@ const Sidebar = () => {
       <aside
         className={`sidebar ${
           isOpen ? "open" : "collapsed"
-        } d-flex flex-column justify-content-between `}
+        } d-flex flex-column justify-content-between`}
       >
         <nav className="menu ">
           <Button className="toggle-button" onClick={toggleSidebar}>
-            {isOpen ? <X /> : <List />}
+            {isOpen ? <X /> : <List width={100}/>}
           </Button>
+          
           <Image
             src={nagefyLogo}
             alt="nagefy_logo"
             width="150"
             className={isOpen ? `logo mx-auto` : `logo mx-auto d-none`}
           />
-
+          
           <Link
             to="/agenda"
             className="nav-link menu__item my-3"
@@ -74,7 +75,7 @@ const Sidebar = () => {
             {isOpen && <span className="ms-2 menu__text">ORARI</span>}
           </Link>
           <Link
-            to="#"
+            to="/report"
             className="nav-link menu__item my-3"
             onClick={toggleSidebar}
           >
@@ -109,7 +110,7 @@ const Sidebar = () => {
           </Link>
           <button
           
-            className="menu__item my-3"
+            className="menu__item my-3 border-0 bg-transparent"
             onClick={handleLogout}
           >
           <BoxArrowRight size={24} />

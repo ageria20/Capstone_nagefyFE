@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ICash } from "../../interfaces/ICash";
+import { ICash, ICashed } from "../../interfaces/ICash";
 
 interface CashState {
     cash: ICash | null;
     isPayed: boolean
+    cashList: ICashed[]
 }
 
 const initialState: CashState ={
     cash: null,
-    isPayed: false
+    isPayed: false, 
+    cashList: []
 }
 
 const cashSlice = createSlice({
@@ -20,9 +22,12 @@ const cashSlice = createSlice({
     },
     setIsPayed: (state, action) => {
         state.isPayed = action.payload
+    },
+    setCashList: (state, action) => {
+        state.cashList = action.payload
     }
 }
 })
 
-export const {setCash, setIsPayed} = cashSlice.actions;
+export const {setCash, setIsPayed, setCashList} = cashSlice.actions;
 export default cashSlice.reducer;
