@@ -24,29 +24,6 @@ export const getCash = () => {
     }
 }
 
-// export const searchStaff = (query: string) => {
-//     return async (dispatch: Dispatch) => {
-//         try {
-//             const accessToken = localStorage.getItem("accessToken");
-//             const url = `http://localhost:8080/staffs/search?name=${encodeURIComponent(query)}`;
-
-//             const resp = await fetch(url, {
-//                 headers: {
-//                     Authorization: "Bearer " + accessToken
-//                 },
-//             });
-
-//             if (resp.ok) {
-//                 const staffs = await resp.json();
-//                 dispatch(setStaffs(staffs));
-//             } else {
-//                 throw new Error("Get clients error");
-//             }
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-// };
 
 export const createCash = (cash: ICash) => {
     return async (dispatch: AppDispatch)=>{
@@ -61,6 +38,8 @@ export const createCash = (cash: ICash) => {
                 body: JSON.stringify(cash)
             })
             if(resp.ok){
+                console.log("CASH", cash)
+                console.log("RESP", resp)
                 dispatch(getCash())
             } else{
                 console.log(resp.statusText)

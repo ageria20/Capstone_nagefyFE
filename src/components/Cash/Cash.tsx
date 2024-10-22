@@ -38,16 +38,17 @@ const Cash = () => {
   const totalPrice = appointment?.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0 || 0)
 
   useEffect(() => {
-    if(appointmentId){
-    dispatch(getAppointmentsById(appointmentId));
-    setNewCash({
-        ...newCash, 
-        appointment: appointmentId, 
-        total: totalPrice
-    })
+    if (appointmentId) {
+      dispatch(getAppointmentsById(appointmentId));
+      setNewCash((prevState) => ({
+        ...prevState,
+        appointment: appointmentId,
+        total: totalPrice,
+        paymentMethod: paymentMethod || "N/A", // Aggiorna paymentMethod qui
+      }));
     }
     console.log("APPOINTMENT", appointment);
-  }, [appointmentId]);
+  }, [appointmentId, totalPrice, paymentMethod]);
 
 
   const handleSaveCash = () => {
@@ -59,18 +60,8 @@ const Cash = () => {
 
   const handlePaymentMethod = (e: React.ChangeEvent<HTMLInputElement>) => {
     const paymentType = e.target.value;
-    switch (paymentType) {
-      case "CARTA":
-        setPaymentMethod("CARTA");
-        break;
-      case "CONTATI":
-        setPaymentMethod("CONTANTI");
-        break;
-      case "BONIFICO":
-        setPaymentMethod("BONIFICO");
-        break;
-    }
-    console.log("PAYMENT TYPE: ", paymentType)
+    setPaymentMethod(paymentType); // Aggiorna il metodo di pagamento
+    console.log("PAYMENT TYPE: ", paymentType);
   };
 
   const toggleSidebar = () => {
@@ -130,6 +121,7 @@ const Cash = () => {
                     role="switch"
                     value={payment.type}
                     onChange={handlePaymentMethod}
+                    checked={paymentMethod === payment.type}
                     required
                   />
                   <span className="ms-2">{payment.type}</span>
