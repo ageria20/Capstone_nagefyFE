@@ -7,11 +7,11 @@ import { ToggleSidebarAction } from '../../redux/actions/action'
 import { useEffect, useState } from 'react'
 import { getCash } from '../../redux/actions/actionCash'
 import { ICashed } from '../../interfaces/ICash'
-import DatePicker from 'react-datepicker'
 import { Line } from 'react-chartjs-2';  
 import { Doughnut } from 'react-chartjs-2'; 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import dayjs from 'dayjs'
+import FilterReportModal from './FilterRepostModal'
 
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement);
@@ -27,8 +27,10 @@ const Report = () => {
     const [filteredGeneralReport, setFilteredGeneralReport] = useState<number>(0)
     const [filteredLastMonthReport, setFilteredLastMonthReport] = useState<number>(0)
     const [filteredFicheMedia, setFilteredFicheMedia] = useState<string | undefined>("")
+    const [filteredPaymentMethod, setFilteredPaymentMethod] = useState<string | undefined>("")
     const [filteredCashList, setFilteredCashList] = useState<ICashed[]>([]) 
     const [isFilterActive, setIsFilterActive] = useState<boolean>(false)
+    const [showModal, setShowModal] = useState<boolean>(false)
     
     const generalReport = cashList.reduce((acc, report) => acc + report.total, 0)
     
@@ -70,7 +72,41 @@ const Report = () => {
         } catch (error){
             console.log(error)
         }
+
        }
+       const filterCashWithPaymentMethod = async (start: Date | null, end: Date | null) => {
+
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/cash/report?startDate=${start?.toLocaleDateString("en-CA")}&endDate=${end?.toLocaleDateString("en-CA")}&paymentMethod=${filteredPaymentMethod}`, {
+                headers: {
+                    Authorization: "Bearer "+accessToken
+                },
+            })
+            if(resp.ok){
+                const cashFiltered = await resp.json()
+                const ficheMediaFiltrata = (filteredGeneralReport / cashFiltered.length).toFixed(2).replace(".", ",")
+                setFilteredCashList(cashFiltered)
+                setFilteredFicheMedia(ficheMediaFiltrata === "0" ? "0,00" : ficheMediaFiltrata)
+                setFilteredGeneralReport(cashFiltered.reduce((acc: number, report: ICashed) => acc + report.total, 0))
+                    
+                setIsFilterActive(true)
+            } else{
+                throw new Error("Get clients error")
+            }
+        } catch (error){
+            console.log(error)
+        }
+       }
+
+       const applyFilters = async (start: Date | null, end: Date | null, paymentMethod: string | undefined) => {
+        if (paymentMethod) {
+            await filterCashWithPaymentMethod(start, end); // Use payment method filter
+        } else {
+            await filterCash(start, end); // Use date filter only
+        }
+        setShowModal(false); // Close the modal after applying filters
+    };
 
        const filterLastMonth = async () => {
         const today = new Date()
@@ -150,6 +186,40 @@ const Report = () => {
         labelsMonth = ['Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']; 
     }
 
+    const getTopThreeTreatments = () => {
+        const treatmentRevenueMap: { [name: string]: number } = {};
+    
+        cashList.forEach(cashItem => {
+            if (cashItem.appointment?.treatmentsList) {
+                cashItem.appointment.treatmentsList.forEach(treatment => {
+                    if (treatmentRevenueMap[treatment.name]) {
+                        treatmentRevenueMap[treatment.name] += treatment.price;
+                    } else {
+                        treatmentRevenueMap[treatment.name] = treatment.price;
+                    }
+                });
+            }
+        });
+    
+        // Converti l'oggetto in un array, ordina in base al totale e prendi i primi 3
+        const topTreatments = Object.entries(treatmentRevenueMap)
+            .sort(([, a], [, b]) => b - a) // Ordina dal più alto al più basso
+            .slice(0, 3); // Prendi solo i primi 3
+    
+        const labels = topTreatments.map(([name]) => name);
+        const data = topTreatments.map(([, total]) => total);
+    
+        return { labels, data };
+    };
+
+    const handleClose = () => {
+        setShowModal(false)
+    }
+    
+    // Uso la funzione per ottenere i dati
+    const { labels: topTreatmentLabels, data: topTreatmentData } = getTopThreeTreatments();
+    
+
 
     const monthlyData = {
         labels: labelsMonth, 
@@ -166,11 +236,11 @@ const Report = () => {
 
    
     const treatmentData = {
-        labels: cashList.map(item => item.appointment?.treatmentsList.map(treatment => treatment.name)), 
+        labels: topTreatmentLabels, 
         datasets: [
             {
                 label: 'Entrate per Trattamenti',
-                data: [300, 50, 100], 
+                data: topTreatmentData, 
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
                 hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
             },
@@ -191,39 +261,7 @@ const Report = () => {
 
         <Container className='d-flex justify-content-between align-items-center mt-5'>
         <h2 className='me-5'>Generale</h2>
-        <Row>
-    <Col xs={12} md={3}>
-      <h4>Seleziona Periodo {" "}</h4>
-      </Col>
-
-      <Col xs={12} md={3}>
-        <label>Da {" "}</label>
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => {date && setStartDate(date)}}
-          selectsStart
-          startDate={startDate ? startDate : new Date()}
-          endDate={endDate ? endDate : new Date()}
-          dateFormat="dd-MM-yyyy"
-          className="form-control"
-        />
-      </Col>
-      <Col xs={12} md={3}>
-        <label>{" "}A{" "}</label>
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => {date && setEndDate(date)}}
-          selectsEnd
-          startDate={startDate ? startDate : new Date()}
-          endDate={endDate ? endDate : new Date()}
-          dateFormat="dd-MM-yyyy"
-          className="form-control"
-        />
-      </Col>
-      <Col xs={12} md={3}>
-      <Button onClick={async () => await filterCash(startDate, endDate)} className="mt-3">Applica</Button>
-      </Col>
-    </Row>
+        <Button onClick={()  => setShowModal(true)}>Filtri</Button>
         </Container>
         <Container>
         <Row className='p-5 gap-1 flex-nowrap'>
@@ -271,6 +309,17 @@ const Report = () => {
             </Col>
         </Row>
         </Container>
+        <FilterReportModal 
+        show={showModal} 
+        handleClose={handleClose} 
+        startDate={startDate} 
+        setStartDate={setStartDate} 
+        endDate={endDate}
+        setEndDate={setEndDate}
+        applyFilters={applyFilters}
+        filteredPaymentMethod={filteredPaymentMethod}
+        setFilteredPaymentMethod={setFilteredPaymentMethod}
+        />
         </Container>
         </div>
   )

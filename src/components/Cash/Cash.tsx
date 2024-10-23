@@ -60,7 +60,7 @@ const Cash = () => {
 
   const handlePaymentMethod = (e: React.ChangeEvent<HTMLInputElement>) => {
     const paymentType = e.target.value;
-    setPaymentMethod(paymentType); // Aggiorna il metodo di pagamento
+    setPaymentMethod(paymentType); 
     console.log("PAYMENT TYPE: ", paymentType);
   };
 

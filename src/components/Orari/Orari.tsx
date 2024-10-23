@@ -32,7 +32,7 @@ const Orari = () => {
   return (
     <div>
       <Container fluid>
-        <Container fluid className="d-flex align-items-center p-2 rounded-4 shadow-lg mt-2">
+        <Container fluid className="d-flex align-items-center p-2 rounded-4 shadow-lg mt-4 p-4">
             
           <Button className="toggle-button" onClick={toggleSidebar}>
             {isOpen ? <X /> : <List />}
