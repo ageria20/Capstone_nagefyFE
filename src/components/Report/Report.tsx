@@ -60,10 +60,13 @@ const Report = () => {
             })
             if(resp.ok){
                 const cashFiltered = await resp.json()
-                const ficheMediaFiltrata = (filteredGeneralReport / cashFiltered.length).toFixed(2).replace(".", ",")
                 setFilteredCashList(cashFiltered)
-                setFilteredFicheMedia(ficheMediaFiltrata === "0" ? "0,00" : ficheMediaFiltrata)
+                
                 setFilteredGeneralReport(cashFiltered.reduce((acc: number, report: ICashed) => acc + report.total, 0))
+                const ficheMediaFiltrata = (generalReport > 0 && cashFiltered.length > 0) 
+                ? (generalReport / cashFiltered.length).toFixed(2).replace(".", ",") 
+                : "0,00";
+                setFilteredFicheMedia(ficheMediaFiltrata === "0" ? "0,00" : ficheMediaFiltrata)
                     
                 setIsFilterActive(true)
             } else{
@@ -85,10 +88,12 @@ const Report = () => {
             })
             if(resp.ok){
                 const cashFiltered = await resp.json()
-                const ficheMediaFiltrata = (filteredGeneralReport / cashFiltered.length).toFixed(2).replace(".", ",")
                 setFilteredCashList(cashFiltered)
-                setFilteredFicheMedia(ficheMediaFiltrata === "0" ? "0,00" : ficheMediaFiltrata)
                 setFilteredGeneralReport(cashFiltered.reduce((acc: number, report: ICashed) => acc + report.total, 0))
+                const ficheMediaFiltrata = (generalReport > 0 && cashFiltered.length > 0) 
+                ? (generalReport / cashFiltered.length).toFixed(2).replace(".", ",") 
+                : "0,00";
+                setFilteredFicheMedia(ficheMediaFiltrata === "0" ? "0,00" : ficheMediaFiltrata)
                     
                 setIsFilterActive(true)
             } else{
