@@ -1,3 +1,4 @@
+import { IUser } from "../../interfaces/IUser";
 import { UserAction, USERS } from "../actions/action";
 
 interface UserState{
