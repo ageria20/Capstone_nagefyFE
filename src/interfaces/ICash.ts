@@ -9,5 +9,6 @@ export interface ICash{
 export interface ICashed{
     paymentMethod: string;
     appointment: IAppointments | null;
-    total: number
+    total: number,
+    createdAt?: Date | null
 }

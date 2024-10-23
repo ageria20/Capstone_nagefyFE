@@ -131,6 +131,10 @@
         width: 20%;
     }
 
+    .getTime{
+        display: none;
+    }
+
     .custom-toolbar button {
         font-size: 0.875rem;
     }
@@ -145,6 +149,10 @@
     .custom-toolbar {
         padding: 0.3rem;
         
+    }
+
+    .getTime{
+        display: none;
     }
 
     .arrowRight, .arrowLeft, .today {

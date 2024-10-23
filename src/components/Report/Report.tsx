@@ -8,6 +8,13 @@ import { useEffect, useState } from 'react'
 import { getCash } from '../../redux/actions/actionCash'
 import { ICashed } from '../../interfaces/ICash'
 import DatePicker from 'react-datepicker'
+import { Line } from 'react-chartjs-2';  
+import { Doughnut } from 'react-chartjs-2'; 
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import dayjs from 'dayjs'
+
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement);
 
 const Report = () => {
 
@@ -94,12 +101,81 @@ const Report = () => {
         }
        }
 
+       const getCurrentSemesterData = () => {
+        const monthlyTotals = new Array(6).fill(0);
+
+        cashList.forEach(item => {
+            if (item.createdAt) {
+                const createdAtDate = new Date(item.createdAt);
+                const month = createdAtDate.getMonth(); 
+    
+                const today = new Date();
+                const currentMonth = today.getMonth(); 
+    
+                
+                if (currentMonth < 6) {
+                    if (month >= 0 && month < 6) {
+                        monthlyTotals[month] += item.total; 
+                    }
+                } else {
+                    
+                    if (month >= 6 && month <= 11) {
+                        monthlyTotals[month - 6] += item.total; 
+                    }
+                }
+            }
+        });
+
+        return monthlyTotals;
+        
+    };
+
       
 
     useEffect(() => {
         dispatch(getCash())
         filterLastMonth()
     }, [dispatch])
+
+
+
+
+    const currentMonth = dayjs().month(); 
+    let labelsMonth = [];
+
+
+    if (currentMonth < 6) {
+        labelsMonth = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno']; 
+    } else {
+        labelsMonth = ['Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']; 
+    }
+
+
+    const monthlyData = {
+        labels: labelsMonth, 
+        datasets: [
+            {
+                label: 'Entrate Mensili',
+                data: getCurrentSemesterData(), 
+                fill: false,
+                backgroundColor: 'rgba(75,192,192,0.4)',
+                borderColor: 'rgba(75,192,192,1)',
+            },
+        ],
+    };
+
+   
+    const treatmentData = {
+        labels: cashList.map(item => item.appointment?.treatmentsList.map(treatment => treatment.name)), 
+        datasets: [
+            {
+                label: 'Entrate per Trattamenti',
+                data: [300, 50, 100], 
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+            },
+        ],
+    };
 
   return (
     <div>
@@ -178,13 +254,19 @@ const Report = () => {
         </Row>
         <Row className='p-5 gap-3 flex-nowrap'>
             <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
-                <Container>
-                    grafico
+                <Container className='mt-3'>
+                    <h6>Entrate Mensili</h6>
+                    
+                    <Line data={monthlyData} options={{ responsive: true,}} className='mt-5'/>
+                    
                 </Container>
             </Col>
             <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
-                <Container>
-                    grafico2
+                <Container className='mt-3'>
+                    <h6 >Trattamenti</h6>
+                   
+                    <Doughnut data={treatmentData} options={{ responsive: true }} />
+                    
                 </Container>
             </Col>
         </Row>

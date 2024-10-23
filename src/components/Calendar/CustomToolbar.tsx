@@ -63,7 +63,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
         {isOpen ? <X/>:<List />} 
       </button>
         <Sidebar/> 
-        <p className='mb-0 px-2'>{getTime()}</p>
+        <p className='mb-0 px-2 getTime'>{getTime()}</p>
         
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
