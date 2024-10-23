@@ -18,6 +18,7 @@ const Report = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
 
     const [filteredGeneralReport, setFilteredGeneralReport] = useState<number>(0)
+    const [filteredLastMonthReport, setFilteredLastMonthReport] = useState<number>(0)
     const [filteredFicheMedia, setFilteredFicheMedia] = useState<string | undefined>("")
     const [filteredCashList, setFilteredCashList] = useState<ICashed[]>([]) 
     const [isFilterActive, setIsFilterActive] = useState<boolean>(false)
@@ -39,29 +40,23 @@ const Report = () => {
 
 
 
-       const filterCash = async () => {
+       const filterCash = async (start: Date | null, end: Date | null) => {
+
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/cash/report?startDate=${startDate?.toLocaleDateString("en-CA")}&endDate=${endDate?.toLocaleDateString("en-CA")}`, {
+            const resp = await fetch(`http://localhost:8080/cash/report?startDate=${start?.toLocaleDateString("en-CA")}&endDate=${end?.toLocaleDateString("en-CA")}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
             })
             if(resp.ok){
-                const filteredCash = await resp.json()
-                const ficheMediaFiltrata = (filteredGeneralReport / filteredCash.length).toFixed(2).replace(".", ",")
-                setFilteredCashList(filteredCash)
-                setFilteredFicheMedia(() =>{ if(filteredCash.length === 0){
-                    return "0"
-                }
-                else{
-                    ficheMediaFiltrata}})
-                setFilteredGeneralReport(filteredCash.reduce((acc: number, report: ICashed) => acc + report.total, 0))
+                const cashFiltered = await resp.json()
+                const ficheMediaFiltrata = (filteredGeneralReport / cashFiltered.length).toFixed(2).replace(".", ",")
+                setFilteredCashList(cashFiltered)
+                setFilteredFicheMedia(ficheMediaFiltrata === "0" ? "0,00" : ficheMediaFiltrata)
+                setFilteredGeneralReport(cashFiltered.reduce((acc: number, report: ICashed) => acc + report.total, 0))
                     
                 setIsFilterActive(true)
-               console.log("FILTER GENERAL REPORT ", filteredGeneralReport)
-        console.log("FILTER FICHE MEDIA ", filteredFicheMedia)
-        console.log("FILTER CASH LIST ", filteredCashList.length)
             } else{
                 throw new Error("Get clients error")
             }
@@ -70,10 +65,40 @@ const Report = () => {
         }
        }
 
-      console.log("CASH LIST: ", cashList)
+       const filterLastMonth = async () => {
+        const today = new Date()
+        const startMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate() )
+        const endMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/cash/report?startDate=${startMonth?.toLocaleDateString('en-CA')}&endDate=${endMonth?.toLocaleDateString('en-CA')}`, {
+                headers: {
+                    Authorization: "Bearer "+accessToken
+                },
+            })
+            if(resp.ok){
+                const cashFiltered = await resp.json()
+                if (Array.isArray(cashFiltered)) {
+               setFilteredLastMonthReport(cashFiltered.reduce((acc: number, report: ICashed) => acc + report.total, 0))
+                }
+            console.log("FILTER CASH", cashFiltered)
+            console.log("TODAY",today)
+            console.log("START MONTH",startMonth)
+            console.log("END MONTH",endMonth)
+            } else{
+                throw new Error("Get clients error")
+            }
+        } catch (error){
+            console.log(error)
+        }
+       }
+
+      
 
     useEffect(() => {
         dispatch(getCash())
+        filterLastMonth()
     }, [dispatch])
 
   return (
@@ -120,7 +145,7 @@ const Report = () => {
         />
       </Col>
       <Col xs={12} md={3}>
-      <Button onClick={() => filterCash()} className="mt-3">Applica</Button>
+      <Button onClick={async () => await filterCash(startDate, endDate)} className="mt-3">Applica</Button>
       </Col>
     </Row>
         </Container>
@@ -135,7 +160,7 @@ const Report = () => {
             <Col xs={12} md={3} className='rounded-3 shadow-sm p-4'>
                 <Container>
                     <h6>Ultimo mese</h6>
-                    <h1>€ 100,000</h1>
+                    <h1>€ {filteredLastMonthReport}</h1>
                 </Container>
             </Col>
             <Col xs={12} md={3} className='rounded-3 shadow-sm p-4'>
