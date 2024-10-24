@@ -12,11 +12,16 @@ import { BoxArrowRight, List, Person, X } from "react-bootstrap-icons";
 
 import { ToggleSidebarAction } from "../../redux/actions/action";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
+import { useEffect, useState } from "react";
+import { IUser } from "../../interfaces/IUser";
+import { getUser } from "../../redux/actions/usersAction";
 
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.sidebar.isOpen);
+  const loggedUser: IUser = useAppSelector((state) => state.users.user)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const navigate = useNavigate()
  
 
@@ -28,6 +33,22 @@ const Sidebar = () => {
     localStorage.removeItem("accessToken")
     navigate("/")
   }
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
+
+
+  useEffect(() => {    
+    if(loggedUser){
+    if(loggedUser.role === "ADMIN"){
+      setIsAdmin(true)
+    }
+
+    else {
+      setIsAdmin(false)
+    }}
+  }, [loggedUser])
 
   
 
@@ -68,7 +89,7 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/orari"
-            className="nav-link menu__item my-3"
+            className={isAdmin ? `nav-link menu__item my-3` : `d-none`}
             onClick={toggleSidebar}
           >
             <IoTimeOutline size={isOpen ? 24 : 24} />
@@ -76,7 +97,7 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/report"
-            className="nav-link menu__item my-3"
+            className={isAdmin ? `nav-link menu__item my-3` : `d-none`}
             onClick={toggleSidebar}
           >
             <BsClipboardData size={isOpen ? 24 : 24} />
@@ -100,14 +121,14 @@ const Sidebar = () => {
           </Link>
         </nav>
         <section>
-          <Link
+          {/* <Link
             to=""
             className="nav-link menu__item my-3"
             onClick={toggleSidebar}
           >
                 <Person size={isOpen ? 24 : 24} />
                 {isOpen && <span className="ms-2 menu__text">Profilo</span>}
-          </Link>
+          </Link> */}
           <button
           
             className="menu__item my-3 border-0 bg-transparent"

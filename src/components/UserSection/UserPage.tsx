@@ -61,7 +61,8 @@ const UserPage = () => {
                         <Card.Body className='d-flex flex-column justify-content-between align-items-center'>
                           <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>
                           <Card.Text>
-                            {appointment.treatmentsList.map(treatment => 
+                            {appointment.treatmentsList.map(treatment =>
+                            <Container>
                                 <Row>
                                     <Col xs={6} md={6} className='text-start'>
                                         <p>{treatment.name}</p>
@@ -70,6 +71,8 @@ const UserPage = () => {
                                        {treatment.price}{" "}€
                                     </Col>
                                 </Row>
+                                <p>Staff: {appointment.staff.name}</p>
+                                </Container> 
                             )}
                           </Card.Text>
                           <Container className='d-flex justify-content-between align-items-end px-1'>
