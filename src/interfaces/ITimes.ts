@@ -8,6 +8,9 @@ interface ITimeSlot {
 interface DaySchedule{
     day: string;
     open: boolean;
-    hours: ITimeSlot[]
+    hours: ITimeSlot[];
+    pauses?: ITimeSlot[];
+    closed?: boolean;
 }
+
 

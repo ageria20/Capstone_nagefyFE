@@ -16,9 +16,9 @@ import { ITreatment } from "../../interfaces/ITreatment";
 interface AddAppointmentModalProps {
     show: boolean;
     handleClose: () => void;
-    setSelectedTreatment: (treatments: ITreatment[]) => void; 
+    setSelectedTreatment:  React.Dispatch<React.SetStateAction<ITreatment[]>>; 
     selectedTreatment: ITreatment[];
-    startDateTime: Date
+    startDateTime: string
     selectedEvent: IAppointments | null
 }
 
@@ -106,29 +106,29 @@ const handleSaveAppointment = async () => {
 
 
 
- const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-   const treatmentName = e.target.value;
+const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const treatmentName = e.target.value;
 
-   const selectedTreatmentObject: ITreatment | undefined = treatments.find(
-       (treatment: ITreatment) => treatment.name === treatmentName
-   );
+  const selectedTreatmentObject: ITreatment | undefined = treatments.find(
+    (treatment: ITreatment) => treatment.name === treatmentName
+  );
 
-   if (selectedTreatmentObject) {
-       setSelectedTreatment(prevSelected => {
-           // Verifica se prevSelected è un array
-           if (Array.isArray(prevSelected)) {
-               const alreadySelected = prevSelected.some(treatment => treatment.id === selectedTreatmentObject.id);
-              
-               if (alreadySelected) {
-                   return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
-               } else {
-                   return [...prevSelected, selectedTreatmentObject];
-               }
-           }
-           return [selectedTreatmentObject]; // Se prevSelected non è un array
-       });
-   }
- };
+  if (selectedTreatmentObject) {
+    setSelectedTreatment((prevSelected: ITreatment[]) => {
+      const alreadySelected = prevSelected.some(
+        (treatment: ITreatment) => treatment.id === selectedTreatmentObject.id
+      );
+      
+      if (alreadySelected) {
+        // Rimuove il trattamento se è già stato selezionato
+        return prevSelected.filter(treatment => treatment.id !== selectedTreatmentObject.id);
+      } else {
+        // Aggiunge il trattamento se non è già selezionato
+        return [...prevSelected, selectedTreatmentObject];
+      }
+    });
+  }
+};
 
   useEffect(() => {
     setNewAppointment((prev) => ({

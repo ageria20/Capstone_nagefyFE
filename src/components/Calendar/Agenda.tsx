@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, dayjsLocalizer, EventProps, View } from "react-big-calendar";
+import { Calendar, dayjsLocalizer, EventPropGetter, EventProps, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import withDragAndDrop, { EventInteractionArgs } from 'react-big-calendar/lib/addons/dragAndDrop';
 import dayjs from "dayjs";
 import "dayjs/locale/it";
 import "./Agenda.css";
@@ -19,7 +19,7 @@ import { ITreatment } from "../../interfaces/ITreatment";
 
 dayjs.locale("it");
 const localizer = dayjsLocalizer(dayjs);
-const DnDCalendar = withDragAndDrop(Calendar);
+const DnDCalendar = withDragAndDrop<IEvents, object>(Calendar);
 
 const Agenda: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -36,7 +36,7 @@ const Agenda: React.FC = () => {
         endTime: new Date(), 
         isPayed: isPayed
     });
-    const [selectedSlot, setSelectedSlot] = useState<Date>(new Date());
+    const [selectedSlot, setSelectedSlot] = useState<string>("");
     
     
     const appointments = useAppSelector((state) => state.appointments.appointments);
@@ -101,11 +101,11 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         setCurrentDate(new Date());
     };
 
-    const handleEventDrop = async ({ event, start, end }: any) => {
-        const updatedEvent = {
+    const handleEventDrop = async ({ event, start, end }: EventInteractionArgs<IEvents>) => {
+        const updatedEvent: IEvents = {
             ...event,
-            start: start,
-            end: end,
+            start: new Date(start),
+            end: new Date(end),
         };
     
         
@@ -145,7 +145,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     };
 
     const handleSelectSlot = ({ start }: { start: Date }) => {
-        const startString: string= dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
+        const startString: string = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
         setSelectedSlot(startString);
         setSelectedEvent(null)
         console.log("DATE: ",startString)
@@ -153,7 +153,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         setShowModal(true);
     };
 
-    const handleEventSelect = (event) => {
+    const handleEventSelect = (event: IEvents) => {
         console.log("CLICKED EVENT: ", event);
       
         
@@ -172,7 +172,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         setShowModal(true);
       };
 
-      const eventStyleGetter = (event) => {
+      const eventStyleGetter: EventPropGetter<IEvents> = (event) => {
         const backgroundColor = event.isPayed ? 'lightgreen' : 'blue';
         const style = {
             backgroundColor: backgroundColor,
@@ -195,9 +195,9 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     useEffect(() => {
         dispatch(getStaffs());
         dispatch(getAppointments());
-        setSelectedSlot(new Date())
+        setSelectedSlot("")
         console.log("CURRENT DATE",dayjs(currentDate).format("dddd").toLocaleUpperCase())
-    }, [dispatch]);
+    }, [currentDate, dispatch]);
 
     const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");
 

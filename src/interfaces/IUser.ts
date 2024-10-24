@@ -34,8 +34,14 @@ export interface IEvents {
     start: Date;
     end: Date;
     staff: string,
-    idPayed?: boolean
+    isPayed?: boolean;
     treatmentsList: ITreatment[]
+}
+
+export interface IEventParams{
+    event: IEvents;
+    start: string | Date;
+    end: string | Date
 }
 
 
