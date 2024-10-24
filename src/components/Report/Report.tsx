@@ -290,11 +290,11 @@ const Report = () => {
         </Container>
 
         <Container className='d-flex justify-content-between align-items-center my-5'>
-        <h2 className='me-5'>Generale</h2>
-        <Button onClick={()  => setShowModal(true)}>Filtri</Button>
+            <h2 className='me-5'>Generale</h2>
+            <Button onClick={()  => setShowModal(true)}>Filtri</Button>
         </Container>
         <Container className='p-5'>
-        <Row className='gap-1 flex-nowrap justify-content-evenly'>
+        <Row className='gap-1 justify-content-evenly'>
             <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
                 <Container className='p-3'>
                     <h6>Entrate</h6>
@@ -320,25 +320,26 @@ const Report = () => {
                 </Container>
             </Col>
         </Row>
-        <Row className='gap-3 flex-nowrap p-0'>
+        <Row className='gap-3 p-0'>
             <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
-                <Container className='mt-3'>
+                
                     <h6>Entrate Mensili</h6>
                     
                     <Line data={monthlyData} options={{ responsive: true,}} className='mt-5'/>
                     
-                </Container>
+              
             </Col>
             <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
-                <Container className='mt-3'>
+                
                     <h6 >Trattamenti</h6>
                    
                     <Doughnut data={treatmentData} options={{ responsive: true }} />
                     
-                </Container>
+                
             </Col>
         </Row>
         <Container className='mt-5 rounded-4 shadow-lg mb-2'>
+            Report Collaboratori
             {Object.entries(staffRevenue).map(([staffName, total]) => (
                 
                 <Row key={staffName}>
