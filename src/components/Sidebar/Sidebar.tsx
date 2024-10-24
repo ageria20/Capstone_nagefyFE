@@ -8,7 +8,7 @@ import { BsClipboardData } from "react-icons/bs";
 import { PiScissors } from "react-icons/pi";
 
 import { Link, useNavigate} from "react-router-dom";
-import { BoxArrowRight, List, Person, X } from "react-bootstrap-icons";
+import { BoxArrowRight, List,  X } from "react-bootstrap-icons";
 
 import { ToggleSidebarAction } from "../../redux/actions/action";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";

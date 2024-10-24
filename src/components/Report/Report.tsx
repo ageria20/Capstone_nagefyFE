@@ -28,6 +28,7 @@ const Report = () => {
     const [filteredLastMonthReport, setFilteredLastMonthReport] = useState<number>(0)
     const [filteredFicheMedia, setFilteredFicheMedia] = useState<string | undefined>("")
     const [filteredPaymentMethod, setFilteredPaymentMethod] = useState<string | undefined>("")
+    const [staffRevenue, setStaffRevenue] = useState<{ [staffName: string]: number }>({});
     const [filteredCashList, setFilteredCashList] = useState<ICashed[]>([]) 
     const [isFilterActive, setIsFilterActive] = useState<boolean>(false)
     const [showModal, setShowModal] = useState<boolean>(false)
@@ -171,13 +172,37 @@ const Report = () => {
         
     };
 
+    const getRevenueByStaff = () => {
+        const staffRevenueMap: {[staffName: string]: number} = {}
+
+
+        cashList.forEach((cash) => {
+            const staffName = cash.appointment?.staff.name
+
+            if(staffName && cash.appointment?.treatmentsList){
+                const treatmentTotal = cash.appointment.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0)
+                if(staffRevenueMap[staffName]){
+                    staffRevenueMap[staffName] += treatmentTotal
+                } else {
+                    staffRevenueMap[staffName] = treatmentTotal
+                }
+            }
+        })
+        
+        return staffRevenueMap
+    }
+
       
 
     useEffect(() => {
         dispatch(getCash())
         filterLastMonth()
+        
     }, [dispatch])
 
+    useEffect(() => {
+        setStaffRevenue(getRevenueByStaff())
+    }, [cashList])
 
 
 
@@ -264,38 +289,38 @@ const Report = () => {
         <p className='mb-0'>{getTime()}</p>
         </Container>
 
-        <Container className='d-flex justify-content-between align-items-center mt-5'>
+        <Container className='d-flex justify-content-between align-items-center my-5'>
         <h2 className='me-5'>Generale</h2>
         <Button onClick={()  => setShowModal(true)}>Filtri</Button>
         </Container>
-        <Container>
-        <Row className='p-5 gap-1 flex-nowrap'>
-            <Col xs={12} md={3} className='rounded-3 shadow-sm p-4'>
-                <Container>
+        <Container className='p-5'>
+        <Row className='gap-1 flex-nowrap justify-content-evenly'>
+            <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
+                <Container className='p-3'>
                     <h6>Entrate</h6>
                     <h1>€ {isFilterActive ? filteredGeneralReport : generalReport}</h1>
                 </Container>
             </Col>
-            <Col xs={12} md={3} className='rounded-3 shadow-sm p-4'>
-                <Container>
+            <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
+                <Container className='p-3'>
                     <h6>Ultimo mese</h6>
                     <h1>€ {filteredLastMonthReport}</h1>
                 </Container>
             </Col>
-            <Col xs={12} md={3} className='rounded-3 shadow-sm p-4'>
-                <Container>
+            <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
+                <Container className='p-3'>
                     <h6>Fiche Media</h6>
                     <h1>€ {isFilterActive ? filteredFicheMedia : ficheMedia}</h1>
                 </Container>
             </Col>
-            <Col xs={12} md={3} className='rounded-3 shadow-sm p-4'>
-                <Container>
+            <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
+                <Container className='p-3'>
                     <h6>Presenze totali</h6>
                     <h1>{isFilterActive ? filteredCashList.length : cashList.length}</h1>
                 </Container>
             </Col>
         </Row>
-        <Row className='p-5 gap-3 flex-nowrap'>
+        <Row className='gap-3 flex-nowrap p-0'>
             <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
                 <Container className='mt-3'>
                     <h6>Entrate Mensili</h6>
@@ -313,6 +338,21 @@ const Report = () => {
                 </Container>
             </Col>
         </Row>
+        <Container className='mt-5 rounded-4 shadow-lg mb-2'>
+            {Object.entries(staffRevenue).map(([staffName, total]) => (
+                
+                <Row key={staffName}>
+                    <Col className='py-3 px-4'>
+                        <p>Nome</p>
+                        <h5>{staffName}</h5>
+                    </Col>
+                    <Col className='p-3'> 
+                        <p>Ricavi</p>
+                        <h5>€ {total.toFixed(2)}</h5>
+                    </Col>
+                </Row>
+            ))}
+        </Container>
         </Container>
         <FilterReportModal 
         show={showModal} 
