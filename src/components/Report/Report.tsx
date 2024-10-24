@@ -293,53 +293,53 @@ const Report = () => {
             <h2 className='me-5'>Generale</h2>
             <Button onClick={()  => setShowModal(true)}>Filtri</Button>
         </Container>
-        <Container className='p-5'>
+        <Container className='p-0'>
         <Row className='gap-1 justify-content-evenly'>
             <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
                 <Container className='p-3'>
-                    <h6>Entrate</h6>
+                    <h5>Entrate</h5>
                     <h1>€ {isFilterActive ? filteredGeneralReport : generalReport}</h1>
                 </Container>
             </Col>
             <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
                 <Container className='p-3'>
-                    <h6>Ultimo mese</h6>
+                    <h5>Ultimo mese</h5>
                     <h1>€ {filteredLastMonthReport}</h1>
                 </Container>
             </Col>
             <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
                 <Container className='p-3'>
-                    <h6>Fiche Media</h6>
+                    <h5>Fiche Media</h5>
                     <h1>€ {isFilterActive ? filteredFicheMedia : ficheMedia}</h1>
                 </Container>
             </Col>
             <Col xs={12} md={2} className='rounded-3 shadow-sm mb-4'>
                 <Container className='p-3'>
-                    <h6>Presenze totali</h6>
+                    <h5>Presenze totali</h5>
                     <h1>{isFilterActive ? filteredCashList.length : cashList.length}</h1>
                 </Container>
             </Col>
         </Row>
-        <Row className='gap-3 p-0'>
-            <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
+        <Row className='gap-1 justify-content-evenly mt-4 p-0'>
+            <Col xs={12} md={5} className='rounded-3 shadow-lg p-3'>
                 
-                    <h6>Entrate Mensili</h6>
+                    <h4>Entrate Mensili</h4>
                     
                     <Line data={monthlyData} options={{ responsive: true,}} className='mt-5'/>
                     
               
             </Col>
-            <Col xs={12} md={6} className='rounded-3 shadow-lg p-4'>
+            <Col xs={12} md={5} className='rounded-3 shadow-lg p-3'>
                 
-                    <h6 >Trattamenti</h6>
+                    <h4 >Trattamenti</h4>
                    
                     <Doughnut data={treatmentData} options={{ responsive: true }} />
                     
                 
             </Col>
         </Row>
-        <Container className='mt-5 rounded-4 shadow-lg mb-2'>
-            Report Collaboratori
+        <Container className='my-5 rounded-4 shadow-lg mb-2 py-4 px-4'>
+            <h4>Report Collaboratori</h4>
             {Object.entries(staffRevenue).map(([staffName, total]) => (
                 
                 <Row key={staffName}>

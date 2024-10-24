@@ -8,7 +8,7 @@ export interface ITreatment {
 }
 
 export interface ITreatmentId {
-    idd: string;
+    id: string;
     name: string;
     price: number;
     duration: number

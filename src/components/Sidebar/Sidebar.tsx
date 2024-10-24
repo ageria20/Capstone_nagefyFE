@@ -29,10 +29,7 @@ const Sidebar = () => {
     dispatch({ type: "TOGGLE_SIDEBAR" } as ToggleSidebarAction);
   };
 
-  const handleLogout = () =>{
-    localStorage.removeItem("accessToken")
-    navigate("/")
-  }
+
 
   useEffect(() => {
     dispatch(getUser())
@@ -132,7 +129,10 @@ const Sidebar = () => {
           <button
           
             className="menu__item my-3 border-0 bg-transparent"
-            onClick={handleLogout}
+            onClick={ () =>{
+              navigate("/")
+              localStorage.removeItem("accessToken")
+            }}
           >
           <BoxArrowRight size={24} />
           {isOpen && <span className="ms-2 menu__text">Logout</span>}

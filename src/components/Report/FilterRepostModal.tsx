@@ -34,7 +34,6 @@ const FilterReportModal: React.FC<FilterReportModalProps> = ({
   };
 
  
-
   return (
     <Container>
       <Modal show={show} onHide={handleClose}>

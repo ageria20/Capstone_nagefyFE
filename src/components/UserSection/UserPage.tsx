@@ -57,7 +57,7 @@ const UserPage = () => {
             <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
                     <Col xs={12} md={3}>
-                        <Card style={{minHeight: "200px"}}>
+                        <Card style={{minHeight: "300px"}}>
                         <Card.Body className='d-flex flex-column justify-content-between align-items-center'>
                           <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>
                           <Card.Text>
@@ -71,9 +71,9 @@ const UserPage = () => {
                                        {treatment.price}{" "}€
                                     </Col>
                                 </Row>
-                                <p>Staff: {appointment.staff.name}</p>
                                 </Container> 
                             )}
+                            <p>Staff: {appointment.staff.name}</p>
                           </Card.Text>
                           <Container className='d-flex justify-content-between align-items-end px-1'>
                           <Container className='mt-auto'>
