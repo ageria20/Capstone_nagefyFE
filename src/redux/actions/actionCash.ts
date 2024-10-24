@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { setCashList } from "../slices/cashSlice"
 import { AppDispatch } from "../store/store"
 import { ICash } from "../../interfaces/ICash"
+import { getAppointments } from "./actionAppointment"
 
 export const getCash = () => {
     return async (dispatch: Dispatch)=>{
@@ -41,6 +42,7 @@ export const createCash = (cash: ICash) => {
                 console.log("CASH", cash)
                 console.log("RESP", resp)
                 dispatch(getCash())
+                dispatch(getAppointments())
             } else{
                 console.log(resp.statusText)
             }

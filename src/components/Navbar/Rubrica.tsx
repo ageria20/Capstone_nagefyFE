@@ -48,13 +48,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
 
 
 
-
-
-const clearSearch = () => {
-  setQuery('');
-  dispatch(getClients()); 
-}
-
 const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -86,17 +79,13 @@ useEffect(() => {
           <Col xs={10}>
           <div className="input-group">
                   <input
-                    type='text'
+                    type='search'
                     className='form-control rounded-4 position-relative d-flex align-items-center'
                     value={query}
                     onChange={handleChange}
                     placeholder='Cerca cliente'
                   />
-                    <X className='my-1 position-absolute' onClick={clearSearch} style={{right: '10px',
-                  top: '39%',
-                  transform: 'translateY(-50%)',
-                  cursor: 'pointer',}}/>
-                  
+                    
                 </div>
           </Col>
           <Col xs={2} className='text-center px-0 mx-0'>

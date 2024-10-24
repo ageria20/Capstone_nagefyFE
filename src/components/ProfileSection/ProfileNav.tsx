@@ -29,7 +29,6 @@ const navigate = useNavigate()
             </Nav.Link>
             <Nav.Link
               className="navbarMenu mx-3"
-              onClick={() => navigate("/ourbrand")}
               style={{ fontSize: "1.2rem", fontWeight: "300"  }}
             >
               Prodotti
@@ -41,14 +40,16 @@ const navigate = useNavigate()
             </Dropdown.Toggle>
 
             <Dropdown.Menu className='custom-dropdown'>
-              
+            <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login")}>
+                nagefy pro
+              </Dropdown.Item>
               <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login-staff")}>
-                Staff
+                nagefy Staff
               </Dropdown.Item>
 
              
               <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login-client")}>
-                Cliente
+              nagefy Cliente
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

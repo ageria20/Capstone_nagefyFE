@@ -41,6 +41,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
+      navigate("/agenda")
       setToken(res.accessToken)
     }
   } catch (error) {
@@ -58,16 +59,16 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
- useEffect(() =>{
-   if(loggedUser){
-        if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
-       navigate("/agenda")
-     }
-     else {
-       navigate("/profile")
-     }
-   }
- }, [loggedUser, navigate])
+//  useEffect(() =>{
+//    if(loggedUser){
+//         if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
+//        navigate("/agenda")
+//      }
+//      else {
+//        navigate("/profile")
+//      }
+//    }
+//  }, [loggedUser, navigate])
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})

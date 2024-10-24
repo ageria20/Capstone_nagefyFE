@@ -7,7 +7,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import { BsClipboardData } from "react-icons/bs";
 import { PiScissors } from "react-icons/pi";
 
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 import { BoxArrowRight, List,  X } from "react-bootstrap-icons";
 
 import { ToggleSidebarAction } from "../../redux/actions/action";
@@ -22,7 +22,7 @@ const Sidebar = () => {
   const isOpen = useAppSelector((state) => state.sidebar.isOpen);
   const loggedUser: IUser = useAppSelector((state) => state.users.user)
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
-  const navigate = useNavigate()
+  
  
 
   const toggleSidebar = () => {
@@ -46,6 +46,7 @@ const Sidebar = () => {
       setIsAdmin(false)
     }}
   }, [loggedUser])
+
 
   
 
@@ -126,17 +127,17 @@ const Sidebar = () => {
                 <Person size={isOpen ? 24 : 24} />
                 {isOpen && <span className="ms-2 menu__text">Profilo</span>}
           </Link> */}
-          <button
-          
-            className="menu__item my-3 border-0 bg-transparent"
+          <Link
+            to="/login"
+            className="menu__item my-3 border-0 bg-transparent nav-link"
             onClick={ () =>{
-              navigate("/")
               localStorage.removeItem("accessToken")
+              
             }}
           >
           <BoxArrowRight size={24} />
-          {isOpen && <span className="ms-2 menu__text">Logout</span>}
-          </button>
+          {isOpen && <span className="ms-2 menu__text">Esci</span>}
+          </Link>
           <div className="copyright mb-3">
             {isOpen ? "©Andrea Geria 2024" : ""}
           </div>

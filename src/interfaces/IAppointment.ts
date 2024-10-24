@@ -20,7 +20,7 @@ export interface IAppointments {
     staff: ISelectedStaff;
     startTime: Date;
     endTime?: Date;
-    isPayed?: boolean
+    payed?: boolean
 }
 
 export interface IUpdateAppointment {

@@ -25,7 +25,6 @@ const Agenda: React.FC = () => {
     const dispatch = useAppDispatch();
     const [selectedStaff, setSelectedStaff] = useState<string>("");
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
-    const isPayed = useAppSelector((state) => state.cash.isPayed)
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<IAppointments | null>({
@@ -34,7 +33,6 @@ const Agenda: React.FC = () => {
         staff: {} as ISelectedStaff,
         startTime: new Date(),
         endTime: new Date(), 
-        isPayed: isPayed
     });
     const [selectedSlot, setSelectedSlot] = useState<string>("");
     
@@ -54,16 +52,12 @@ const Agenda: React.FC = () => {
                 start,
                 end,
                 staff: `${appointment.staff.name}`,
-                isPayed: isPayed,
+                payed: appointment.payed,
                 treatmentsList: appointment.treatmentsList
             };
         });
         setEvents(formattedEvents);
-          // console.log("Formatted EVENTS: ", formattedEvents)
-        // console.log("EVENTS", events)
-        // console.log("APPOINTMENT: ", appointments)
-        // console.log("DATE: ", new Date(2024,10,13,21,56))
-    }, [appointments, isPayed]);
+    }, [appointments]);
 
 
     const currentDay = dayjs(currentDate).format("dddd")
@@ -173,7 +167,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
       };
 
       const eventStyleGetter: EventPropGetter<IEvents> = (event) => {
-        const backgroundColor = event.isPayed ? 'lightgreen' : 'blue';
+        const backgroundColor = event.payed ? 'lightgray' : 'blue';
         const style = {
             backgroundColor: backgroundColor,
             borderRadius: '0.7rem',
@@ -190,7 +184,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     };
     
     
-
+console.log("PAYED: ", selectedEvent?.payed)
 
     useEffect(() => {
         dispatch(getStaffs());

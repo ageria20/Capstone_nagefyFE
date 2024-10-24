@@ -5,7 +5,7 @@ import { CLIENT, ClientMeAction, UserAction, USERS } from "./action"
 export const getUser = () => {
     return async (dispatch: Dispatch<UserAction>) => {
       try {
-        const accessToken = localStorage.getItem("accessToken"); // Corretto nome del token
+        const accessToken = localStorage.getItem("accessToken"); 
         if (!accessToken) {
           console.log("No access token found");
           return;
@@ -19,7 +19,7 @@ export const getUser = () => {
   
         if (resp.ok) {
           const user = await resp.json();
-          console.log(user); // Verifica che l'utente venga ricevuto correttamente
+          console.log(user); 
           dispatch({ type: USERS, payload: user });
         } else {
           console.log("Errore nel fetch dell'utente");

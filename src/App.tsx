@@ -27,11 +27,11 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-     <Route path='/' element={<Login/>}/>
+     <Route path='/login' element={<Login/>}/>
      <Route path='/login-staff' element={<LoginStaff/>}/>
      <Route path='/login-client' element={<LoginClient/>}/>
      <Route path='/register' element={<Register/>}/>
-     <Route path='/profile' element={<ProfileSection/>}/>
+     <Route path='/' element={<ProfileSection/>}/>
      <Route path='/agenda' element={<Agenda/>}/>
      <Route path='/rubrica' element={<Rubrica/>}/>
      <Route path='/trattamenti' element={<Treatments/>}/>
