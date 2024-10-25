@@ -71,9 +71,8 @@ const handleShowModal = () => setShowModal(true);
 
 useEffect(() => {
   dispatch(getClients())
-  console.log(clients)
 // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [])
+}, [dispatch])
 
   return (
     <div>
@@ -143,7 +142,9 @@ useEffect(() => {
                 <Col className='d-flex justify-content-end align-items-center'>
                 <Button 
                   className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                  onClick={() => dispatch(deleteClient(selectedClient.id))}>
+                  onClick={() => {dispatch(deleteClient(selectedClient.id))
+                    setSelectedClient({} as IClient);
+                  }}>
                   <Trash className='my-1 d-flex w-100'/>
                 </Button>
                 </Col>

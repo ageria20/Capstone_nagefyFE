@@ -77,9 +77,9 @@ const Treatments = () => {
 
   useEffect(() => {
     dispatch(getTreatments());
-    console.log("SELECTED TREATMENT: ", selectedTreatment)
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -155,6 +155,7 @@ const Treatments = () => {
                           className="my-3 rounded-circle border-danger bg-transparent text-danger"
                           onClick={() => {
                             dispatch(deleteTreatment(selectedTreatment.id));
+                            setSelectedTreatment({} as ITreatment)
                           }}
                         >
                           <Trash className="my-1 d-flex w-100" />

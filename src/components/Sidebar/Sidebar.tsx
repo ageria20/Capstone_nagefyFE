@@ -128,7 +128,7 @@ const Sidebar = () => {
                 {isOpen && <span className="ms-2 menu__text">Profilo</span>}
           </Link> */}
           <Link
-            to="/login"
+            to="/"
             className="menu__item my-3 border-0 bg-transparent nav-link"
             onClick={ () =>{
               localStorage.removeItem("accessToken")

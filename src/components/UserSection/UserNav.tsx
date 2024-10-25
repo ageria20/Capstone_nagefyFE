@@ -44,7 +44,7 @@ useEffect(() => {
 
              
               <Dropdown.Item className='text-white custom-dropdown-item p-2' onClick={() => {
-                navigate("/login-client")
+                navigate("/")
                 localStorage.removeItem("accessToken")
                 }}>
                 <span><IoLogOut className='me-2'/>{" "}</span> Logout

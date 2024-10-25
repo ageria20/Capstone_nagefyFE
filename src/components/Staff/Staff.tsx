@@ -72,7 +72,7 @@ const Staff = () => {
       dispatch(getStaffs())
       
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [dispatch])
     
       return (
         <div>
@@ -141,7 +141,9 @@ const Staff = () => {
                     <Col className='d-flex justify-content-end align-items-center'>
                     <Button 
                       className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                      onClick={() => dispatch(deleteStaff(selectedStaff.id))}>
+                      onClick={() => {dispatch(deleteStaff(selectedStaff.id))
+                        setSelectedStaff({} as IStaff)
+                      }}>
                       <Trash className='my-1 d-flex w-100'/>
                     </Button>
                     </Col>

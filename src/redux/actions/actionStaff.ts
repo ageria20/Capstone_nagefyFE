@@ -111,7 +111,7 @@ export const deleteStaff = (staffId: string | undefined) => {
                 },
             })
             if(resp.ok){
-                notify("Trattamento eliminato")
+                notify("Staff eliminato")
                 dispatch(getStaffs())
             } else{
                 console.log(resp.statusText)

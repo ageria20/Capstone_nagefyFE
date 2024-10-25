@@ -55,6 +55,7 @@ const toggleShowPassword = () => {
       <h3 className='p-3 text-center'>Registrati</h3>
       
       <Form className='registerForm mx-auto' onSubmit={handleSubmit}>
+      <h3 className='p-3 text-center'>ADMIN</h3>
       <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Nome</Form.Label>
           <Form.Control type="name" name="name" placeholder="Nome" autoFocus required onChange={handleChange}/>
@@ -65,7 +66,7 @@ const toggleShowPassword = () => {
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Telefono</Form.Label>
-          <Form.Control type="telephone" name="telephone" placeholder="Cognome" autoFocus required onChange={handleChange}/>
+          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
