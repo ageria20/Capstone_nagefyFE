@@ -24,7 +24,7 @@ const toggleShowPassword = () => {
 }
 
 useEffect(() => {
-    console.log("EMAIL URL: ", email)
+    
 })
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   e.preventDefault()
@@ -37,7 +37,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         return;
     }
     else{
-        console.log("Email inviata al server:", email);
+        
     try{
         const resp = await fetch(`http://localhost:8080/staffs/reset?email=${email}`, {
           method: "PUT",

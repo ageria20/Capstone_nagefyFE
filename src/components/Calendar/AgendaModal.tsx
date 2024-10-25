@@ -50,7 +50,7 @@ const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const staffMemberName = e.target.value;
     const staffObject = staffs.find(s => s.name === staffMemberName);
     if (staffObject) {
-      console.log("STAFF: ", staffObject)
+      
         setSelectedStaff(staffObject);
         setNewAppointment(prevAppointment => ({ ...prevAppointment, staff: staffObject.id }));
     } else {
@@ -140,7 +140,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   useEffect(() => {
     if (selectedEvent) {
       
-      console.log("SELECTED EVENT", selectedEvent)
+      
       setNewAppointment({
         user: selectedEvent.user?.id || "",
         treatments: selectedEvent.treatmentsList, 

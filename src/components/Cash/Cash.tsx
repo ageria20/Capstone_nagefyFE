@@ -60,13 +60,13 @@ const Cash = () => {
   const handleSaveCash = () => {
     dispatch(createCash(newCash));
     navigate("/agenda");
-    console.log("NEW CASH: ", newCash);
+    
   };
 
   const handlePaymentMethod = (e: React.ChangeEvent<HTMLInputElement>) => {
     const paymentType = e.target.value;
     setPaymentMethod(paymentType);
-    console.log("PAYMENT TYPE: ", paymentType);
+    
   };
 
   const handleDiscount = (e: React.ChangeEvent<HTMLInputElement>) => {

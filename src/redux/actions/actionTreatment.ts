@@ -62,8 +62,6 @@ export const updateTreatment = (treatmentId: string | undefined, appointment: IT
                 body: JSON.stringify(appointment)
             })
             if(resp.ok){
-                const treatment = await resp.json();
-                console.log("Risposta dal backend:", treatment);
                 notify("Trattamento modificato")
                 dispatch(getTreatments())
             } else{

@@ -17,7 +17,6 @@ export const getAppointments = () => {
             })
             if(resp.ok){
                 const appointments = await resp.json()
-                console.log("Appuntamenti ricevuti dal backend:", appointments.content);
                 dispatch(setAppointment(appointments.content))
             } else{
                 throw new Error("Get clients error")
@@ -41,7 +40,7 @@ export const getAppointmentsById = (appointmentId: string | undefined) => {
             })
             if(resp.ok){
                 const appointment = await resp.json()
-                console.log("Appuntamento con ID ricevuto dal backend:", appointment);
+                
                 dispatch(setSelectedAppointment(appointment))
             } else{
                 throw new Error("Get clients error")
@@ -93,8 +92,8 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
                 body: JSON.stringify(appointment)
             })
             if(resp.ok){
-                const updatedData = await resp.json();
-                console.log("Risposta dal backend:", updatedData);
+            
+                
                 notify("Appuntamento modificato")
                 dispatch(getAppointments())
             } else{

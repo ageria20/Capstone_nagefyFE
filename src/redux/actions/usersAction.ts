@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { CLIENT, ClientMeAction, UserAction, USERS } from "./action"
+import { CLIENT, ClientMeAction, notifyErr, UserAction, USERS } from "./action"
 
 
 
@@ -8,10 +8,9 @@ export const getUser = () => {
       try {
         const accessToken = localStorage.getItem("accessToken"); 
         if (!accessToken) {
-          console.log("No access token found");
+          notifyErr("Login errato");
           return;
         }
-  
         const resp = await fetch("http://localhost:8080/users/me", {
           headers: {
             Authorization: "Bearer " + accessToken,
@@ -20,7 +19,6 @@ export const getUser = () => {
   
         if (resp.ok) {
           const user = await resp.json();
-          console.log(user); 
           dispatch({ type: USERS, payload: user });
         } else {
           console.log("Errore nel fetch dell'utente");
@@ -39,7 +37,7 @@ export const getUser = () => {
       try {
         const accessToken = localStorage.getItem("accessToken"); 
         if (!accessToken) {
-          console.log("No access token found");
+          notifyErr("Login errato");
           return;
         }
   
@@ -51,7 +49,6 @@ export const getUser = () => {
   
         if (resp.ok) {
           const client = await resp.json();
-          console.log(client);
           dispatch({ type: CLIENT, payload: client });
         } else {
           console.log("Errore nel fetch dell'utente");

@@ -131,11 +131,6 @@ const Report = () => {
                 if (Array.isArray(cashFiltered)) {
                setFilteredLastMonthReport(cashFiltered.reduce((acc: number, report: ICashed) => acc + report.total, 0))
                 }
-            console.log("FILTER CASH", cashFiltered)
-            console.log("TODAY",today)
-            console.log("START MONTH",startMonth)
-            console.log("END MONTH",endMonth)
-            } else{
                 throw new Error("Get clients error")
             }
         } catch (error){

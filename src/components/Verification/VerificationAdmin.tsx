@@ -14,8 +14,6 @@ const email = params.email
 const navigate = useNavigate()
 
 
-console.log("PARAMS: ", params.email)
-
 const verifyEmail = async () =>{
 
   try{

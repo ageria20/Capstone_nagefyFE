@@ -66,24 +66,24 @@ const toggleShowPassword = () => {
       <h3 className='p-3 text-center'>ADMIN</h3>
       <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Nome</Form.Label>
-          <Form.Control type="name" name="name" placeholder="Nome" autoFocus required onChange={handleChange}/>
+          <Form.Control type="name" name="name" placeholder="Nome" autoFocus required value={user.name} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Cognome</Form.Label>
-          <Form.Control type="surname" name="surname" placeholder="Cognome" autoFocus required onChange={handleChange}/>
+          <Form.Control type="surname" name="surname" placeholder="Cognome" autoFocus required value={user.surname} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Telefono</Form.Label>
-          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required onChange={handleChange}/>
+          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required value={user.telephone} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required onChange={handleChange}/>
+          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required value={user.email} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="p-1" controlId="exampleForm.ControlInput2">
           <Form.Label>Password</Form.Label>
           <div className='position-relative'>
-          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required onChange={handleChange}/>
+          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required value={user.password} onChange={handleChange}/>
           
           <span
                 className="password-toggle-icon"

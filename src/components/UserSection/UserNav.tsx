@@ -14,7 +14,6 @@ const navigate = useNavigate()
 const loggedUser = useAppSelector((state) => state.clientsList.clientMe)
 const dispatch = useAppDispatch()
 
-console.log("LOGGED USER ", loggedUser )
 useEffect(() => {
     dispatch(getClientMe())
 }, [dispatch])

@@ -1,3 +1,4 @@
+import { ITreatment } from "../../interfaces/ITreatment";
 import { TreatmentAction, TREATMENTS } from "../actions/action";
 
 interface TreatmentState{

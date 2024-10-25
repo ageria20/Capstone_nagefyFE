@@ -82,7 +82,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     ) : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 30);
 
     const handleNavigate = (newDate: Date, view: View) => {
-        console.log(view);
+    console.log(view);
         
         setCurrentDate(newDate);
     };
@@ -90,7 +90,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     const filterStaffEvents = selectedStaff
         ? events.filter((e) => e.staff === selectedStaff)
         : events;
-    console.log("FILTERED EVENTS: ", filterStaffEvents)
+    
     const handleToday = () => {
         setCurrentDate(new Date());
     };
@@ -107,8 +107,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
             evt.id === event.id ? updatedEvent : evt
         );
     
-        console.log("UPDATED EVENTS", updatedEvent.id)
-        console.log("START EVENTS", updatedEvent.start)
+        
         setEvents(updatedEvents);
     
        
@@ -119,18 +118,18 @@ const maxTime = todayOrari && isDayOpen ? new Date(
             return fullStartTime === eventStartTime; 
         });
         if (fullAppointment && fullAppointment.id) {
-            console.log("FULL APPOINTMENT: ", fullAppointment)
+            
             const updatedAppointment: IUpdateAppointment = {
                 id: fullAppointment.id,
                 treatments: fullAppointment.treatmentsList,
                 staff: fullAppointment.staff.id,
                 startTime: dayjs(start).format("YYYY-MM-DDTHH:mm:ss"),
             };
-            console.log("UPDATED APPOINTMENT: ", updatedAppointment)
+            
         
                 try {
                     await dispatch(updateAppointment(updatedAppointment.id, updatedAppointment));
-                    console.log("Appuntamento aggiornato con successo!");
+                    
                     dispatch(getAppointments()); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
                 } catch (err) {
                     console.error("Errore nell'aggiornamento dell'appuntamento: ", err);
@@ -142,13 +141,12 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         const startString: string = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
         setSelectedSlot(startString);
         setSelectedEvent(null)
-        console.log("DATE: ",startString)
-        console.log("SELECTED SLOT: ", selectedSlot)
+       
         setShowModal(true);
     };
 
     const handleEventSelect = (event: IEvents) => {
-        console.log("CLICKED EVENT: ", event);
+        
       
         
         const fullAppointment = appointments.find(appointment => {
@@ -158,7 +156,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         });
       
         if (fullAppointment) {
-          console.log("FULL APPOINTMENT: ", fullAppointment);
+          
           setSelectedEvent(fullAppointment);
         }
       
@@ -184,13 +182,13 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     };
     
     
-console.log("PAYED: ", selectedEvent?.payed)
+
 
     useEffect(() => {
         dispatch(getStaffs());
         dispatch(getAppointments());
         setSelectedSlot("")
-        console.log("CURRENT DATE",dayjs(currentDate).format("dddd").toLocaleUpperCase())
+        
     }, [currentDate, dispatch]);
 
     const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");

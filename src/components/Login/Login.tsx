@@ -53,7 +53,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 useEffect(() => {
   if(token){
  dispatch(getUser())
- console.log(loggedUser)
+ 
   }
  
 // eslint-disable-next-line react-hooks/exhaustive-deps

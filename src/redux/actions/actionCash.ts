@@ -39,13 +39,9 @@ export const createCash = (cash: ICash) => {
                 body: JSON.stringify(cash)
             })
             if(resp.ok){
-                console.log("CASH", cash)
-                console.log("RESP", resp)
                 dispatch(getCash())
                 dispatch(getAppointments())
-            } else{
-                console.log(resp.statusText)
-            }
+            } 
         } catch (error){
             console.log(error)
         }

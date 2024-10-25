@@ -116,7 +116,6 @@ export const getAppointmentsMe = () => {
             })
             if(resp.ok){
                 const appointmentsClient = await resp.json()
-                console.log("Appuntamenti ricevuti dal backend:", appointmentsClient.content);
                 dispatch(setClientAppointment(appointmentsClient.content))
             } else{
                 throw new Error("Get clients error")

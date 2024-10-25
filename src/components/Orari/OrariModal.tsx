@@ -26,7 +26,7 @@ const OrariModal: React.FC<UpdateHoursModalProps> = ({show, handleClose, selecte
       };
 
       const handleSave = () => {
-        // Dispatch per aggiornare gli orari nel Redux store
+     
         dispatch(updateOrari({ day: selectedDay.day, hours }));
         handleClose(); // Chiudi il modale
       };
