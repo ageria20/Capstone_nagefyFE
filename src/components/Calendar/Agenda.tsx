@@ -146,7 +146,9 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     };
 
     const handleEventSelect = (event: IEvents) => {
-        
+        if(event.payed){
+            return;
+        }
       
         
         const fullAppointment = appointments.find(appointment => {
@@ -200,7 +202,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
                 localizer={localizer}
                 events={filterStaffEvents}
                 defaultView="day"
-                draggableAccessor={() => true}
+                draggableAccessor={(event) => !event.payed}
                 step={15}
                 timeslots={1}
                 min={minTime}
