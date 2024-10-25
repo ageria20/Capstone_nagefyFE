@@ -34,7 +34,14 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await resp.json()
-      setIsOk(true)
+      setClient({
+          name: "",
+          surname: "",
+          telephone: "",
+          email: "",
+          password: ""
+        })
+        setIsOk(true)
     }
   } catch (error) {
     console.log(error);
@@ -58,24 +65,24 @@ const toggleShowPassword = () => {
       <Form className='registerForm mx-auto' onSubmit={handleSubmit}>
       <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Nome</Form.Label>
-          <Form.Control type="name" name="name" placeholder="Nome" autoFocus required onChange={handleChange}/>
+          <Form.Control type="name" name="name" placeholder="Nome" autoFocus required value={client.name} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Cognome</Form.Label>
-          <Form.Control type="surname" name="surname" placeholder="Cognome" autoFocus required onChange={handleChange}/>
+          <Form.Control type="surname" name="surname" placeholder="Cognome" autoFocus required value={client.surname} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Telefono</Form.Label>
-          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required onChange={handleChange}/>
+          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required value={client.telephone} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required onChange={handleChange}/>
+          <Form.Control type="email" name="email" placeholder="name@example.com" autoFocus required value={client.email} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="p-1" controlId="exampleForm.ControlInput2">
           <Form.Label>Password</Form.Label>
           <div className='position-relative'>
-          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required onChange={handleChange}/>
+          <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="Inserisci la password" required value={client.password} onChange={handleChange}/>
           
           <span
                 className="password-toggle-icon"

@@ -1,14 +1,14 @@
 import { FormEvent, useState } from 'react'
-import { Button, Container, Form, Image } from 'react-bootstrap'
-import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
+import { Alert, Button, Container, Form, Image } from 'react-bootstrap'
+import { ExclamationOctagonFill, EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Register = () => {
   
     const [showPassword, setShwPassword] = useState(false)
-    const navigate = useNavigate()
+    const [isOk, setIsOk] = useState(false)
 
 const [user, setUser] = useState({
   name: "",
@@ -33,7 +33,15 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await resp.json()
-      navigate("/")
+      setIsOk(true)
+      setUser({
+        name: "",
+        surname: "",
+        telephone: "",
+        email: "",
+        password: ""
+      })
+
     }
   } catch (error) {
     console.log(error);
@@ -50,7 +58,7 @@ const toggleShowPassword = () => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <Image src={nagefyLogo} alt="nageft_logo" width={150}/>
+        <Image src={nagefyLogo} alt="nagefy_logo" width={150}/>
     <Container className="shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'>Registrati</h3>
       
@@ -100,6 +108,7 @@ const toggleShowPassword = () => {
         </div>
       </Form>
     </Container>
+    {isOk ?  <Alert className='mt-5 d-flex align-items-center border-danger p-4' variant="danger"><ExclamationOctagonFill className='me-3'/> Verifica la tua Email prima di effettuare il login</Alert> : ""}
   </div>
   )
 }
