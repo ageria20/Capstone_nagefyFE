@@ -1,16 +1,17 @@
 import { FormEvent, useState } from 'react'
-import { Button, Container, Form, Image } from 'react-bootstrap'
-import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
+import { Alert, Button, Container, Form, Image } from 'react-bootstrap'
+import { ExclamationOctagonFill, EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const Register = () => {
+const RegisterClient = () => {
   
     const [showPassword, setShwPassword] = useState(false)
-    const navigate = useNavigate()
+    
+    const [isOk, setIsOk] = useState(false)
 
-const [user, setUser] = useState({
+const [client, setClient] = useState({
   name: "",
   surname: "",
   telephone: "",
@@ -23,17 +24,17 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   e.preventDefault()
 
   try{
-    const resp = await fetch(`http://localhost:8080/auth/register`, {
+    const resp = await fetch(`http://localhost:8080/auth/client-register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(client)
     });
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await resp.json()
-      navigate("/")
+      setIsOk(true)
     }
   } catch (error) {
     console.log(error);
@@ -42,7 +43,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 }
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setUser({...user, [e.target.name]: e.target.value})
+  setClient({...client, [e.target.name]: e.target.value})
 }
 const toggleShowPassword = () => {
     setShwPassword(!showPassword)
@@ -50,12 +51,11 @@ const toggleShowPassword = () => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <Image src={nagefyLogo} alt="nageft_logo" width={150}/>
+        <Image src={nagefyLogo} alt="nagefy_logo" width={150}/>
     <Container className="shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'>Registrati</h3>
       
       <Form className='registerForm mx-auto' onSubmit={handleSubmit}>
-      <h3 className='p-3 text-center'>ADMIN</h3>
       <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Nome</Form.Label>
           <Form.Control type="name" name="name" placeholder="Nome" autoFocus required onChange={handleChange}/>
@@ -100,8 +100,9 @@ const toggleShowPassword = () => {
         </div>
       </Form>
     </Container>
+      {isOk ?  <Alert className='mt-5 d-flex align-items-center border-danger p-4' variant="danger"><ExclamationOctagonFill className='me-3'/> Verifica la tua Email prima di effettuare il login</Alert> : ""}
   </div>
   )
 }
 
-export default Register
+export default RegisterClient

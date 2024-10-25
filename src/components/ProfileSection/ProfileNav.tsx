@@ -53,7 +53,7 @@ const navigate = useNavigate()
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Button className=" registrati-btn rounded-4 px-4 ms-3" onClick={() => navigate("/register")}>
+          <Button className=" registrati-btn rounded-4 px-4 ms-3" onClick={() => navigate("/register-client")}>
             Registrati
           </Button>
         </Navbar.Collapse>

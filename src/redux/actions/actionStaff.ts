@@ -78,7 +78,7 @@ export const updateStaff = (staffId: string | undefined, staff: IStaff) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/treatments/${staffId}`, {
+            const resp = await fetch(`http://localhost:8080/staffs/${staffId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,

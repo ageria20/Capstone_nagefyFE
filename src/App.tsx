@@ -19,6 +19,7 @@ import UserPage from './components/UserSection/UserPage'
 import EditPage from './components/UserSection/EditPage'
 import Report from './components/Report/Report'
 import Verification from './components/Verification/Verification'
+import RegisterClient from './components/Register/RegisterClient'
 
 
 
@@ -33,6 +34,7 @@ function App() {
      <Route path='/login-client' element={<LoginClient/>}/>
      <Route path='/verify-client/:email' element={<Verification/>}/>
      <Route path='/register' element={<Register/>}/>
+     <Route path='/register-client' element={<RegisterClient/>}/>
      <Route path='/' element={<ProfileSection/>}/>
      <Route path='/agenda' element={<Agenda/>}/>
      <Route path='/rubrica' element={<Rubrica/>}/>

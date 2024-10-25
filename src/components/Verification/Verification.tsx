@@ -4,7 +4,7 @@ import { Button, Container,  Image} from 'react-bootstrap'
 import {  useEffect, } from 'react'
 import { useNavigate, useParams} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
-import { notify } from '../../redux/actions/action'
+
 
 const Verification = () => {
 
@@ -19,7 +19,7 @@ console.log("PARAMS: ", params.email)
 const verifyEmail = async () =>{
 
   try{
-    const resp = await fetch(`http://localhost:8080/auth/verify-email/${email}`, {
+    const resp = await fetch(`http://localhost:8080/auth/verify-client/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -47,6 +47,7 @@ useEffect(() => {
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
         <Image src={nagefyLogo} alt="nagefy_logo" />
     <Container className="m-3 shadow-lg container-custom rounded-4 p-5 d-flex justify-content-center align-content-center flex-column">
+        <h1 className='text-center'>GRAZIE</h1>
       <h3 className='p-3 text-center'><strong>Email confermata con successo!</strong></h3>
      
       
