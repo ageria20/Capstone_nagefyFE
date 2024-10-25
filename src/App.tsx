@@ -18,6 +18,7 @@ import LoginClient from './components/Login/LoginClient'
 import UserPage from './components/UserSection/UserPage'
 import EditPage from './components/UserSection/EditPage'
 import Report from './components/Report/Report'
+import Verification from './components/Verification/Verification'
 
 
 
@@ -30,6 +31,7 @@ function App() {
      <Route path='/login' element={<Login/>}/>
      <Route path='/login-staff' element={<LoginStaff/>}/>
      <Route path='/login-client' element={<LoginClient/>}/>
+     <Route path='/verify-client/:email' element={<Verification/>}/>
      <Route path='/register' element={<Register/>}/>
      <Route path='/' element={<ProfileSection/>}/>
      <Route path='/agenda' element={<Agenda/>}/>
