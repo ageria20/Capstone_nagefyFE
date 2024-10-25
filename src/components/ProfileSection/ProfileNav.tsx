@@ -35,21 +35,21 @@ const navigate = useNavigate()
             </Nav.Link>
           </Nav>
           <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic" className="accedi-btn rounded-4 px-4">
+            <Dropdown.Toggle id="dropdown-basic" className="accedi-btn rounded-4 px-4 mb-0">
               Accedi
             </Dropdown.Toggle>
 
-            <Dropdown.Menu className='custom-dropdown'>
+            <Dropdown.Menu className='custom-dropdown mt-0'>
             <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login")}>
-                nagefy pro
+                Nagefy Pro
               </Dropdown.Item>
               <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login-staff")}>
-                nagefy Staff
+                Login Staff
               </Dropdown.Item>
 
              
               <Dropdown.Item className='text-white custom-dropdown-item' onClick={() => navigate("/login-client")}>
-              nagefy Cliente
+              Login Cliente
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

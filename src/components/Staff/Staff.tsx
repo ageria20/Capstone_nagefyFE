@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Form, ListGroup, Row } from 'react-bootstrap'
 import { List, Plus, Trash, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Staff.css"
@@ -7,14 +7,14 @@ import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import NewStaffModal from './NewStaffModal';
 import { ToastContainer } from 'react-toastify';
-import { deleteStaff, getStaffs, searchStaff } from '../../redux/actions/actionStaff';
+import { deleteStaff, getStaffs, searchStaff, updateStaff } from '../../redux/actions/actionStaff';
 
 const Staff = () => {
     const dispatch = useAppDispatch()
     const isOpen = useAppSelector((state) => state.sidebar.isOpen)
     const [query, setQuery] = useState("")
     const staffs: IStaff[] = useAppSelector((state) => state.staffList.staffs)
-    const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
+    const [selectedStaff, setSelectedStaff] = useState<IStaff>({} as IStaff);
     const [showModal, setShowModal] = useState(false); 
     
     
@@ -41,8 +41,19 @@ const Staff = () => {
     }
     }
     
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setSelectedStaff((prevStaff: IStaff) => ({
+        ...prevStaff,
+        [name]: value,
+      }));
+    };
     
-    
+    const handleUpdateStaff = (selectedStaffId: string | undefined) => {
+      if (selectedStaffId) {
+        dispatch(updateStaff(selectedStaffId, selectedStaff));
+      }
+    };
     
     
     const clearSearch = () => {
@@ -113,7 +124,8 @@ const Staff = () => {
             </Col>
     
             <Col xs={12} md={7} lg={9} className="p-4">
-              {selectedStaff ? (
+              {selectedStaff.id ? (
+                <>
                 <Card>
                   <Card.Body>
                     <Row>
@@ -129,15 +141,67 @@ const Staff = () => {
                     <Col className='d-flex justify-content-end align-items-center'>
                     <Button 
                       className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                      onClick={() => {dispatch(deleteStaff(selectedStaff.id))
-                        setSelectedStaff(null)
-                        console.log(selectedStaff.id)}}>
+                      onClick={() => dispatch(deleteStaff(selectedStaff.id))}>
                       <Trash className='my-1 d-flex w-100'/>
                     </Button>
                     </Col>
                     </Row>
                   </Card.Body>
                 </Card>
+                 <Container className="mt-5">
+                 <Form.Group className="mb-3" controlId="formBasicPassword">
+                   <Form.Label>Nome</Form.Label>
+                   <Form.Control
+                     type="text"
+                     placeholder="Nome"
+                     required
+                     name="name"
+                     value={selectedStaff.name}
+                     onChange={handleInputChange}
+                   />
+                 </Form.Group>
+                 <Form.Group className="mb-3" controlId="formBasicPassword">
+                   <Form.Label>Cognome</Form.Label>
+                   <Form.Control
+                     type="text"
+                     placeholder="Cognome"
+                     required
+                     name="surname"
+                     value={selectedStaff.surname}
+                     onChange={handleInputChange}
+                   />
+                 </Form.Group>
+                 <Form.Group className="mb-3" controlId="formBasicPassword">
+                   <Form.Label>Telefono</Form.Label>
+                   <Form.Control
+                     type="text"
+                     placeholder="Telefono"
+                     required
+                     name="telephone"
+                     value={selectedStaff.telephone}
+                     onChange={handleInputChange}
+                   />
+                 </Form.Group>
+                 <Form.Group className="mb-3" controlId="formBasicPassword">
+                   <Form.Label>Email</Form.Label>
+                   <Form.Control
+                     type="email"
+                     placeholder="Email"
+                     required
+                     name="email"
+                     value={selectedStaff.email}
+                     onChange={handleInputChange}
+                   />
+                 </Form.Group>
+                 <Button
+                   variant="primary"
+                   className="my-3 border-primary bg-transparent text-primary save-btn"
+                   onClick={() => handleUpdateStaff(selectedStaff.id)}
+                 >
+                   Salva
+                 </Button>
+               </Container>
+               </>
               ) : (
                 <p>Seleziona un membro dello Staff per vedere i dettagli.</p>
               )}

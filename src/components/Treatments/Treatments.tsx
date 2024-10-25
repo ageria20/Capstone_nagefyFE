@@ -135,7 +135,7 @@ const Treatments = () => {
           </Col>
 
           <Col xs={12} md={7} lg={9} className="p-4">
-            {selectedTreatment ? (
+            {selectedTreatment.id ? (
               <>
                 <Card>
                   <Card.Body>
@@ -155,7 +155,6 @@ const Treatments = () => {
                           className="my-3 rounded-circle border-danger bg-transparent text-danger"
                           onClick={() => {
                             dispatch(deleteTreatment(selectedTreatment.id));
-                            console.log(selectedTreatment.id);
                           }}
                         >
                           <Trash className="my-1 d-flex w-100" />

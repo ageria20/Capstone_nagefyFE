@@ -72,6 +72,33 @@ export const createStaff = (staff: INewStaff) => {
         }
     }
 }
+
+export const updateStaff = (staffId: string | undefined, staff: IStaff) => {
+    return async (dispatch: AppDispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+        
+            const resp = await fetch(`http://localhost:8080/treatments/${staffId}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: "Bearer "+accessToken,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(staff)
+            })
+            if(resp.ok){        
+                notify("Staff modificato")
+                dispatch(getStaffs())
+            } else{
+                console.log(resp.statusText)
+                notifyErr("Errore nella creazione ")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
 export const deleteStaff = (staffId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {

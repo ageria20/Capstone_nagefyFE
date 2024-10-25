@@ -26,6 +26,9 @@ export interface IClient {
     surname: string;
     telephone: string;
     email: string;
+    password?: string
+    role?: string
+    avatar?: string
 }
 
 export interface IEvents {

@@ -2,28 +2,28 @@
 
 
 import { useEffect, useState } from 'react'
-import { Button, Card, Col, Container, Image, ListGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Form, Image, ListGroup, Row } from 'react-bootstrap'
 import { List, Plus, Trash, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Rubrica.css"
 import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
-import { deleteClient, getClients, searchClients } from '../../redux/actions/actionClients';
+import { deleteClient, getClients, searchClients, updateClient } from '../../redux/actions/actionClients';
 import NewUserModal from './NewUserModal';
 import { ToastContainer } from 'react-toastify';
-import { IUser } from '../../interfaces/IUser';
+import { IClient } from '../../interfaces/IUser';
 
 
 const Rubrica = () => {
 const dispatch = useAppDispatch()
 const isOpen = useAppSelector((state) => state.sidebar.isOpen)
 const [query, setQuery] = useState("")
-const clients: IUser[] | undefined = useAppSelector((state) => state.clientsList.clients)
-const [selectedClient, setSelectedClient] = useState<IUser | null>(null);
+const clients: IClient[] | undefined = useAppSelector((state) => state.clientsList.clients)
+const [selectedClient, setSelectedClient] = useState<IClient>({} as IClient);
 const [showModal, setShowModal] = useState(false); 
 
 
-  const handleCustomerClick = (client: IUser) => {
+  const handleCustomerClick = (client: IClient) => {
     setSelectedClient(client);
   };
 
@@ -46,6 +46,20 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
 }
 }
 
+
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  setSelectedClient((prevStaff: IClient) => ({
+    ...prevStaff,
+    [name]: value,
+  }));
+};
+
+const handleUpdateClient = (selectedClientId: string | undefined) => {
+  if (selectedClientId) {
+    dispatch(updateClient(selectedClientId, selectedClient));
+  }
+};
 
 
 const handleShowModal = () => setShowModal(true);
@@ -109,7 +123,8 @@ useEffect(() => {
 
         {/* Colonna destra - Dettagli cliente selezionato */}
         <Col xs={12} md={7} lg={9} className="p-4 mt-4">
-          {selectedClient ? (
+          {selectedClient.id ? (
+            <>
             <Card>
               <Card.Body>
                 <Row>
@@ -128,14 +143,67 @@ useEffect(() => {
                 <Col className='d-flex justify-content-end align-items-center'>
                 <Button 
                   className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                  onClick={() => {dispatch(deleteClient(selectedClient.id))
-                    setSelectedClient(null)}}>
+                  onClick={() => dispatch(deleteClient(selectedClient.id))}>
                   <Trash className='my-1 d-flex w-100'/>
                 </Button>
                 </Col>
                 </Row>
               </Card.Body>
             </Card>
+             <Container className="mt-5">
+             <Form.Group className="mb-3" controlId="formBasicPassword">
+               <Form.Label>Nome</Form.Label>
+               <Form.Control
+                 type="text"
+                 placeholder="nome"
+                 required
+                 name="name"
+                 value={selectedClient.name}
+                 onChange={handleInputChange}
+               />
+             </Form.Group>
+             <Form.Group className="mb-3" controlId="formBasicPassword">
+               <Form.Label>Cognome</Form.Label>
+               <Form.Control
+                 type="text"
+                 placeholder="cognome"
+                 required
+                 name="surname"
+                 value={selectedClient.surname}
+                 onChange={handleInputChange}
+               />
+             </Form.Group>
+             <Form.Group className="mb-3" controlId="formBasicPassword">
+               <Form.Label>Telefono</Form.Label>
+               <Form.Control
+                 type="text"
+                 placeholder="telefono"
+                 required
+                 name="telephone"
+                 value={selectedClient.telephone}
+                 onChange={handleInputChange}
+               />
+             </Form.Group>
+             <Form.Group className="mb-3" controlId="formBasicPassword">
+               <Form.Label>Email</Form.Label>
+               <Form.Control
+                 type="email"
+                 placeholder="Email"
+                 required
+                 name="email"
+                 value={selectedClient.email}
+                 onChange={handleInputChange}
+               />
+             </Form.Group>
+             <Button
+               variant="primary"
+               className="my-3 border-primary bg-transparent text-primary save-btn"
+               onClick={() => handleUpdateClient(selectedClient.id)}
+             >
+               Salva
+             </Button>
+           </Container>
+           </>
           ) : (
             <p>Seleziona un cliente per vedere i dettagli.</p>
           )}

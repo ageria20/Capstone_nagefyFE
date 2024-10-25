@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { CLIENT, ClientMeAction, UserAction, USERS } from "./action"
 
 
+
 export const getUser = () => {
     return async (dispatch: Dispatch<UserAction>) => {
       try {
@@ -29,6 +30,9 @@ export const getUser = () => {
       }
     };
   };
+
+
+
 
   export const getClientMe = () => {
     return async (dispatch: Dispatch<ClientMeAction>) => {
