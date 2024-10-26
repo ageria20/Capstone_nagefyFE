@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { ITreatment } from '../../interfaces/ITreatment';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { IAppointment } from '../../interfaces/IAppointment';
@@ -48,10 +48,8 @@ useEffect(() => {
     if (!treatments.length) {
         dispatch(getTreatments());
     }
-    console.log("CLIENT ME", meProfile)
-    console.log("STAFFS", staffs)
-    console.log("TREATMENTS", treatments)
-}, [dispatch]);
+    
+}, [dispatch, meProfile, staffs.length, treatments.length]);
 
 useEffect(() => {
     if (selectedStaff && selectedStaff.id) {
@@ -68,7 +66,7 @@ useEffect(() => {
     dispatch(getStaffs())
     dispatch(getTreatments())
     }
-}, [dispatch, formattedDate, freeSlots, selectedStaff?.id]);
+}, [currentDate, dispatch, formattedDate, freeSlots, selectedStaff?.id]);
 
 const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const staffMemberName = e.target.value;
@@ -173,7 +171,7 @@ const handleDateChange = (date: Date | null) => {
     className="rounded-5 px-2 py-1 w-sm-100 me-auto m-2"
 >
     <option value="">Seleziona un membro dello staff</option>
-    {staffs.map((staff) => (
+    {staffs.map((staff: IStaff) => (
         <option key={staff.id} value={staff.name}>
             {staff.name}
         </option>
@@ -186,29 +184,35 @@ const handleDateChange = (date: Date | null) => {
         </div>
       )}
     </Form.Group>
-    <Form.Label>Seleziona il giorno</Form.Label>
-    <Form.Group controlId="formClientSurname">
+    </Form>
+    <Row className='mt-3'>
+    <Col xs={12} md={6}>
+    <label>Seleziona il giorno</label>
+    </Col>
+    <Col xs={12} md={6}>
     <DatePicker
-            className='datePicker'
+            dateFormat="dd-MM-yyyy"
+            className="form-control rounded-5 px-3"
             selected={currentDate}
             onChange={(date) => {
             handleDateChange(date);
             getFreeSlots(selectedStaff?.id as string, formattedDate);
             }}
-            inline
+            
     />
+    </Col>
+    </Row>
         {freeSlots.length > 0 && (
         <div>
             <h5>Slot orari liberi:</h5>
             <ul>
                 {freeSlots.map((slot, _i) => (
-                    <li key={_i}>{dayjs(slot.startTime).format("HH:mm")} - {dayjs(slot.endTime).format("HH:mm")}</li>
+                    <li className='border w-25 p-1 border-black' key={_i}>{dayjs(slot.startTime).format("HH:mm")} - {dayjs(slot.endTime).format("HH:mm")}</li>
                 ))}
             </ul>
         </div>
         )}
-    </Form.Group>
-            </Form>
+    
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" className='my-3 border-secondary bg-transparent text-secondary undo-btn' onClick={handleClose}>
