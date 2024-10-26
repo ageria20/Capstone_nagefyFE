@@ -1,9 +1,9 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { setAppointment, setSelectedAppointment } from "../slices/appointmentsSlice"
+import { setAppointment, setFreeSlots, setSelectedAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
 import { notify, notifyErr } from "./action"
 
-import { IAppointment, IUpdateAppointment } from "../../interfaces/IAppointment"
+import { IAppointment, IFreeSlots, IUpdateAppointment } from "../../interfaces/IAppointment"
 import { getAppointmentsMe } from "./actionClients"
 
 export const getAppointments = () => {
@@ -18,6 +18,27 @@ export const getAppointments = () => {
             if(resp.ok){
                 const appointments = await resp.json()
                 dispatch(setAppointment(appointments.content))
+            } else{
+                throw new Error("Get clients error")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export const getFreeSlots = (staffId: string, selectedDay: string) => {
+    return async (dispatch: Dispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/appointments/free-slots?staff=${staffId}&date=${selectedDay}`, {
+                headers: {
+                    Authorization: "Bearer "+accessToken
+                },
+            })
+            if(resp.ok){
+                const freeSlots: IFreeSlots[] = await resp.json()
+                dispatch(setFreeSlots(freeSlots))
             } else{
                 throw new Error("Get clients error")
             }

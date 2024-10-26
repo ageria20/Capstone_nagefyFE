@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Button, Container, Form, Image} from 'react-bootstrap'
+import { Button, Container, Form, Image, Spinner} from 'react-bootstrap'
 import './Login.css'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { FormEvent, useEffect, useState } from 'react'
@@ -11,6 +11,7 @@ import { getStaffs } from '../../redux/actions/actionStaff'
 
 const LoginStaff = () => {
 const [showPassword, setShwPassword] = useState(false)
+const [isLoading, setIsLoading] = useState<boolean>(false)
 const [token, setToken] = useState("")
 const loggedUser = useAppSelector(state => state.users.user)
 const navigate = useNavigate()
@@ -30,6 +31,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   e.preventDefault()
 
   try{
+    setIsLoading(true)
     const resp = await fetch(`http://localhost:8080/auth/staff-login`, {
       method: "POST",
       headers: {
@@ -40,12 +42,14 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      navigate("/agenda")
       setToken(res.accessToken)
     }
   } catch (error) {
     console.log(error);
     
+  } finally{
+    setIsLoading(false)
+    navigate("/agenda")
   }
 }
 
@@ -105,7 +109,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           </div>
         </Form.Group>
         <div className='p-3'>
-        <Button type="submit" className="mb-3 mt-3 mx-auto">Login</Button>
+        <Button type="submit" className="mb-3 mt-3 mx-auto">{isLoading ?  <Spinner
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        /> : "Login"}</Button>
         </div>
         <div className='text-center'>
                 Non hai ancora un account? <Link className="nav-link" to="/register"><strong>Registrati</strong></Link>

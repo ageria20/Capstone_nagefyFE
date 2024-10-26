@@ -30,3 +30,8 @@ export interface IUpdateAppointment {
     startTime: Date | string;
 }
 
+
+export interface IFreeSlots{
+    startTime: Date | string
+    endTime: Date | string
+}

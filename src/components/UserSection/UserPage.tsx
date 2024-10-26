@@ -4,21 +4,30 @@ import UserNav from "./UserNav"
 import { useAppDispatch } from '../../redux/store/store'
 import { IAppointments } from '../../interfaces/IAppointment'
 import dayjs from 'dayjs'
-import { Trash } from 'react-bootstrap-icons'
+import { Calendar, Trash } from 'react-bootstrap-icons'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
 import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
 import { ToastContainer } from 'react-toastify'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
+import { ITreatment } from '../../interfaces/ITreatment'
+import BookingModal from './BookingModal'
 
 const UserPage = () => {
 
     const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<IAppointments[]>([])
     const [page, setPage] = useState<number>(0)
+    
+    const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([])
  
     const totalPrice = (appointment: IAppointments) => appointment.treatmentsList.reduce((acc, treatment) => acc + treatment.price, 0 || 0)
     
+    const [show, setShow] = useState<boolean>(false)
+
+
+    const handleShowModal = () => setShow(true);
+  const handleCloseModal = () => setShow(false);
 
     useEffect(() => {
         dispatch(getClientMe())
@@ -53,7 +62,14 @@ const UserPage = () => {
     <Container  fluid className='main-content p-3 my-0'>
         <UserNav/>
         <Container className='p-3'>
+            <Row>
+            <Col xs={8} md={8}>
             <h1 className='mb-5'>I tuoi Appuntamenti</h1>
+            </Col>
+            <Col xs={4} md={4}>
+                    <Button className="edit-btn" onClick={handleShowModal}><Calendar/> Prenota</Button>
+                    </Col>
+            </Row>
             <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
                     <Col xs={12} md={3}>
@@ -99,6 +115,13 @@ const UserPage = () => {
             <Button className='bg-transparent border-0'onClick={() => setPage(page + 1)}><BiRightArrow/> Avanti</Button>
             </Container>
         </Container>
+            <BookingModal 
+            show={show} 
+            handleClose={handleCloseModal}
+            setSelectedTreatment={setSelectedTreatment} 
+            selectedTreatment={selectedTreatment} 
+            startDateTime={""} 
+            formattedDate={""}/> 
         <ToastContainer/>
     </Container>
   )
