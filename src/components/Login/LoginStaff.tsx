@@ -8,6 +8,8 @@ import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch, useAppSelector } from '../../redux/store/store'
 import { getStaffs } from '../../redux/actions/actionStaff'
+import { notifyErr } from '../../redux/actions/action'
+import { ToastContainer } from 'react-toastify'
 
 const LoginStaff = () => {
 const [showPassword, setShwPassword] = useState(false)
@@ -43,13 +45,17 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
       setToken(res.accessToken)
+      navigate("/agenda")
+    }
+    else{
+      notifyErr("Credenziali errate")
     }
   } catch (error) {
+    
     console.log(error);
     
   } finally{
     setIsLoading(false)
-    navigate("/agenda")
   }
 }
 
@@ -122,6 +128,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </Form>
     </Container>
+    <ToastContainer/>
   </div>
   )
 }

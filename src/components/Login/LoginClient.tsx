@@ -9,6 +9,8 @@ import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch, useAppSelector } from '../../redux/store/store'
 import { getClients } from '../../redux/actions/actionClients'
 import { getClientMe } from '../../redux/actions/usersAction'
+import { notifyErr } from '../../redux/actions/action'
+import { ToastContainer } from 'react-toastify'
 
 const LoginClient = () => {
 const [showPassword, setShwPassword] = useState(false)
@@ -46,13 +48,15 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
      
       dispatch(getClientMe())
       setToken(res.accessToken)
+      navigate("/user-page")
+    } else {
+      notifyErr("Credenziali errate")
     }
   } catch (error) {
     console.log(error);
     
   } finally {
     setIsLoading(false)
-    navigate("/user-page")
   }
 }
 
@@ -64,16 +68,16 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
- useEffect(() =>{
-   if(loggedUser){
-        if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
-       navigate("/agenda")
-     }
-     else {
-       navigate("/profile")
-     }
-   }
- }, [loggedUser, navigate])
+//  useEffect(() =>{
+//    if(loggedUser){
+//         if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
+//        navigate("/agenda")
+//      }
+//      else {
+//        navigate("/profile")
+//      }
+//    }
+//  }, [loggedUser, navigate])
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})
@@ -124,6 +128,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </Form>
     </Container>
+    <ToastContainer/>
   </div>
   )
 }

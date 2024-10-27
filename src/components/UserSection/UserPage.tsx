@@ -123,7 +123,7 @@ const UserPage = () => {
             setSelectedTreatment={setSelectedTreatment} 
             selectedTreatment={selectedTreatment} 
             startDateTime={""} 
-            formattedDate={""}/> 
+            /> 
         <ToastContainer/>
     </Container>
   )

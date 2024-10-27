@@ -57,7 +57,7 @@ export type SidebarActions = ToggleSidebarAction;
 
 export const notify = (str: string) => {
     toast.success(str, {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -72,7 +72,7 @@ export const notify = (str: string) => {
 
 export const notifyErr = (str: string) => {
     toast.error(str, {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
