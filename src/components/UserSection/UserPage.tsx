@@ -56,18 +56,19 @@ const UserPage = () => {
 
     useEffect(() => {
         getAppointmentsClient(page)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
   return (
     <Container  fluid className='main-content p-3 my-0'>
         <UserNav/>
         <Container className='p-3'>
-            <Row>
+            <Row className='align-items-center'>
             <Col xs={8} md={8}>
             <h1 className='mb-5'>I tuoi Appuntamenti</h1>
             </Col>
             <Col xs={4} md={4}>
-                    <Button className="edit-btn" onClick={handleShowModal}><Calendar/> Prenota</Button>
+                    <Button className="edit-btn mb-5" onClick={handleShowModal}><Calendar className='me-2 mb-1'/> Prenota</Button>
                     </Col>
             </Row>
             <Row>
@@ -110,10 +111,11 @@ const UserPage = () => {
                       </Col>
                 )}
             </Row>
-            <Container className='d-flex justify-content-between align-items-center mx-auto' style={{width: "150px"}}>
+           { appointments.length > 0 && <Container className='d-flex justify-content-between align-items-center mx-auto' style={{width: "150px"}}>
             <Button className='bg-transparent border-0' onClick={() => setPage(page - 1)}><BiLeftArrow/> Indietro</Button>
             <Button className='bg-transparent border-0'onClick={() => setPage(page + 1)}><BiRightArrow/> Avanti</Button>
             </Container>
+            }
         </Container>
             <BookingModal 
             show={show} 
