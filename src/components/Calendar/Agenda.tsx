@@ -193,8 +193,9 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         
     }, [currentDate, dispatch]);
 
-    const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");
-
+    
+    const formattedDate = dayjs(currentDate).format("ddd DD MMMM").toLocaleUpperCase();
+    
     return (
         
         <Container fluid className="d-flex flex-column justify-content-center align-items-center">

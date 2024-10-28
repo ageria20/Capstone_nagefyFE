@@ -31,6 +31,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
     const staffs = useAppSelector((state) => state.staffList.staffs)
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+    
 
     const toggleSidebar = () => {
         dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
@@ -68,7 +69,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
         <div style={{ marginTop: '5px' }} className='d-flex justify-content-center align-items-center position-relative'>
-        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column justify-content-center mb-0 align-items-center p-2'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,2).toUpperCase()}</p>
+        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column justify-content-center mb-0 align-items-center p-2'>{formattedDate.toUpperCase()}</p>
         
                 {isDatePickerOpen && 
                 <div style={{position: 'absolute', 

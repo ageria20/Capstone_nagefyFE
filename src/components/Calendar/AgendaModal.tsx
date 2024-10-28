@@ -59,9 +59,9 @@ const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 };
 
 const handleClientSelect = (client: IClient) => {
-    setNewAppointment((prevAppointment) => ({ ...prevAppointment, user: client.id }));
-    setQueryClient(client.name);
-    setFilteredClients([]);
+  setNewAppointment((prevAppointment) => ({ ...prevAppointment, user: client.id }));
+  setQueryClient(client.name + " " + client.surname); 
+  setFilteredClients([]);
 };
 
 useEffect(() => {
