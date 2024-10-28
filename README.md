@@ -28,7 +28,7 @@ Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
 
 # Tecnologie Usate
 
-<h2>Frontend<h2>
+<h2>Frontend</h2>
 <div align="left">
     <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white" />
     <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" />
@@ -41,7 +41,7 @@ Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
     <img src="https://img.shields.io/badge/VS_Code-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white" />
 </div>
 
-<h2>Backend<h2>
+<h2>Backend</h2>
 <div align="left">
     <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white" alt="Java" />
     <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="Spring" />
@@ -53,16 +53,16 @@ Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
     <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA" />
 </div>
 
-<h2>Database<h2>
+<h2>Database</h2>
 <div align="left">
     <img src="https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
 </div>
 
 # SETUP 🔧
 
-Frontend Setup
+<h2>Frontend Setup</h2>
  Go to the frontend directory.
- Run <img src="https://img.shields.io/badge/npm-install-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_install" /> to install the dependencies.<br> Configure the API endpoint URLs in the frontend code.<br> Run <img src="https://img.shields.io/badge/npm-run--dev-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_run_dev" /> to start the application. </div> Backend Setup
+ Run <img src="https://img.shields.io/badge/npm-install-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_install" /> to install the dependencies.<br> Configure the API endpoint URLs in the frontend code.<br> Run <img src="https://img.shields.io/badge/npm-run--dev-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_run_dev" /> to start the application. </div> <h2>Backend Setup</h2>
  <div align="left"> 
      Go to the backend directory.<br> 
      Set up a PostgreSQL database and configure the database connection in
