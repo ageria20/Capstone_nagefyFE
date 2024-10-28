@@ -65,7 +65,7 @@ Staff Management: Add new staff members (only the admin can create new staff).
  <div align="left"> 
      Go to the backend directory (https://github.com/ageria20/nagefy.git). <br> 
      Set up a PostgreSQL database and configure the database connection in
-     <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" />.<br> 
+     <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" /> (you can see al the details on example-properties file).<br> 
      Configure the email service in <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" /> .<br> Run the <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" alt="spring_boot" /> application . </div> 
 
 
