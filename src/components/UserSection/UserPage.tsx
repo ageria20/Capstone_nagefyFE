@@ -8,7 +8,6 @@ import { Trash } from 'react-bootstrap-icons'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
 import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
-import { ToastContainer } from 'react-toastify'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 
 const UserPage = () => {
@@ -99,7 +98,6 @@ const UserPage = () => {
             <Button className='bg-transparent border-0'onClick={() => setPage(page + 1)}><BiRightArrow/> Avanti</Button>
             </Container>}
         </Container>
-        <ToastContainer/>
     </Container>
   )
 }

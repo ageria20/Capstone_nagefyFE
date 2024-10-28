@@ -45,7 +45,6 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
           email: "",
           password: ""
         })
-        
         setIsOk(true)
     }
   } catch (error) {
