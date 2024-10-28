@@ -1,14 +1,17 @@
 import { FormEvent, useState } from 'react'
-import { Alert, Button, Container, Form, Image } from 'react-bootstrap'
+import { Alert, Button, Container, Form, Image, Spinner } from 'react-bootstrap'
 import { ExclamationOctagonFill, EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
 import { Link } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import { notify, notifyErr } from '../../redux/actions/action'
 
 const Register = () => {
   
     const [showPassword, setShwPassword] = useState(false)
     const [isOk, setIsOk] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
 const [user, setUser] = useState({
   name: "",
@@ -23,6 +26,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   e.preventDefault()
 
   try{
+    setIsLoading(true)
     const resp = await fetch(`http://localhost:8080/auth/register`, {
       method: "POST",
       headers: {
@@ -33,6 +37,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await resp.json()
+      
       setIsOk(true)
       setUser({
         name: "",
@@ -44,8 +49,12 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
     }
   } catch (error) {
+    notifyErr("Errore nella registrazione!")
     console.log(error);
     
+  } finally {
+    notify("Registrazione effettuata!")
+    setIsLoading(false)
   }
 }
 
@@ -101,7 +110,13 @@ const toggleShowPassword = () => {
           </div>
         </Form.Group>
         <div className='p-3'>
-        <Button type="submit" className="mb-3 mt-3 mx-auto">Crea Account</Button>
+        <Button type="submit" className="mb-3 mt-3 mx-auto">{isLoading ?  <Spinner
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        /> : "Crea Account"}</Button>
         </div>
         <div className='text-center'>
                 Hai già un account? <Link className='nav-link' to="/login-client"><strong>Effettua il login</strong></Link>
@@ -109,6 +124,7 @@ const toggleShowPassword = () => {
       </Form>
     </Container>
     {isOk ?  <Alert className='mt-5 d-flex align-items-center border-danger p-4' variant="danger"><ExclamationOctagonFill className='me-3'/> Verifica la tua Email prima di effettuare il login</Alert> : ""}
+    <ToastContainer />
   </div>
   )
 }
