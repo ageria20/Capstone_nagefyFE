@@ -1,32 +1,31 @@
 # Nagefy
 
-Nagefy è un applicazione gestionale per saloni di parrucchieri con interfaccia amministrativa per il proprietario del salone e un interfaccia utente per i clienti. Include funzionalità di registrazione con verifica email, gestione appuntamenti, staff e clienti, per un gestionale completo.
+Nagefy is a management application for hair salons, featuring an admin interface for salon owners and a user interface for clients. It includes functionality for email verification, appointment management, staff and client handling, making it a complete management tool.
 
 
-# Caratteristiche Principali 📱
-Sicurezza 🛡️🔒  
-Verifica Email: 
+# Key Features 📱
+Security 🛡️🔒  
+📧 User email address validation. 
 
-📧Convalida degli indirizzi email degli utenti.
-
-🔑Controllo degli Accessi Basato sui Ruoli: Ruoli distinti per Admin, membri dello staff e Cliente con accesso limitato a determinate funzionalità.
-
-
-# Interfaccia utente
-
-🗓️ Visualizzazione appuntamenti: poter vedere tutti i propri appuntamenti
-Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
+Role-Based Access Control:
+🔑 Distinct roles for Admin, Staff, and Client with access limited to specific features.
 
 
+# User Interface
 
-# Dashboard Admin 👨🏻‍💼
-🗓️Gestione appuntamenti: Agenda in cui aggiunge, modifica, ed elimina un appuntamento.  
-👥Gestione Clienti: Aggiunge, modifica ed elimina le informazione di un Cliente.  
-📝Gestione Staff: Aggiunge (solo l'admin può creare un nuovo membro dello staff).  
-📊 Report statistiche: Un report su Entrate totali, Fiche Media, e report Collaboratori
+🗓️ Appointment View: Users can see all their scheduled appointments.
+Appointment Booking: Clients can book appointments based on available slots.
 
 
-# Tecnologie Usate
+
+# Admin Dashboard 👨🏻‍💼
+🗓️Appointment Management: A calendar to add, edit, or delete appointments.
+👥Client Management: Add, edit, and delete client information.  
+Staff Management: Add new staff members (only the admin can create new staff).  
+📊Reports and Analytics: Generate reports on Total Revenue, Average Ticket, and Staff Performance.
+
+
+# Technologies Used
 
 <h2>Frontend</h2>
 <div align="left">
