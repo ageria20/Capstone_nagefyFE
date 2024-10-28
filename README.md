@@ -33,7 +33,6 @@ Staff Management: Add new staff members (only the admin can create new staff).
     <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" />
     <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=bootstrap&logoColor=white" />
     <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" />
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
     <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
     <img src="https://img.shields.io/badge/React_Big_Calendar-0088CC?style=flat-square&logo=react&logoColor=white" />
     <img src="https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white" />
@@ -65,7 +64,7 @@ Staff Management: Add new staff members (only the admin can create new staff).
  <div align="left"> 
      Go to the backend directory (https://github.com/ageria20/nagefy.git). <br> 
      Set up a PostgreSQL database and configure the database connection in
-     <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" /> (you can see al the details on example-properties file).<br> 
+     <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" /> (you can see all the details on example-properties file).<br> 
      Configure the email service in <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" /> .<br> Run the <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" alt="spring_boot" /> application . </div> 
 
 
