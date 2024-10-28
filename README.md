@@ -57,3 +57,18 @@ Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
 <div align="left">
     <img src="https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
 </div>
+
+# SETUP 🔧
+
+<h2>Frontend Setup</h2> <div align="left"> Go to the frontend directory.<br> Run <img src="https://img.shields.io/badge/npm-install-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_install" /> to install the dependencies.<br> Configure the API endpoint URLs in the frontend code.<br> Run <img src="https://img.shields.io/badge/npm-run--dev-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_run_dev" /> to start the application. </div> <h2>Backend Setup</h2> <div align="left"> Go to the backend directory.<br> Set up a PostgreSQL database and configure the database connection in <img src="https://img.shields.io/badge/application.properties-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="application_properties" />.<br> Configure the email service in <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" alt="spring_boot" />.<br> Run the application using <img src="https://img.shields.io/badge/npm-run--dev-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm_run_dev" />. </div> <h2>Access the Application</h2> - **Frontend:** Open a web browser and navigate to [http://localhost:5173](http://localhost:5173) (or your configured port). - **Backend:** The API endpoints are available at [http://localhost:8080](http://localhost:8080) (or your configured port).
+
+# USAGE 🌐💻🔌
+
+Customer 🗓️
+Customers can navigate to their own page to see their appointments. Please verify your email after registration.
+
+Admin 📝
+Log in with admin credentials (username: admin, password: admin) to access the admin dashboard and agenda. Manage appointments, staff members, customers, and time slots, and get an overview of the income.
+
+
+# Andrea Geria
