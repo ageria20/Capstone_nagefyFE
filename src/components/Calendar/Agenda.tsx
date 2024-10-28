@@ -98,7 +98,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     
             // Controllo se il parsing è riuscito
             if (!pauseStart.isValid() || !pauseEnd.isValid()) {
-                console.error(`Invalid date for pause: ${pause.from} - ${pause.to}`);
+                
                 return false; // Ignora questa pausa se non è valida
             }
     
@@ -237,7 +237,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         
     }, [currentDate, dispatch]);
 
-    console.log('Pausa:', todayOrari?.pauses);
+    
     const formattedDate = dayjs(currentDate).format("ddd DD MMMM").toLocaleUpperCase();
     
     return (
