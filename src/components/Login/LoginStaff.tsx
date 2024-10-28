@@ -6,13 +6,12 @@ import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
-import { useAppDispatch, useAppSelector } from '../../redux/store/store'
+import { useAppDispatch } from '../../redux/store/store'
 import { getStaffs } from '../../redux/actions/actionStaff'
 
 const LoginStaff = () => {
 const [showPassword, setShwPassword] = useState(false)
 const [token, setToken] = useState("")
-const loggedUser = useAppSelector(state => state.users.user)
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 
@@ -57,16 +56,6 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
- useEffect(() =>{
-   if(loggedUser){
-        if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
-       navigate("/agenda")
-     }
-     else {
-       navigate("/profile")
-     }
-   }
- }, [loggedUser, navigate])
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})

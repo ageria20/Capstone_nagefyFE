@@ -78,6 +78,7 @@ const Agenda: React.FC = () => {
     ) : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 8, 30);
    
 
+
 const maxTime = todayOrari && isDayOpen ? new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
