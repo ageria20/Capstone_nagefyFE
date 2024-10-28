@@ -44,13 +44,13 @@ Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
 <h2>Backend<h2>
 <div align="left">
     <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white" alt="Java" />
-    <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA" />
     <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="Spring" />
     <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" alt="Spring Boot" />
     <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=flat-square&logo=spring-security&logoColor=white" alt="Spring Security" />
     <img src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=json-web-tokens&logoColor=white" alt="JWT" />
     <img src="https://img.shields.io/badge/Java_Mail_Sender-007396?style=flat-square&logo=java&logoColor=white" alt="Java Mail Sender" />
     <img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white" alt="Postman" />
+    <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA" />
 </div>
 
 <h2>Database<h2>
