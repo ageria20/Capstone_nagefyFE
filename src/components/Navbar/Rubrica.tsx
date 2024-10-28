@@ -10,7 +10,6 @@ import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { deleteClient, getClients, searchClients, updateClient } from '../../redux/actions/actionClients';
 import NewUserModal from './NewUserModal';
-import { ToastContainer } from 'react-toastify';
 import { IClient } from '../../interfaces/IUser';
 
 
@@ -212,7 +211,6 @@ useEffect(() => {
       </Row>
       <NewUserModal show={showModal} handleClose={handleCloseModal} />
     </Container>
-    <ToastContainer/>
     </div>
   )
 }

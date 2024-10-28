@@ -65,8 +65,13 @@ const Orari = () => {
             />
             <span className="ms-2">{" "}{day.open ? "Aperto" : "Chiuso"}</span>
            {day.open ? ( day.hours.map((hour, _i) => (
-                <p key={_i}><span style={{fontSize: "0.7rem"}}>DALLE{" "}{hour.from}{" "}ALLE{" "}{hour.to}</span></p>
+              
+                <p key={_i}><span style={{fontSize: "0.7rem"}}>DALLE{" "}{hour.from}{" "}ALLE{" "}{hour.to}</span></p>                
             ))) : ""}
+            {day.open ? ( day.pauses?.map((pause, _i) => (
+              
+              <p key={_i}><span style={{fontSize: "0.7rem"}}>DALLE{" "}{pause.from}{" "}ALLE{" "}{pause.to}</span></p>                
+          ))) : ""}
           </label>
           {day.open ? (
             <div>
