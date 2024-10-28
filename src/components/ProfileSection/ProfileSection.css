@@ -1,4 +1,6 @@
-
+body{
+    overflow-x: hidden;
+}
 
 .homePage {
     background: rgb(171, 128, 222);
