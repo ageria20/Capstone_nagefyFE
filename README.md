@@ -43,7 +43,6 @@ Prenotazione appuntamenti: prenotare appuntamenti in base alla disponibilità
 
 <h2>Backend<h2>
 <div align="left">
-   <div align="center">
     <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white" alt="Java" />
     <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA" />
     <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="Spring" />
