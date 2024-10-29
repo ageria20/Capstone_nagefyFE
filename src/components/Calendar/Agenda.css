@@ -41,9 +41,8 @@
 .sectionToolbar {
     padding: 5px;
     border-radius: 5px;
-    flex-grow: 1; /* Permette di riempire lo spazio disponibile */
-    display: flex;
-    justify-content: flex-end; /* Allinea il selettore a destra */
+    
+    
 }
 
 .client-dropdown {

@@ -1,4 +1,6 @@
-
+body{
+    overflow-x: hidden;
+}
 
 .homePage {
     background: rgb(171, 128, 222);
@@ -21,7 +23,7 @@ height: 100%;
 }
 
 .homePage h1 {
-    font-size: 6rem;
+    font-size: 5rem;
     margin-top: 8rem;
 }
 

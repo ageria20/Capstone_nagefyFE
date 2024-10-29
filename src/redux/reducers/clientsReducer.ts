@@ -6,7 +6,6 @@ interface ClientState{
     clients: IUser[];
     client: INewUser | null;
     clientMe: INewUser | null;
-   
   }
   
 

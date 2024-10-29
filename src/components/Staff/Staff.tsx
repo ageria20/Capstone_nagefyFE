@@ -6,7 +6,6 @@ import "./Staff.css"
 import {  ToggleSidebarAction } from '../../redux/actions/action';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import NewStaffModal from './NewStaffModal';
-import { ToastContainer } from 'react-toastify';
 import { deleteStaff, getStaffs, searchStaff, updateStaff } from '../../redux/actions/actionStaff';
 
 const Staff = () => {
@@ -211,7 +210,6 @@ const Staff = () => {
           </Row>
           <NewStaffModal show={showModal} handleClose={handleCloseModal} />
         </Container>
-        <ToastContainer/>
         </div>
       )
 }

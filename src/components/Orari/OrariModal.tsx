@@ -14,6 +14,7 @@ interface UpdateHoursModalProps {
 const OrariModal: React.FC<UpdateHoursModalProps> = ({show, handleClose, selectedDay}) => {
     const dispatch = useAppDispatch()
     const [hours, setHours] = useState(selectedDay.hours)
+    const [pauses, setPauses] = useState(selectedDay.pauses || [])
 
 
     const handleHourChange = (index: number, field: 'from' | 'to', value: string) => {
@@ -25,9 +26,18 @@ const OrariModal: React.FC<UpdateHoursModalProps> = ({show, handleClose, selecte
         setHours(updatedHours);
       };
 
+      const handlePauseChange = (index: number, field: 'from' | 'to', value: string) => {
+        const updatedPauses = [...pauses];
+        updatedPauses[index] = {
+          ...updatedPauses[index],
+          [field]: value,
+        };
+        setPauses(updatedPauses);
+      };
+
       const handleSave = () => {
      
-        dispatch(updateOrari({ day: selectedDay.day, hours }));
+        dispatch(updateOrari({ day: selectedDay.day, hours , pauses: selectedDay.pauses || []}));
         handleClose(); // Chiudi il modale
       };
 
@@ -44,7 +54,7 @@ const OrariModal: React.FC<UpdateHoursModalProps> = ({show, handleClose, selecte
     <Modal.Body>
     {hours.map((hour, index) => (
           <Form.Group key={index} className="mb-3">
-            <Form.Label><h5>{selectedDay.day}</h5></Form.Label>
+            <Form.Label><h5>Orario Apertura</h5></Form.Label>
             <div className="d-flex">
               <Form.Control
                 type="time"
@@ -56,6 +66,24 @@ const OrariModal: React.FC<UpdateHoursModalProps> = ({show, handleClose, selecte
                 type="time"
                 value={hour.to}
                 onChange={(e) => handleHourChange(index, 'to', e.target.value)}
+              />
+            </div>
+          </Form.Group>
+        ))}
+         {pauses.map((pause, index) => (
+          <Form.Group key={index} className="mb-3">
+            <Form.Label><h5>Pausa</h5></Form.Label>
+            <div className="d-flex">
+              <Form.Control
+                type="time"
+                value={pause.from}
+                onChange={(e) => handlePauseChange(index, 'from', e.target.value)}
+              />
+              <span className="mx-2">-</span>
+              <Form.Control
+                type="time"
+                value={pause.to}
+                onChange={(e) => handlePauseChange(index, 'to', e.target.value)}
               />
             </div>
           </Form.Group>
