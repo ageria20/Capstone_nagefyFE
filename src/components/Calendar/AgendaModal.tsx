@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { Trash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { ITreatment } from "../../interfaces/ITreatment";
+import { ToastContainer } from "react-toastify";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -185,6 +186,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   }, [dispatch]);
 
   return (
+    <>
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title className="text-center">
@@ -256,7 +258,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     className="rounded-5 px-2 py-1 w-sm-100 me-auto m-2"
   >
     <option value="">Seleziona un membro dello staff</option>
-    {staffs.map((staff) => (
+    {staffs.map((staff: IStaff) => (
       <option key={staff.id} value={staff.name}>
         {staff.name}
       </option>
@@ -299,6 +301,8 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
        
       </Modal.Footer>
     </Modal>
+    <ToastContainer/>
+    </>
   );
 };
 

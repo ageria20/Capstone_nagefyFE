@@ -115,7 +115,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /> : "Login"}</Button>
         </div>
         <div className='text-center'>
-                Non hai ancora un account? <Link className="nav-link" to="/register"><strong>Registrati</strong></Link>
+                Non hai ancora un account? <Link className="nav-link" to="/register-client"><strong>Registrati</strong></Link>
         </div>
       </Form>
     </Container>
