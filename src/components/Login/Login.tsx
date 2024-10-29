@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Button, Container, Form, Image, Spinner} from 'react-bootstrap'
+import { Button, Container, Form, Image} from 'react-bootstrap'
 import './Login.css'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { FormEvent, useEffect, useState } from 'react'
@@ -9,12 +9,9 @@ import nagefyLogo from "../../assets/nagefyLogo200.png"
 
 import { getUser } from '../../redux/actions/usersAction'
 import { useAppDispatch, useAppSelector } from '../../redux/store/store'
-import { notifyErr } from '../../redux/actions/action'
-import { ToastContainer } from 'react-toastify'
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
-const [isLoading, setIsLoading] = useState<boolean>(false)
 const [token, setToken] = useState("")
 const loggedUser = useAppSelector(state => state.users.user)
 const navigate = useNavigate()
@@ -34,7 +31,6 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   e.preventDefault()
 
   try{
-    setIsLoading(true)
     const resp = await fetch(`http://localhost:8080/auth/login`, {
       method: "POST",
       headers: {
@@ -45,15 +41,12 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      setToken(res.accessToken)
       navigate("/agenda")
-    } else{
-      notifyErr("Credenziali errate")}
+      setToken(res.accessToken)
+    }
   } catch (error) {
     console.log(error);
     
-  } finally{
-    setIsLoading(false)
   }
 }
 
@@ -66,16 +59,6 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
-  // useEffect(() =>{
-  //   if(loggedUser){
-  //        if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
-  //       navigate("/agenda")
-  //     }
-  //     else {
-  //       navigate("/profile")
-  //     }
-  //   }
-  // }, [loggedUser, navigate])
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})
@@ -114,20 +97,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           </div>
         </Form.Group>
         <div className='p-3'>
-        <Button type="submit" className="mb-3 mt-3 mx-auto">{isLoading ?  <Spinner
-          as="span"
-          animation="border"
-          size="sm"
-          role="status"
-          aria-hidden="true"
-        /> : "Login"}</Button>
+        <Button type="submit" className="mb-3 mt-3 mx-auto">Login</Button>
         </div>
         <div className='text-center'>
                 Non hai ancora un account? <Link className="nav-link" to="/register"><strong>Registrati</strong></Link>
         </div>
       </Form>
     </Container>
-    <ToastContainer/>
   </div>
   )
 }

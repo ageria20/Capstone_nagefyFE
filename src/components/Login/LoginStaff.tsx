@@ -6,16 +6,14 @@ import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
-import { useAppDispatch, useAppSelector } from '../../redux/store/store'
+import { useAppDispatch } from '../../redux/store/store'
 import { getStaffs } from '../../redux/actions/actionStaff'
-import { notifyErr } from '../../redux/actions/action'
-import { ToastContainer } from 'react-toastify'
 
 const LoginStaff = () => {
 const [showPassword, setShwPassword] = useState(false)
-const [isLoading, setIsLoading] = useState<boolean>(false)
 const [token, setToken] = useState("")
-const loggedUser = useAppSelector(state => state.users.user)
+const [isLoading, setIsLoading] = useState<boolean>(false)
+
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 
@@ -44,14 +42,10 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      setToken(res.accessToken)
       navigate("/agenda")
-    }
-    else{
-      notifyErr("Credenziali errate")
+      setToken(res.accessToken)
     }
   } catch (error) {
-    
     console.log(error);
     
   } finally{
@@ -67,16 +61,7 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
-//  useEffect(() =>{
-//    if(loggedUser){
-//         if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
-//        navigate("/agenda")
-//      }
-//      else {
-//        navigate("/profile")
-//      }
-//    }
-//  }, [loggedUser, navigate])
+
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})
@@ -128,7 +113,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </Form>
     </Container>
-    <ToastContainer/>
   </div>
   )
 }
