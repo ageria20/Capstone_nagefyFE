@@ -13,20 +13,16 @@ const ProfileSection = () => {
     <>
     <Container fluid className='homePage text-center m-0 pt-4 px-5 main-content'>
     <ProfileNav/>
-    <Row className='align-items-center my-5 flex-grow-1 w-75 mx-auto'>
-      <Col xs={12} md={8}>
-    <Container className='text-start mt-5'>
+   
+    <Container className='text-center w-50 my-5 mb-5'>
       <h1>Gestisci il tuo salone a portata di click</h1>
       </Container>
-      </Col>
-      
-      <Col xs={12} md={4}> 
-      <Container className='w-75 mt-5 text-start'>
+     
+      <Container className='w-50 my-5 text-center'>
       <h5 style={{fontWeight: "300"}}>Organizza facilmente gli appuntamenti del tuo salone con un'interfaccia intuitiva. Gestisci clienti, trattamenti e staff in pochi clic. Ottimizza il tempo e migliora l'efficienza del tuo business.</h5>
     </Container>
-    </Col>
-    </Row>
-    <Container className='mx-auto py-5 px-0'>
+
+    <Container className='mx-auto py-5 mt-5 px-0'>
       <Row className='justify-content-center gap-5' style={{marginTop: "3rem !important"}}> 
         <Col xs={12} md={3} className='first-card text-start rounded-4 p-4'>
           <h3 className='mb-3'>Agenda Digitale</h3>
