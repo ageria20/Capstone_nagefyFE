@@ -1,7 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit"
 import { setAppointment, setSelectedAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
-import { notify, notifyErr } from "./action"
+import {  notifyErr } from "./action"
 
 import { IAppointment, IUpdateAppointment } from "../../interfaces/IAppointment"
 import { getAppointmentsMe } from "./actionClients"
@@ -66,7 +66,7 @@ export const createAppointment = (appointment: IAppointment) => {
                 body: JSON.stringify(appointment)
             })
             if(resp.ok){
-                notify("Appuntamento creato")
+                
                 dispatch(getAppointments())
             } else{
                 console.log(resp.statusText)
@@ -93,8 +93,6 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
             })
             if(resp.ok){
             
-                
-                notify("Appuntamento modificato")
                 dispatch(getAppointments())
             } else{
                 console.log(resp.statusText)
@@ -119,7 +117,6 @@ export const deleteAppointment = (appointmentId: string | undefined) => {
                 },
             })
             if(resp.ok){
-                notify("Trattamento eliminato")
                 dispatch(getAppointments())
             } else{
                 console.log(resp.statusText)
@@ -143,7 +140,6 @@ export const deleteMyAppointment = (appointmentId: string | undefined) => {
                 },
             })
             if(resp.ok){
-                notify("Trattamento eliminato")
                 dispatch(getAppointmentsMe())
             } else{
                 console.log(resp.statusText)

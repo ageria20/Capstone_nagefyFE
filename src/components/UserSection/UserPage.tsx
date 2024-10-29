@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Badge,  Button,  Card, Col, Container, Row } from 'react-bootstrap'
+import { Alert, Badge,  Button,  Card, Col, Container, Row } from 'react-bootstrap'
 import UserNav from "./UserNav"
 import { useAppDispatch } from '../../redux/store/store'
 import { IAppointments } from '../../interfaces/IAppointment'
 import dayjs from 'dayjs'
-import { Trash } from 'react-bootstrap-icons'
+import { ExclamationOctagonFill, Trash } from 'react-bootstrap-icons'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
 import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
@@ -46,6 +46,7 @@ const UserPage = () => {
 
     useEffect(() => {
         getAppointmentsClient(page)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
   return (
@@ -53,7 +54,7 @@ const UserPage = () => {
         <UserNav/>
         <Container className='p-3'>
             <h1 className='mb-5'>I tuoi Appuntamenti</h1>
-            { appointments.length > 0 ? <Row>
+           { appointments.length > 0 ? <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
                     <Col xs={12} md={3}>
                         <Card style={{minHeight: "300px"}}>
@@ -92,7 +93,7 @@ const UserPage = () => {
                       </Card>
                       </Col>
                 )}
-            </Row> : <p className='text-center'>Non ci sono appuntamenti</p>}
+            </Row> : <Alert className='mt-5 d-flex align-items-center alertAppointments p-4 rounded-4 border-white'><ExclamationOctagonFill className='me-3'/>Non sono presenti appuntamenti</Alert>}
             { appointments.length > 0 && <Container className='d-flex justify-content-between align-items-center mx-auto' style={{width: "150px"}}>
             <Button className='bg-transparent border-0' onClick={() => setPage(page - 1)}><BiLeftArrow/> Indietro</Button>
             <Button className='bg-transparent border-0'onClick={() => setPage(page + 1)}><BiRightArrow/> Avanti</Button>
