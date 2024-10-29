@@ -59,16 +59,6 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
-//  useEffect(() =>{
-//    if(loggedUser){
-//         if(loggedUser.role ==="ADMIN" || loggedUser.role ==="EMPLOYEE"){
-//        navigate("/agenda")
-//      }
-//      else {
-//        navigate("/profile")
-//      }
-//    }
-//  }, [loggedUser, navigate])
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})
