@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { notify, notifyErr, TreatmentAction, TREATMENTS } from "./action"
+import { notify, notifyErr, TreatmentAction, TREATMENTS, url } from "./action"
 import { AppDispatch } from "../store/store"
 import { ITreatment } from "../../interfaces/ITreatment"
 
@@ -7,7 +7,7 @@ export const getTreatments = () => {
     return async (dispatch: Dispatch<TreatmentAction>)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/treatments`, {
+            const resp = await fetch(`${url}/treatments`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -28,9 +28,8 @@ export const searchTreatments = (query: string) => {
     return async (dispatch: Dispatch<TreatmentAction>) => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const url = `http://localhost:8080/treatments/search?name=${encodeURIComponent(query)}`;
 
-            const resp = await fetch(url, {
+            const resp = await fetch(`${url}/treatments/search?name=${encodeURIComponent(query)}`, {
                 headers: {
                     Authorization: "Bearer " + accessToken
                 },
@@ -53,7 +52,7 @@ export const updateTreatment = (treatmentId: string | undefined, appointment: IT
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/treatments/${treatmentId}`, {
+            const resp = await fetch(`${url}/treatments/${treatmentId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -78,7 +77,7 @@ export const createTreatment = (treatment: ITreatment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/treatments`, {
+            const resp = await fetch(`${url}/treatments`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -102,7 +101,7 @@ export const deleteTreatment = (treatmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/treatments/${treatmentId}`, {
+            const resp = await fetch(`${url}/treatments/${treatmentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,

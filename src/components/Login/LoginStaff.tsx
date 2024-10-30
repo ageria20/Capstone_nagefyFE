@@ -8,6 +8,7 @@ import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch } from '../../redux/store/store'
 import { getStaffs } from '../../redux/actions/actionStaff'
+import { url } from '../../redux/actions/action'
 
 const LoginStaff = () => {
 const [showPassword, setShwPassword] = useState(false)
@@ -32,7 +33,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
   try{
     setIsLoading(true)
-    const resp = await fetch(`http://localhost:8080/auth/staff-login`, {
+    const resp = await fetch(`${url}/auth/staff-login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

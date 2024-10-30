@@ -1,16 +1,17 @@
 import { Dispatch } from "@reduxjs/toolkit"
 import { setAppointment, setSelectedAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
-import {  notifyErr } from "./action"
+import {  notifyErr, url } from "./action"
 
 import { IAppointment, IUpdateAppointment } from "../../interfaces/IAppointment"
 import { getAppointmentsMe } from "./actionClients"
+
 
 export const getAppointments = () => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments`, {
+            const resp = await fetch(`${url}/appointments`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -33,7 +34,7 @@ export const getAppointmentsById = (appointmentId: string | undefined) => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -57,7 +58,7 @@ export const createAppointment = (appointment: IAppointment) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments`, {
+            const resp = await fetch(`${url}/appointments`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -83,7 +84,7 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -109,7 +110,7 @@ export const deleteAppointment = (appointmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -132,7 +133,7 @@ export const deleteMyAppointment = (appointmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,

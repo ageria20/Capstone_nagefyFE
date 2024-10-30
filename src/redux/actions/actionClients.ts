@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { ADD_CLIENT, ClientAction, CLIENTS, notify, notifyErr } from "./action"
+import { ADD_CLIENT, ClientAction, CLIENTS, notify, notifyErr, url } from "./action"
 import { AppDispatch } from "../store/store"
 import { IClient, INewUser } from "../../interfaces/IUser"
 import { setClientAppointment } from "../slices/appointmentsSlice"
@@ -11,7 +11,7 @@ export const getClients = () => {
     return async (dispatch: Dispatch<ClientAction>)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients`, {
+            const resp = await fetch(`${url}/clients`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -32,9 +32,8 @@ export const searchClients = (query: string) => {
     return async (dispatch: Dispatch<ClientAction>) => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const url = `http://localhost:8080/clients/search?name=${encodeURIComponent(query)}`;
 
-            const resp = await fetch(url, {
+            const resp = await fetch(`${url}/clients/search?name=${encodeURIComponent(query)}`, {
                 headers: {
                     Authorization: "Bearer " + accessToken
                 },
@@ -56,7 +55,7 @@ export const createClients = (client: INewUser) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/create`, {
+            const resp = await fetch(`${url}/clients/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -84,7 +83,7 @@ export const updateClient = (clientId: string | undefined, client: IClient) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/treatments/${clientId}`, {
+            const resp = await fetch(`${url}/treatments/${clientId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -109,7 +108,7 @@ export const getAppointmentsMe = () => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/me/appointments`, {
+            const resp = await fetch(`${url}/clients/me/appointments`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -130,7 +129,7 @@ export const deleteClient = (clientId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/${clientId}`, {
+            const resp = await fetch(`${url}/clients/${clientId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,

@@ -3,7 +3,7 @@ import {  Button, Col, Container, Row } from 'react-bootstrap'
 import { List, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar'
 import { useAppDispatch, useAppSelector } from '../../redux/store/store'
-import { ToggleSidebarAction } from '../../redux/actions/action'
+import { ToggleSidebarAction, url } from '../../redux/actions/action'
 import { useEffect, useState } from 'react'
 import { getCash } from '../../redux/actions/actionCash'
 import { ICashed } from '../../interfaces/ICash'
@@ -121,7 +121,7 @@ const Report = () => {
 
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/cash/report?startDate=${startMonth?.toLocaleDateString('en-CA')}&endDate=${endMonth?.toLocaleDateString('en-CA')}`, {
+            const resp = await fetch(`${url}/cash/report?startDate=${startMonth?.toLocaleDateString('en-CA')}&endDate=${endMonth?.toLocaleDateString('en-CA')}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
