@@ -91,7 +91,7 @@ const Cash = () => {
       </Container>
       <Container className="mx-auto mt-5 rounded-4 shadow-sm">
         {appointment && (
-          <Container>
+          <Container className="border-bottom">
             <h4 className="mb-4">
               {appointment.user.name} {appointment.user.surname}
             </h4>
@@ -129,19 +129,19 @@ const Cash = () => {
               </Container>
             </div>
 
-            <Container>
+            <Container className="border-top border-bottom my-4 p-3">
             <Row>
                 <Col xs={12} md={8}>
-                  <h4>Netto a pagare</h4>
+                  <h2>Netto a pagare</h2>
                 </Col>
                 <Col xs={12} md={4}>
-                  <p>{discountedTotal != 0 ? discountedTotal : totalPrice}€</p> 
+                  <h2>{discountedTotal != 0 ? discountedTotal : totalPrice}€</h2> 
                 </Col>
               </Row>
             </Container>
 
             {payments.map((payment, _i) => (
-              <div key={_i} className="form-check form-switch ps-0">
+              <div key={_i} className="form-check form-switch ps-0 ">
                 <input
                   className="form-check-input ms-auto"
                   type="checkbox"
