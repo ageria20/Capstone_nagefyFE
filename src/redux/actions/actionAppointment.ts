@@ -21,7 +21,7 @@ export const getAppointments = (navigate: NavigateFunction) => {
                 const appointments = await resp.json()
                 dispatch(setAppointment(appointments.content))
             }  else {
-                if(resp.status === 401){
+                if(resp.status === 401 || resp.status === 403){
                   notifyErr("Credenziali errate")
                   navigate("/")
               }
