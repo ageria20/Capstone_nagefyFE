@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { createAppointment, deleteAppointment, getAppointments, updateAppointment } from "../../redux/actions/actionAppointment";
 import { getClients } from "../../redux/actions/actionClients";
 import { getStaffs } from "../../redux/actions/actionStaff";
@@ -9,10 +9,11 @@ import { getTreatments } from "../../redux/actions/actionTreatment";
 import { IClient } from "../../interfaces/IUser";
 import { IAppointment, IAppointments } from "../../interfaces/IAppointment";
 import dayjs from "dayjs";
-import { Trash } from "react-bootstrap-icons";
+import { Plus, Trash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { ITreatment } from "../../interfaces/ITreatment";
 import { ToastContainer } from "react-toastify";
+import NewUserModal from "../Navbar/NewUserModal";
 
 interface AddAppointmentModalProps {
     show: boolean;
@@ -35,6 +36,7 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   const clients = useAppSelector((state) => state.clientsList.clients);
   const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
+  const [showModal, setShowModal] = useState(false);
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
     user: "", 
     treatments: [],
@@ -46,6 +48,12 @@ const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
 const navigate = useNavigate()
 
 const [filteredClients, setFilteredClients] = useState<IClient[]>([]);
+
+const handleShowModal = () =>{
+  setShowModal(true);
+}
+
+const handleCloseModal = () => setShowModal(false);
 
 const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const staffMemberName = e.target.value;
@@ -199,6 +207,8 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
+          <Row className="align-items-center">
+            <Col>
         <Form.Group controlId="formClientSearch">
   <Form.Label>Cliente</Form.Label>
   <Form.Control
@@ -223,7 +233,11 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     </ul>
   )}
 </Form.Group>
-
+</Col>
+<Col xs={2} className='text-center px-0 mx-0'>
+    <Button className=' rounded-circle bg-transparent text-primary mt-4' onClick={handleShowModal} ><Plus className='my-1 d-flex w-100'/></Button>
+</Col>
+</Row>
 <Form.Group controlId="formClientSurname">
   <Form.Label>Trattamenti</Form.Label>
   <select
@@ -301,6 +315,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
        
       </Modal.Footer>
     </Modal>
+    <NewUserModal show={showModal} handleClose={handleCloseModal} />
     <ToastContainer/>
     </>
   );

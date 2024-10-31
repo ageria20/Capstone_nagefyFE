@@ -16,7 +16,6 @@ const LoginClient = () => {
 const [showPassword, setShwPassword] = useState(false)
 const [isLoading, setIsLoading] = useState<boolean>(false)
 const [token, setToken] = useState("")
-
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 
@@ -76,7 +75,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <Image src={nagefyLogo} alt="nageft_logo" />
+        <Image src={nagefyLogo} alt="nagefy_logo" />
     <Container className="m-3 shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'><strong>Bentornato!</strong></h3>
       
