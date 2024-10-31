@@ -36,7 +36,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     });
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await resp.json()
+      
       
       setIsOk(true)
       setUser({

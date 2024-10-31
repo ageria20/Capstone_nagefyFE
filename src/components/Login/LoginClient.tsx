@@ -6,7 +6,7 @@ import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
-import { useAppDispatch, useAppSelector } from '../../redux/store/store'
+import { useAppDispatch } from '../../redux/store/store'
 import { getClients } from '../../redux/actions/actionClients'
 import { getClientMe } from '../../redux/actions/usersAction'
 import { notifyErr, url } from '../../redux/actions/action'
@@ -16,7 +16,7 @@ const LoginClient = () => {
 const [showPassword, setShwPassword] = useState(false)
 const [isLoading, setIsLoading] = useState<boolean>(false)
 const [token, setToken] = useState("")
-const loggedUser = useAppSelector(state => state.users.user)
+
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 

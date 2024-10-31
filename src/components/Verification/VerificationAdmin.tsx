@@ -18,7 +18,7 @@ const navigate = useNavigate()
 const verifyEmail = async () =>{
 
   try{
-    const resp = await fetch(`${url}/auth/verify-admin/${email}`, {
+    await fetch(`${url}/auth/verify-admin/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
