@@ -84,12 +84,12 @@ const handleSaveAppointment = async () => {
   }
   
   if (selectedEvent && selectedEvent.id) {
-    await dispatch(updateAppointment(selectedEvent.id, updatedAppointment));
+    await dispatch(updateAppointment(navigate, selectedEvent.id, updatedAppointment));
   } else {
     
-    await dispatch(createAppointment(updatedAppointment));
+    await dispatch(createAppointment(navigate, updatedAppointment));
     
-    await dispatch(getAppointments());
+    await dispatch(getAppointments(navigate));
   }
 
 
@@ -282,7 +282,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     <Button 
             className='my-3 border-danger bg-transparent me-auto text-danger delete-btn'
             onClick={() => {
-              dispatch(deleteAppointment(selectedEvent.id))
+              dispatch(deleteAppointment(navigate, selectedEvent.id))
               handleClose()
               }}>
             <Trash className='my-1 d-flex w-100'/>

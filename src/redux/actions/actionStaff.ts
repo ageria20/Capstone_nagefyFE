@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { notify, notifyErr} from "./action"
+import { notify, notifyErr, url} from "./action"
 import { AppDispatch } from "../store/store"
 import { setStaffs } from "../slices/staffSlice"
 
@@ -7,7 +7,7 @@ export const getStaffs = () => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/staffs`, {
+            const resp = await fetch(`${url}/staffs`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -28,9 +28,9 @@ export const searchStaff = (query: string) => {
     return async (dispatch: Dispatch) => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const url = `http://localhost:8080/staffs/search?name=${encodeURIComponent(query)}`;
+            
 
-            const resp = await fetch(url, {
+            const resp = await fetch( `${url}/staffs/search?name=${encodeURIComponent(query)}`, {
                 headers: {
                     Authorization: "Bearer " + accessToken
                 },
@@ -52,7 +52,7 @@ export const createStaff = (staff: INewStaff) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/staffs/create`, {
+            const resp = await fetch(`${url}/staffs/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -78,7 +78,7 @@ export const updateStaff = (staffId: string | undefined, staff: IStaff) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/staffs/${staffId}`, {
+            const resp = await fetch(`${url}/staffs/${staffId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -103,7 +103,7 @@ export const deleteStaff = (staffId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/staffs/${staffId}`, {
+            const resp = await fetch(`${url}/staffs/${staffId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,

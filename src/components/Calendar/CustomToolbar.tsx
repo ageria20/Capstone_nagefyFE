@@ -94,7 +94,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
     </div>
         <section className='sectionToolbar my-2 p-3'>
             <Row className='justify-content-between align-items-center'>
-        <Col xs={12} md={3}>
+        <Col xs={12} md={2}>
         <p className='mt-2 d-block'>Filtra per membro dello Staff</p>
         </Col>
         <Col xs={12} md={9}>

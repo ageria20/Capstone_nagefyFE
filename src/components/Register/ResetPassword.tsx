@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 // import { getUser } from "../../redux/actions/usersAction"
 import nagefyLogo from "../../assets/nagefyLogo250.png"
 import { EyeFill, EyeSlashFill} from "react-bootstrap-icons"
-import { notify, notifyErr } from "../../redux/actions/action"
+import { notify, notifyErr, url } from "../../redux/actions/action"
 import { ToastContainer } from "react-toastify"
 
 
@@ -40,7 +40,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     else{
         
     try{
-        const resp = await fetch(`http://localhost:8080/clients/reset?email=${email}`, {
+        const resp = await fetch(`${url}/clients/reset?email=${email}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

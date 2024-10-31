@@ -3,12 +3,15 @@ import { setCashList } from "../slices/cashSlice"
 import { AppDispatch } from "../store/store"
 import { ICash } from "../../interfaces/ICash"
 import { getAppointments } from "./actionAppointment"
+import { url } from "./action"
+import { NavigateFunction } from "react-router-dom"
+
 
 export const getCash = () => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/cash`, {
+            const resp = await fetch(`${url}/cash`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -26,11 +29,11 @@ export const getCash = () => {
 }
 
 
-export const createCash = (cash: ICash) => {
+export const createCash = (navigate: NavigateFunction, cash: ICash) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/cash`, {
+            const resp = await fetch(`${url}/cash`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -40,7 +43,7 @@ export const createCash = (cash: ICash) => {
             })
             if(resp.ok){
                 dispatch(getCash())
-                dispatch(getAppointments())
+                dispatch(getAppointments(navigate))
             } 
         } catch (error){
             console.log(error)

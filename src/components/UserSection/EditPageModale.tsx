@@ -4,6 +4,7 @@ import {  IUser } from "../../interfaces/IUser";
 import { useAppDispatch } from "../../redux/store/store";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import { getClientMe } from "../../redux/actions/usersAction";
+import { url } from "../../redux/actions/action";
 
 
 
@@ -35,7 +36,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
     const updateProfile = async (client: IUser) =>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/me/`, {
+            const resp = await fetch(`${url}/clients/me/`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,

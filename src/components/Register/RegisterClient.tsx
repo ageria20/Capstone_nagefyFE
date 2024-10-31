@@ -5,7 +5,7 @@ import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
 import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { notify, notifyErr } from '../../redux/actions/action'
+import { notify, notifyErr, url } from '../../redux/actions/action'
 
 const RegisterClient = () => {
   
@@ -28,7 +28,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
   try{
     setIsLoading(true)
-    const resp = await fetch(`http://localhost:8080/auth/client-register`, {
+    const resp = await fetch(`${url}/auth/client-register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

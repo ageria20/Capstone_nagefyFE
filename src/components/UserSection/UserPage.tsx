@@ -9,6 +9,7 @@ import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
 import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
+import { url } from '../../redux/actions/action'
 
 const UserPage = () => {
 
@@ -26,7 +27,7 @@ const UserPage = () => {
     const getAppointmentsClient = async (page: number) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/me/appointments?page=${page}`, {
+            const resp = await fetch(`${url}/clients/me/appointments?page=${page}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },

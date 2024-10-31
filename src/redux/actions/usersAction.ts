@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { CLIENT, ClientMeAction, notifyErr, UserAction, USERS } from "./action"
+import { CLIENT, ClientMeAction, notifyErr, url, UserAction, USERS } from "./action"
 
 
 
@@ -11,7 +11,7 @@ export const getUser = () => {
           notifyErr("Login errato");
           return;
         }
-        const resp = await fetch("http://localhost:8080/users/me", {
+        const resp = await fetch(`${url}/users/me`, {
           headers: {
             Authorization: "Bearer " + accessToken,
           },
@@ -41,7 +41,7 @@ export const getUser = () => {
           return;
         }
   
-        const resp = await fetch("http://localhost:8080/clients/me", {
+        const resp = await fetch(`${url}/clients/me`, {
           headers: {
             Authorization: "Bearer " + accessToken,
           },
