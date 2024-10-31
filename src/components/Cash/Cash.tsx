@@ -58,7 +58,7 @@ const Cash = () => {
   }, [appointmentId, discountedTotal, paymentMethod]);
 
   const handleSaveCash = () => {
-    dispatch(createCash(newCash));
+    dispatch(createCash(navigate, newCash));
     navigate("/agenda");
     
   };
