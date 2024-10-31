@@ -36,7 +36,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     });
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await resp.json()
+
       
       setIsOk(true)
       setUser({
@@ -119,7 +119,7 @@ const toggleShowPassword = () => {
         /> : "Crea Account"}</Button>
         </div>
         <div className='text-center'>
-                Hai già un account? <Link className='nav-link' to="/login-client"><strong>Effettua il login</strong></Link>
+                Hai già un account? <Link className='nav-link' to="/login"><strong>Effettua il login</strong></Link>
         </div>
       </Form>
     </Container>
