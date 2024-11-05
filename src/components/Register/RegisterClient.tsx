@@ -49,8 +49,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         notify("Registrazione effettuata!")
     }
     else{
-      notifyErr(resp.statusText)
-      console.log("STATUS TEXT ",resp.statusText)
+      notifyErr("Errore nella registrazione")
+      
     }
   } catch (error) {
     console.log(error);
@@ -84,7 +84,7 @@ const toggleShowPassword = () => {
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Telefono</Form.Label>
-          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required value={client.telephone} onChange={handleChange}/>
+          <Form.Control type="telephone" min={9} max={10} name="telephone" placeholder="Telefono" autoFocus required value={client.telephone} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>
