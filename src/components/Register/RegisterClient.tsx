@@ -45,13 +45,13 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
           password: ""
         })
         setIsOk(true)
+        notify("Registrazione effettuata!")
     }
   } catch (error) {
     notifyErr("Errore nella registrazione!")
     console.log(error);
     
   } finally {
-    notify("Registrazione effettuata!")
     setIsLoading(false)
   }
 }
