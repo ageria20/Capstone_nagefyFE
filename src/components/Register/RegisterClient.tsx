@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { notify, notifyErr, url } from '../../redux/actions/action'
 
+
 const RegisterClient = () => {
   
     const [showPassword, setShwPassword] = useState(false)
@@ -47,8 +48,11 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         setIsOk(true)
         notify("Registrazione effettuata!")
     }
+    else{
+      notifyErr(resp.statusText)
+      console.log("STATUS TEXT ",resp.statusText)
+    }
   } catch (error) {
-    notifyErr("Errore nella registrazione!")
     console.log(error);
     
   } finally {
