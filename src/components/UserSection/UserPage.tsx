@@ -32,6 +32,7 @@ const UserPage = () => {
 
     useEffect(() => {
         dispatch(getClientMe())
+        dispatch(getAppointmentsMe())
     },[dispatch])
 
     const getAppointmentsClient = async (page: number) => {
