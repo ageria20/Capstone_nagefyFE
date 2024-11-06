@@ -37,15 +37,17 @@ const BookingModal: React.FC<BookingModalProps> = ({show, handleClose, selectedT
 
     const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null);
     const [currentDate, setCurrentDate] = useState<Date | null>(null);
-    const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+    const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
 
-const handleSlotSelect = (slotStartTime: string) => {
+const handleSlotSelect = (slotStartTime: Date) => {
     setSelectedSlot(slotStartTime);
     setNewAppointment(prevAppointment => ({
         ...prevAppointment,
-        startTime: slotStartTime,  // Imposta l'orario di inizio dell'appuntamento
+    startTime: dayjs(slotStartTime).format("YYYY-MM-DD"),  // Imposta l'orario di inizio dell'appuntamento
     }));
+    console.log("SELECTED SLOT: ", selectedSlot)
 };
+console.log("SELECTED SLOT: ", dayjs(selectedSlot).format("YYYY-MM-DDTHH:mm"))
 
 useEffect(() => {
     if (!meProfile) {
@@ -71,7 +73,7 @@ useEffect(() => {
 
 useEffect(() => {
     if(selectedStaff?.id && currentDate) {
-      const formattedDateTime = dayjs(currentDate).startOf("day").format("YYYY-MM-DDTHH:mm:ss");
+      const formattedDateTime = dayjs(currentDate).startOf("day").format("YYYY-MM-DD");
     dispatch(getFreeSlots(selectedStaff?.id, formattedDateTime));
     dispatch(getStaffs())
     dispatch(getTreatments())
@@ -87,8 +89,9 @@ const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
 const handleDateChange = (date: Date | null) => {
     if (date && selectedStaff?.id) {
-      setCurrentDate(date);
-      dispatch(getFreeSlots(selectedStaff?.id, date.toLocaleDateString()));
+        setCurrentDate(date);
+        const formattedDate = dayjs(date).format("YYYY-MM-DD"); 
+        dispatch(getFreeSlots(selectedStaff?.id, formattedDate)); 
     }
   };
 
@@ -214,7 +217,7 @@ return (
                               <Col className='w-25 p-1' key={_i} xs={12} md={6}>
                                   <Button
                                       className={`bg-transparent text-secondary p-0 px-3 ${selectedSlot === slot.startTime ? 'selected-slot' : ''}`}
-                                      onClick={() => handleSlotSelect(dayjs(slot.startTime).format("YYYY-MM-DDTHH:mm"))}
+                                      onClick={() => handleSlotSelect(dayjs(slot.startTime).toDate())}
                                   >
                                       {dayjs(slot.startTime).format("HH:mm")} 
                                   </Button>
