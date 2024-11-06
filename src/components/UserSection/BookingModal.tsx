@@ -4,7 +4,7 @@ import { ITreatment } from '../../interfaces/ITreatment';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
 import { IAppointment } from '../../interfaces/IAppointment';
 import DatePicker from 'react-datepicker';
-import { createAppointment, getFreeSlots } from '../../redux/actions/actionAppointment';
+import { createAppointmentClient, getFreeSlots } from '../../redux/actions/actionAppointment';
 import dayjs from 'dayjs';
 import { getStaffs } from '../../redux/actions/actionStaff';
 import { getTreatments } from '../../redux/actions/actionTreatment';
@@ -25,11 +25,11 @@ const BookingModal: React.FC<BookingModalProps> = ({show, handleClose, selectedT
 
     const treatments = useAppSelector((state) => state.treatments.treatments);
     const dispatch = useAppDispatch();
-    const meProfile = useAppSelector((state) => state.users.user);
+    const meProfile = useAppSelector((state) => state.clientsList.clientMe);
     const freeSlots = useAppSelector((state) => state.appointments.freeSlots);
     const staffs = useAppSelector((state) => state.staffList.staffs);
     const [newAppointment, setNewAppointment] = useState<IAppointment>({
-    user: meProfile?.id || "", 
+    user: meProfile?.id, 
     treatments: [],
     staff: "", 
     startTime: startDateTime,
@@ -45,8 +45,9 @@ const handleSlotSelect = (slotStartTime: Date) => {
         ...prevAppointment,
     startTime: dayjs(slotStartTime).format("YYYY-MM-DD"),  // Imposta l'orario di inizio dell'appuntamento
     }));
-    console.log("SELECTED SLOT: ", selectedSlot)
+    
 };
+console.log("CLIENT: ", meProfile?.id)
 console.log("SELECTED SLOT: ", dayjs(selectedSlot).format("YYYY-MM-DDTHH:mm"))
 
 useEffect(() => {
@@ -77,6 +78,7 @@ useEffect(() => {
     dispatch(getFreeSlots(selectedStaff?.id, formattedDateTime));
     dispatch(getStaffs())
     dispatch(getTreatments())
+    
     }
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [dispatch]);
@@ -116,11 +118,13 @@ const handleSaveAppointment = async () => {
 
   const updatedAppointment: IAppointment = {
       ...newAppointment,
+      user: meProfile?.id || "",
       treatments: selectedTreatment,
-  };
+      startTime: selectedSlot ? dayjs(selectedSlot).format("YYYY-MM-DDTHH:mm:ss") : dayjs(newAppointment.startTime).format("YYYY-MM-DDTHH:mm:ss"),
+      };
 
-  await dispatch(createAppointment(updatedAppointment));
-  await dispatch(getAppointmentsMe());
+  await dispatch(createAppointmentClient(updatedAppointment));
+  
 
   handleClose();
   setNewAppointment({
@@ -240,7 +244,8 @@ return (
           <Button
               variant="primary"
               className='my-3 border-primary bg-transparent text-primary save-btn'
-              onClick={handleSaveAppointment}
+              onClick={() => { dispatch(getAppointmentsMe());
+                handleSaveAppointment()}}
               disabled={!selectedSlot} // Disabilita se non è selezionato nessuno slot
           >
               Salva

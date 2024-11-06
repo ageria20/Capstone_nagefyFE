@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import { ITreatment } from '../../interfaces/ITreatment'
 import BookingModal from './BookingModal'
+import { getAppointmentsMe } from '../../redux/actions/actionClients'
 
 const UserPage = () => {
 
@@ -56,6 +57,7 @@ const UserPage = () => {
 
     useEffect(() => {
         getAppointmentsClient(page)
+        dispatch(getAppointmentsMe())
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
@@ -73,7 +75,7 @@ const UserPage = () => {
             </Row>
             <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
-                    <Col xs={12} md={3}>
+                    <Col xs={12} md={3} key={appointment.id}>
                         <Card style={{minHeight: "300px"}}>
                         <Card.Body className='d-flex flex-column justify-content-between align-items-center'>
                           <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>

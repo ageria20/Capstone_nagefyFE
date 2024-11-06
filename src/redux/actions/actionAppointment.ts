@@ -78,7 +78,7 @@ export const createAppointment = (appointment: IAppointment) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments`, {
+            const resp = await fetch(`http://localhost:8080/appointments/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -89,6 +89,32 @@ export const createAppointment = (appointment: IAppointment) => {
             if(resp.ok){
                 notify("Appuntamento creato")
                 dispatch(getAppointments())
+            } else{
+                console.log(resp.statusText)
+                notifyErr("Errore nella creazione ")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export const createAppointmentClient = (appointment: IAppointment) => {
+    return async (dispatch: AppDispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+        
+            const resp = await fetch(`http://localhost:8080/appointments/create`, {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer "+accessToken,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(appointment)
+            })
+            if(resp.ok){
+                notify("Appuntamento creato")
+                dispatch(getAppointmentsMe())
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
@@ -164,7 +190,7 @@ export const deleteMyAppointment = (appointmentId: string | undefined) => {
                 },
             })
             if(resp.ok){
-                notify("Trattamento eliminato")
+                notify("Appuntamento eliminato")
                 dispatch(getAppointmentsMe())
             } else{
                 console.log(resp.statusText)

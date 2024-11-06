@@ -13,6 +13,15 @@ export interface IAppointment {
     endTime?: Date | string;
 }
 
+export interface IAppointmentMe {
+    id: string
+    user: string;
+    treatments: ITreatment[];
+    staff?: string;
+    startTime: Date | string;
+    endTime?: Date | string;
+}
+
 export interface IAppointments {
     id?: string
     user: IClient;
