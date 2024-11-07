@@ -45,6 +45,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
       setToken(res.accessToken)
+      navigate("/agenda")
     } else {
       if(resp.status === 401){
         notifyErr("Credenziali errate")

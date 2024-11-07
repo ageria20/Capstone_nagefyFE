@@ -36,7 +36,7 @@ export const getFreeSlots = (staffId: string, selectedDay: string) => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`${url}/free-slots?staff=${staffId}&date=${selectedDay}`, {
+            const resp = await fetch(`${url}/appointments/free-slots?staff=${staffId}&date=${selectedDay}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
