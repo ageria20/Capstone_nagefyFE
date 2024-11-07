@@ -12,7 +12,9 @@ const ProfileSection = () => {
   return (
     <>
     <Container fluid className='homePage text-center m-0 pt-4 px-5 main-content'>
+      
     <ProfileNav/>
+    
       <h1>Gestisci il tuo salone a portata di click</h1>
       <Container className='w-75 my-5'>
       <h5 style={{fontWeight: "300"}}>Organizza facilmente gli appuntamenti del tuo salone con un'interfaccia intuitiva. Gestisci clienti, trattamenti e staff in pochi clic. Ottimizza il tempo e migliora l'efficienza del tuo business.</h5>
