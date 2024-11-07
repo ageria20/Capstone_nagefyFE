@@ -49,6 +49,7 @@ const UserPage = () => {
             if(resp.ok){
                 const appointmentsClient = await resp.json()
                 setAppointments(appointmentsClient.content)
+                dispatch(getAppointmentsMe())
                 
             } else{
                 throw new Error("Get clients error")
@@ -57,6 +58,10 @@ const UserPage = () => {
             console.log(error)
         }
     }
+
+    const handleAppointmentCreated = (newAppointment: IAppointments) => {
+        setAppointments((prevAppointments) => [newAppointment, ...prevAppointments]);
+      };
 
 
     useEffect(() => {
@@ -129,6 +134,7 @@ const UserPage = () => {
             setSelectedTreatment={setSelectedTreatment} 
             selectedTreatment={selectedTreatment} 
             startDateTime={""} 
+            onAppointmentCreated={handleAppointmentCreated}
             /> 
         <ToastContainer/>
     </Container>

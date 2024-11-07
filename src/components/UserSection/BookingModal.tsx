@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { ITreatment } from '../../interfaces/ITreatment';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
-import { IAppointment } from '../../interfaces/IAppointment';
+import { IAppointment, IAppointments } from '../../interfaces/IAppointment';
 import DatePicker from 'react-datepicker';
 import { createAppointmentClient, getFreeSlots } from '../../redux/actions/actionAppointment';
 import dayjs from 'dayjs';
 import { getStaffs } from '../../redux/actions/actionStaff';
 import { getTreatments } from '../../redux/actions/actionTreatment';
 import { getClientMe } from '../../redux/actions/usersAction';
-import { getAppointmentsMe } from '../../redux/actions/actionClients';
+
 import { notifyErr } from '../../redux/actions/action';
 
 
@@ -19,9 +19,10 @@ interface BookingModalProps {
     setSelectedTreatment: React.Dispatch<React.SetStateAction<ITreatment[]>>;
     selectedTreatment: ITreatment[];
     startDateTime?: string;
+    onAppointmentCreated?: (newAppointment: IAppointments) => void;
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({show, handleClose, selectedTreatment, setSelectedTreatment, startDateTime = ""}) => {
+const BookingModal: React.FC<BookingModalProps> = ({show, handleClose, selectedTreatment, setSelectedTreatment, startDateTime = "", onAppointmentCreated}) => {
 
     const treatments = useAppSelector((state) => state.treatments.treatments);
     const dispatch = useAppDispatch();
@@ -123,8 +124,10 @@ const handleSaveAppointment = async () => {
       startTime: selectedSlot ? dayjs(selectedSlot).format("YYYY-MM-DDTHH:mm:ss") : dayjs(newAppointment.startTime).format("YYYY-MM-DDTHH:mm:ss"),
       };
 
-  await dispatch(createAppointmentClient(updatedAppointment));
-  await dispatch(getAppointmentsMe());
+  const newAppointmentResponse = await dispatch(createAppointmentClient(updatedAppointment));
+  if (onAppointmentCreated) {
+    onAppointmentCreated(newAppointmentResponse);
+  }
 
   handleClose();
   setNewAppointment({
@@ -220,7 +223,7 @@ return (
                           {freeSlots.map((slot, _i) => (
                               <Col className='w-25 p-1' key={_i} xs={12} md={6}>
                                   <Button
-                                      className={`bg-transparent text-secondary p-0 px-3 ${selectedSlot === slot.startTime ? 'selected-slot' : ''}`}
+                                      className={selectedSlot && dayjs(selectedSlot).isSame(slot.startTime) ? `bg-primary border-primary text-white p-0 px-3`: `bg-transparent text-black border-secondary p-0 px-3 ${selectedSlot === slot.startTime ? 'selected-slot' : ''}`}
                                       onClick={() => handleSlotSelect(dayjs(slot.startTime).toDate())}
                                   >
                                       {dayjs(slot.startTime).format("HH:mm")} 

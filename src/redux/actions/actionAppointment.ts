@@ -113,8 +113,10 @@ export const createAppointmentClient = (appointment: IAppointment) => {
                 body: JSON.stringify(appointment)
             })
             if(resp.ok){
+                const newAppointment = await resp.json()
                 notify("Appuntamento creato")
                 dispatch(getAppointmentsMe())
+                return newAppointment
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
