@@ -8,13 +8,13 @@ import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch } from '../../redux/store/store'
 import { getStaffs } from '../../redux/actions/actionStaff'
-import { url } from '../../redux/actions/action'
+import { notifyErr, url } from '../../redux/actions/action'
+import { ToastContainer } from 'react-toastify'
 
 const LoginStaff = () => {
 const [showPassword, setShwPassword] = useState(false)
-const [token, setToken] = useState("")
 const [isLoading, setIsLoading] = useState<boolean>(false)
-
+const [token, setToken] = useState("")
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 
@@ -43,10 +43,14 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      navigate("/agenda")
       setToken(res.accessToken)
+      navigate("/agenda")
+    }
+    else{
+      notifyErr("Credenziali errate")
     }
   } catch (error) {
+    
     console.log(error);
     
   } finally{
@@ -61,7 +65,6 @@ useEffect(() => {
  
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
-
 
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +117,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </Form>
     </Container>
+    <ToastContainer/>
   </div>
   )
 }

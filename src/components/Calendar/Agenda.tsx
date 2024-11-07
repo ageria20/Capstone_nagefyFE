@@ -26,6 +26,7 @@ dayjs.locale("it");
 const localizer = dayjsLocalizer(dayjs);
 const DnDCalendar = withDragAndDrop<IEvents, object>(Calendar);
 
+
 const Agenda: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { setAppointment, setSelectedAppointment } from "../slices/appointmentsSlice"
+import { setAppointment, setFreeSlots, setSelectedAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
-import {  notifyErr, url } from "./action"
+import {  notify, notifyErr, url } from "./action"
 
-import { IAppointment, IUpdateAppointment } from "../../interfaces/IAppointment"
+import { IAppointment, IFreeSlots, IUpdateAppointment } from "../../interfaces/IAppointment"
 import { getAppointmentsMe } from "./actionClients"
 import { NavigateFunction } from "react-router-dom"
 
@@ -25,6 +25,27 @@ export const getAppointments = (navigate: NavigateFunction) => {
                   notifyErr("Credenziali errate")
                   navigate("/")
               }
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export const getFreeSlots = (staffId: string, selectedDay: string) => {
+    return async (dispatch: Dispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const resp = await fetch(`http://localhost:8080/appointments/free-slots?staff=${staffId}&date=${selectedDay}`, {
+                headers: {
+                    Authorization: "Bearer "+accessToken
+                },
+            })
+            if(resp.ok){
+                const freeSlots: IFreeSlots[] = await resp.json()
+                dispatch(setFreeSlots(freeSlots))
+            } else{
+                throw new Error("Get clients error")
             }
         } catch (error){
             console.log(error)
@@ -83,7 +104,35 @@ export const createAppointment = (navigate: NavigateFunction, appointment: IAppo
     }
 }
 
-export const updateAppointment = (navigate: NavigateFunction,appointmentId: string, appointment: IAppointment | IUpdateAppointment) => {
+export const createAppointmentClient = (appointment: IAppointment) => {
+    return async (dispatch: AppDispatch)=>{
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+        
+            const resp = await fetch(`http://localhost:8080/appointments/create`, {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer "+accessToken,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(appointment)
+            })
+            if(resp.ok){
+                const newAppointment = await resp.json()
+                notify("Appuntamento creato")
+                dispatch(getAppointmentsMe())
+                return newAppointment
+            } else{
+                console.log(resp.statusText)
+                notifyErr("Errore nella creazione ")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export const updateAppointment = (navigate: NavigateFunction, appointmentId: string, appointment: IAppointment | IUpdateAppointment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
@@ -145,6 +194,7 @@ export const deleteMyAppointment = (appointmentId: string | undefined) => {
                 },
             })
             if(resp.ok){
+                notify("Appuntamento eliminato")
                 dispatch(getAppointmentsMe())
             } else{
                 console.log(resp.statusText)

@@ -10,11 +10,12 @@ import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { getUser } from '../../redux/actions/usersAction'
 import { useAppDispatch } from '../../redux/store/store'
 import { notifyErr, url } from '../../redux/actions/action'
+import { ToastContainer } from 'react-toastify'
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
-const [token, setToken] = useState("")
 const [isLoading, setIsLoading] = useState<boolean>(false)
+const [token, setToken] = useState("")
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 
@@ -43,7 +44,6 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     if(resp.ok){
       const res = await resp.json()
       localStorage.setItem("accessToken", res.accessToken)
-      navigate("/agenda")
       setToken(res.accessToken)
     } else {
       if(resp.status === 401){
@@ -70,7 +70,6 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
 
-console.log("TOKEN: ",token)
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})
 }
@@ -121,6 +120,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </Form>
     </Container>
+    <ToastContainer/>
   </div>
   )
 }

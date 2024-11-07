@@ -24,7 +24,7 @@ useEffect(() => {
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image src={nagefyLogo} alt="nagefy_logo" width={120} />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className='toggle-btn-user'/>
+        <Navbar.Toggle aria-controls="basic-navbar-nav " className='menuDropToggle' />
         <Container>
           
           <Dropdown className='ms-auto d-flex justify-content-end'>

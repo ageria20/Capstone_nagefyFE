@@ -45,6 +45,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
           email: "",
           password: ""
         })
+        
         setIsOk(true)
         notify("Registrazione effettuata!")
     }
@@ -53,6 +54,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
       
     }
   } catch (error) {
+    notifyErr("Errore nella registrazione!")
     console.log(error);
     
   } finally {

@@ -34,9 +34,9 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const clients = useAppSelector((state) => state.clientsList.clients);
-  const treatments = useAppSelector((state) => state.treatments.treatments);
   const staffs = useAppSelector((state) => state.staffList.staffs);
   const [showModal, setShowModal] = useState(false);
+  const treatments = useAppSelector((state) => state.treatments.treatments);
   const [newAppointment, setNewAppointment] = useState<IAppointment>({
     user: "", 
     treatments: [],

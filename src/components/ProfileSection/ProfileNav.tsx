@@ -8,7 +8,8 @@ const ProfileNav = () => {
 const navigate = useNavigate()
 
   return (
-    <Navbar expand="lg" className="navbar nav mx-auto p-0 fixed-top mt-4">
+    
+    <Navbar expand="lg" className="navbar nav mx-auto fixed-top mt-4">
       <Container className="bg-white rounded-4 mb-5">
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image src={nagefyLogo} alt="nagefy_logo" width={120} />
@@ -34,7 +35,7 @@ const navigate = useNavigate()
               Prodotti
             </Nav.Link>
           </Nav>
-          <Dropdown>
+          <Dropdown className='p-3'>
             <Dropdown.Toggle id="dropdown-basic" className="accedi-btn rounded-4 px-4 mb-0">
               Accedi
             </Dropdown.Toggle>
@@ -53,12 +54,15 @@ const navigate = useNavigate()
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+          <div className='p-3'>
           <Button className=" registrati-btn rounded-4 px-4 ms-3" onClick={() => navigate("/register-client")}>
             Registrati
           </Button>
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    
   )
 }
 

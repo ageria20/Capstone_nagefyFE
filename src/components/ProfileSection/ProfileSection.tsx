@@ -12,6 +12,7 @@ const ProfileSection = () => {
   return (
     <>
     <Container fluid className='homePage text-center m-0 pt-4 px-5 main-content'>
+      
     <ProfileNav/>
    
     <Container className='text-center w-50 my-5 mb-5'>

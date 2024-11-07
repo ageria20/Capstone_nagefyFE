@@ -6,6 +6,7 @@ body{
     background: rgb(171, 128, 222);
 background: linear-gradient(180deg, rgba(197,180,218,1) 20%, rgba(197,180,218,1) 100%);
 height: 100%;
+overflow-x: hidden;
 
 }
 
@@ -20,6 +21,7 @@ height: 100%;
 
 .main-content {
     margin-top: 1rem;
+    overflow-x: hidden;
 }
 
 .homePage h1 {
@@ -54,8 +56,11 @@ height: 100%;
 
 @media only screen and (max-width: 400px) {
     .homePage h1 {
-        font-size: 3rem;
+        font-size: 3rem !important;
     }
+
+    
+    
 }
 
 
@@ -64,8 +69,9 @@ height: 100%;
     padding-inline: 0 !important;
 }
 
+
     .homePage h1 {
-        font-size: 2rem;
+        font-size: 3rem !important;
         width: 100%;
     }
 }
