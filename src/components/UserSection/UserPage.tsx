@@ -28,7 +28,10 @@ const UserPage = () => {
 
 
     const handleShowModal = () => setShow(true);
-  const handleCloseModal = () => setShow(false);
+    const handleCloseModal = () => {
+        setShow(false);
+        dispatch(getAppointmentsMe()); // Chiamata nel componente padre
+    };
 
     useEffect(() => {
         dispatch(getClientMe())

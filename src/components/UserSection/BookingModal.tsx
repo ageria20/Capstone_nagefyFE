@@ -124,7 +124,7 @@ const handleSaveAppointment = async () => {
       };
 
   await dispatch(createAppointmentClient(updatedAppointment));
-  
+  await dispatch(getAppointmentsMe());
 
   handleClose();
   setNewAppointment({
@@ -243,10 +243,9 @@ return (
           </Button>
           <Button
               variant="primary"
-              className='my-3 border-primary bg-transparent text-primary save-btn'
-              onClick={() => { dispatch(getAppointmentsMe());
-                handleSaveAppointment()}}
-              disabled={!selectedSlot} // Disabilita se non è selezionato nessuno slot
+              className={selectedSlot ? 'my-3 border-primary bg-primary save-btn' : 'my-3 border-primary bg-transparent text-primary save-btn'}
+              onClick={handleSaveAppointment}
+              disabled={!selectedSlot} 
           >
               Salva
           </Button>
