@@ -78,7 +78,7 @@ Customer 🗓️
 Customers can navigate to their own page to see their appointments. Please verify your email after registration.
 
 Admin 📝
-Log in with admin credentials (username: admin, password: admin) to access the admin dashboard and agenda. Manage appointments, staff members, customers, and time slots, and get an overview of the income.
+Log in with admin credentials (email: admin@gmail.com, password: admin) to access the admin dashboard and agenda. Manage appointments, staff members, customers, and time slots, and get an overview of the income.
 
 
 # Andrea Geria
