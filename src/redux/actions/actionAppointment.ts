@@ -78,7 +78,7 @@ export const createAppointment = (appointment: IAppointment) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments/create`, {
+            const resp = await fetch(`${url}/appointments/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
