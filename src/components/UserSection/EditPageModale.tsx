@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {  IUser } from "../../interfaces/IUser";
 import { useAppDispatch } from "../../redux/store/store";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import { getClientMe } from "../../redux/actions/usersAction";
+import { url } from "../../redux/actions/action";
 
 
 
@@ -25,6 +26,11 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
     })
 
 
+    useEffect(() => {
+      setClient(loggedUser);
+  }, [loggedUser]);
+
+
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
@@ -35,7 +41,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
     const updateProfile = async (client: IUser) =>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/me/`, {
+            const resp = await fetch(`${url}/clients/me`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -64,7 +70,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
       <Modal.Title className="modalEdit">Modifica Profilo</Modal.Title>
     </Modal.Header>
     <Modal.Body className="modalEdit">
-    {loggedUser &&
+    {client &&
           <Form>
           <Form.Group controlId="formClientName">
             <Form.Label>Nome</Form.Label>
@@ -72,7 +78,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
               type="text"
             
               name="name"
-              value={loggedUser.name}
+              value={client.name}
               onChange={handleChange}
             />
           </Form.Group>
@@ -82,7 +88,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
               type="text"
               
               name="surname"
-              value={loggedUser.surname}
+              value={client.surname}
               onChange={handleChange}
             />
           </Form.Group>
@@ -92,7 +98,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
               type="text"
               
               name="telephone"
-              value={loggedUser.telephone}
+              value={client.telephone}
               onChange={handleChange}
             />
           </Form.Group>
@@ -102,7 +108,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
               type="text"
               
               name="email"
-              value={loggedUser.email}
+              value={client.email}
               onChange={handleChange}
             />
           </Form.Group>
@@ -112,7 +118,7 @@ const EditPageModal: React.FC<EditPageModalProps> = ({show, handleClose, loggedU
               type="text"
               
               name="password"
-              value={loggedUser.password}
+              value={client.password}
               onChange={handleChange}
             />
           </Form.Group>
