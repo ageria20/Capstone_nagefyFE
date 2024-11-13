@@ -83,7 +83,7 @@ export const createAppointment = (navigate: NavigateFunction, appointment: IAppo
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`${url}/appointments`, {
+            const resp = await fetch(`${url}/appointments/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
