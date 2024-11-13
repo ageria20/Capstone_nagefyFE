@@ -15,6 +15,7 @@ Role-Based Access Control:
 
 🗓️ Appointment View: Users can see all their scheduled appointments.
 Appointment Booking: Clients can book appointments based on available slots.
+Booking Appointment: Users can book appointments by selecting a preferred staff member, treatment, and date
 
 
 
@@ -69,8 +70,9 @@ Staff Management: Add new staff members (only the admin can create new staff).
 
 
 Access the Application
-Frontend: Open a web browser and navigate to [http://localhost:5173](http://localhost:5173) (or your configured port).
-Backend: The API endpoints are available at [http://localhost:8080](http://localhost:8080) (or your configured port).
+Frontend: You can access the frontend of the application at http://nagefy.netlify.app, fully deployed on Netlify.
+Backend: The API endpoints are accessible at http://localhost:8080 (or your configured port) if you are running the backend locally. For the live version, the backend is deployed on Koyeb.
+This application is fully functional, with the frontend hosted on Netlify and the backend on Koyeb, ready for testing and use.
 
 # USAGE 🌐💻🔌
 
