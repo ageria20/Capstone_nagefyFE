@@ -9,7 +9,7 @@ import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch } from '../../redux/store/store'
 import { getClients } from '../../redux/actions/actionClients'
 import { getClientMe } from '../../redux/actions/usersAction'
-import { notifyErr } from '../../redux/actions/action'
+import { notifyErr, url } from '../../redux/actions/action'
 import { ToastContainer } from 'react-toastify'
 
 const LoginClient = () => {
@@ -34,7 +34,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
   try{
     setIsLoading(true)
-    const resp = await fetch(`http://localhost:8080/auth/client-login`, {
+    const resp = await fetch(`${url}/auth/client-login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -75,7 +75,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <Image src={nagefyLogo} alt="nageft_logo" />
+        <Image src={nagefyLogo} alt="nagefy_logo" />
     <Container className="m-3 shadow-lg container-custom rounded-4 p-0 d-flex justify-content-center align-content-center flex-column">
       <h3 className='p-3 text-center'><strong>Bentornato!</strong></h3>
       
@@ -114,7 +114,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /> : "Login"}</Button>
         </div>
         <div className='text-center'>
-                Non hai ancora un account? <Link className="nav-link" to="/register"><strong>Registrati</strong></Link>
+                Non hai ancora un account? <Link className="nav-link" to="/register-client"><strong>Registrati</strong></Link>
         </div>
       </Form>
     </Container>

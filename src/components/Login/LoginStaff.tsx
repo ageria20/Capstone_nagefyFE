@@ -8,7 +8,7 @@ import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
 import { useAppDispatch } from '../../redux/store/store'
 import { getStaffs } from '../../redux/actions/actionStaff'
-import { notifyErr } from '../../redux/actions/action'
+import { notifyErr, url } from '../../redux/actions/action'
 import { ToastContainer } from 'react-toastify'
 
 const LoginStaff = () => {
@@ -33,7 +33,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
   try{
     setIsLoading(true)
-    const resp = await fetch(`http://localhost:8080/auth/staff-login`, {
+    const resp = await fetch(`${url}/auth/staff-login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

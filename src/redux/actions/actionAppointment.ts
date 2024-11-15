@@ -1,16 +1,18 @@
 import { Dispatch } from "@reduxjs/toolkit"
 import { setAppointment, setFreeSlots, setSelectedAppointment } from "../slices/appointmentsSlice"
 import { AppDispatch } from "../store/store"
-import { notify, notifyErr } from "./action"
+import {  notify, notifyErr, url } from "./action"
 
 import { IAppointment, IFreeSlots, IUpdateAppointment } from "../../interfaces/IAppointment"
 import { getAppointmentsMe } from "./actionClients"
+import { NavigateFunction } from "react-router-dom"
 
-export const getAppointments = () => {
+
+export const getAppointments = (navigate: NavigateFunction) => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments`, {
+            const resp = await fetch(`${url}/appointments`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -18,8 +20,11 @@ export const getAppointments = () => {
             if(resp.ok){
                 const appointments = await resp.json()
                 dispatch(setAppointment(appointments.content))
-            } else{
-                throw new Error("Get clients error")
+            }  else {
+                if(resp.status === 401 || resp.status === 403){
+                  notifyErr("Credenziali errate")
+                  navigate("/")
+              }
             }
         } catch (error){
             console.log(error)
@@ -31,7 +36,7 @@ export const getFreeSlots = (staffId: string, selectedDay: string) => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/free-slots?staff=${staffId}&date=${selectedDay}`, {
+            const resp = await fetch(`${url}/appointments/free-slots?staff=${staffId}&date=${selectedDay}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -54,7 +59,7 @@ export const getAppointmentsById = (appointmentId: string | undefined) => {
     return async (dispatch: Dispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -73,12 +78,12 @@ export const getAppointmentsById = (appointmentId: string | undefined) => {
 }
 
 
-export const createAppointment = (appointment: IAppointment) => {
+export const createAppointment = (navigate: NavigateFunction, appointment: IAppointment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments/create`, {
+            const resp = await fetch(`${url}/appointments/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -87,8 +92,8 @@ export const createAppointment = (appointment: IAppointment) => {
                 body: JSON.stringify(appointment)
             })
             if(resp.ok){
-                notify("Appuntamento creato")
-                dispatch(getAppointments())
+                
+                dispatch(getAppointments(navigate))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
@@ -104,7 +109,7 @@ export const createAppointmentClient = (appointment: IAppointment) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments/create`, {
+            const resp = await fetch(`${url}/appointments/create`, {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -127,12 +132,12 @@ export const createAppointmentClient = (appointment: IAppointment) => {
     }
 }
 
-export const updateAppointment = (appointmentId: string, appointment: IAppointment | IUpdateAppointment) => {
+export const updateAppointment = (navigate: NavigateFunction, appointmentId: string, appointment: IAppointment | IUpdateAppointment) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
         
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -142,9 +147,7 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
             })
             if(resp.ok){
             
-                
-                notify("Appuntamento modificato")
-                dispatch(getAppointments())
+                dispatch(getAppointments(navigate))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
@@ -156,11 +159,11 @@ export const updateAppointment = (appointmentId: string, appointment: IAppointme
 }
 
 
-export const deleteAppointment = (appointmentId: string | undefined) => {
+export const deleteAppointment = (navigate: NavigateFunction, appointmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,
@@ -168,8 +171,7 @@ export const deleteAppointment = (appointmentId: string | undefined) => {
                 },
             })
             if(resp.ok){
-                notify("Trattamento eliminato")
-                dispatch(getAppointments())
+                dispatch(getAppointments(navigate))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nell'eliminazione!")
@@ -184,7 +186,7 @@ export const deleteMyAppointment = (appointmentId: string | undefined) => {
     return async (dispatch: AppDispatch)=>{
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/appointments/${appointmentId}`, {
+            const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: "Bearer "+accessToken,

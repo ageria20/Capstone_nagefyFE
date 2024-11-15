@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
-import { Badge,  Button,  Card, Col, Container, Row } from 'react-bootstrap'
+import { Alert, Badge,  Button,  Card, Col, Container, Row } from 'react-bootstrap'
 import UserNav from "./UserNav"
 import { useAppDispatch } from '../../redux/store/store'
 import { IAppointments } from '../../interfaces/IAppointment'
 import dayjs from 'dayjs'
-import { Calendar, Trash } from 'react-bootstrap-icons'
+import { Calendar, ExclamationOctagonFill, Trash } from 'react-bootstrap-icons'
 import { getClientMe } from '../../redux/actions/usersAction'
 import "./UserPage.css"
 import { deleteMyAppointment } from '../../redux/actions/actionAppointment'
-import { ToastContainer } from 'react-toastify'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import { ITreatment } from '../../interfaces/ITreatment'
 import BookingModal from './BookingModal'
 import { getAppointmentsMe } from '../../redux/actions/actionClients'
+import { ToastContainer } from 'react-toastify'
+import { url } from '../../redux/actions/action'
 
 const UserPage = () => {
 
@@ -41,7 +42,7 @@ const UserPage = () => {
     const getAppointmentsClient = async (page: number) => {
         try {
             const accessToken = localStorage.getItem("accessToken")
-            const resp = await fetch(`http://localhost:8080/clients/me/appointments?page=${page}`, {
+            const resp = await fetch(`${url}/clients/me/appointments?page=${page}`, {
                 headers: {
                     Authorization: "Bearer "+accessToken
                 },
@@ -82,9 +83,9 @@ const UserPage = () => {
                     <Button className="edit-btn mb-5" onClick={handleShowModal}><Calendar className='me-2 mb-1'/> Prenota</Button>
                     </Col>
             </Row>
-            <Row>
+            { appointments.length > 0 ? <Row>
                 {appointments.reverse().map((appointment: IAppointments) => 
-                    <Col xs={12} md={3} key={appointment.id}>
+                    <Col xs={12} md={3}>
                         <Card style={{minHeight: "300px"}}>
                         <Card.Body className='d-flex flex-column justify-content-between align-items-center'>
                           <Card.Title>{dayjs(appointment.startTime).format('ddd D MMM - HH:mm').toLocaleUpperCase()}</Card.Title>
@@ -121,7 +122,7 @@ const UserPage = () => {
                       </Card>
                       </Col>
                 )}
-            </Row>
+            </Row> : <Alert className='mt-5 d-flex align-items-center alertAppointments p-4 rounded-4 border-white'><ExclamationOctagonFill className='me-3'/>Non sono presenti appuntamenti</Alert>}
            { appointments.length > 0 && <Container className='d-flex justify-content-between align-items-center mx-auto' style={{width: "150px"}}>
             <Button className='bg-transparent border-0' onClick={() => setPage(page - 1)}><BiLeftArrow/> Indietro</Button>
             <Button className='bg-transparent border-0'onClick={() => setPage(page + 1)}><BiRightArrow/> Avanti</Button>

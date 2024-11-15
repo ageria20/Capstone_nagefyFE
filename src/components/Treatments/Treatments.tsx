@@ -14,7 +14,6 @@ import "./Treatment.css";
 import { ToggleSidebarAction } from "../../redux/actions/action";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import NewUserModal from "./NewTreatmentModal";
-import { ToastContainer } from "react-toastify";
 import {
   deleteTreatment,
   getTreatments,
@@ -214,7 +213,6 @@ const Treatments = () => {
         </Row>
         <NewUserModal show={showModal} handleClose={handleCloseModal} />
       </Container>
-      <ToastContainer />
     </div>
   );
 };

@@ -5,7 +5,8 @@ import nagefyLogo from "../../assets/nagefyLogo250.png"
 import "./Register.css"
 import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { notify, notifyErr } from '../../redux/actions/action'
+import { notify, notifyErr, url } from '../../redux/actions/action'
+
 
 const RegisterClient = () => {
   
@@ -28,7 +29,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
   try{
     setIsLoading(true)
-    const resp = await fetch(`http://localhost:8080/auth/client-register`, {
+    const resp = await fetch(`${url}/auth/client-register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -37,7 +38,6 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
     });
     if(resp.ok){
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await resp.json()
       setClient({
           name: "",
           surname: "",
@@ -47,13 +47,17 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
         })
         
         setIsOk(true)
+        notify("Registrazione effettuata!")
+    }
+    else{
+      notifyErr("Errore nella registrazione")
+      
     }
   } catch (error) {
     notifyErr("Errore nella registrazione!")
     console.log(error);
     
   } finally {
-    notify("Registrazione effettuata!")
     setIsLoading(false)
   }
 }
@@ -82,7 +86,7 @@ const toggleShowPassword = () => {
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Telefono</Form.Label>
-          <Form.Control type="telephone" name="telephone" placeholder="Telefono" autoFocus required value={client.telephone} onChange={handleChange}/>
+          <Form.Control type="telephone" min={9} max={10} name="telephone" placeholder="Telefono" autoFocus required value={client.telephone} onChange={handleChange}/>
         </Form.Group>
         <Form.Group className="mb-0 p-1" controlId="exampleForm.ControlInput1">
           <Form.Label>Email</Form.Label>

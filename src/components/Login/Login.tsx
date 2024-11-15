@@ -8,15 +8,14 @@ import { Link, useNavigate} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
 
 import { getUser } from '../../redux/actions/usersAction'
-import { useAppDispatch} from '../../redux/store/store'
-import { notifyErr } from '../../redux/actions/action'
+import { useAppDispatch } from '../../redux/store/store'
+import { notifyErr, url } from '../../redux/actions/action'
 import { ToastContainer } from 'react-toastify'
 
 const Login = () => {
 const [showPassword, setShwPassword] = useState(false)
 const [isLoading, setIsLoading] = useState<boolean>(false)
 const [token, setToken] = useState("")
-
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 
@@ -35,7 +34,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
 
   try{
     setIsLoading(true)
-    const resp = await fetch(`http://localhost:8080/auth/login`, {
+    const resp = await fetch(`${url}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -47,8 +46,12 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
       localStorage.setItem("accessToken", res.accessToken)
       setToken(res.accessToken)
       navigate("/agenda")
-    } else{
-      notifyErr("Credenziali errate")}
+    } else {
+      if(resp.status === 401){
+        notifyErr("Credenziali errate")
+        navigate("/")
+    }
+  }
   } catch (error) {
     console.log(error);
     
@@ -57,15 +60,16 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) =>{
   }
 }
 
+   
+
 useEffect(() => {
   if(token){
  dispatch(getUser())
- 
-  }
+  } 
+
  
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token, dispatch])
-
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setUser({...user, [e.target.name]: e.target.value})

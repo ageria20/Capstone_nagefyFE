@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import { ArrowLeft, ArrowRight, List, X} from 'react-bootstrap-icons';
 import { NavigateAction, View } from "react-big-calendar"; 
 import "./Agenda.css"
@@ -31,6 +31,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
     const staffs = useAppSelector((state) => state.staffList.staffs)
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+    
 
     const toggleSidebar = () => {
         dispatch({ type: 'TOGGLE_SIDEBAR' } as ToggleSidebarAction);
@@ -68,7 +69,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
         <Button onClick={() => onNavigate("PREV")} className='border-start rounded-0 arrowLeft'><ArrowLeft/></Button>
         <div style={{ marginTop: '5px' }} className='d-flex justify-content-center align-items-center position-relative'>
-        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column justify-content-center mb-0 align-items-center p-2'>{formattedDate.split(" ")[0]}{" "}{formattedDate.split(" ")[1].slice(0,2).toUpperCase()}</p>
+        <p onClick={toggleDataPicker} style={{cursor: "pointer"}} className=' text-center d-flex flex-column justify-content-center mb-0 align-items-center p-2'>{formattedDate.toUpperCase()}</p>
         
                 {isDatePickerOpen && 
                 <div style={{position: 'absolute', 
@@ -91,13 +92,20 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ onNavigate, currentDate, 
 
         
     </div>
-        <section className='sectionToolbar my-2'>
+        <section className='sectionToolbar my-2 p-3'>
+            <Row className='justify-content-between align-items-center'>
+        <Col xs={12} md={2}>
+        <p className='mt-2 d-block'>Filtra per membro dello Staff</p>
+        </Col>
+        <Col xs={12} md={9}>
         <select onChange={handleStaffChange} value={selectedStaff} className='rounded-5 px-2 py-1 w-sm-100 me-auto'>
             <option value="">Tutti</option>
             {staffs.map((member: IStaff) => (
                 <option key={member.id} value={member.name}>{member.name}</option>
             ))}
         </select>
+        </Col>
+        </Row>
         </section>
         </>
   )

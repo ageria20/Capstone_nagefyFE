@@ -15,6 +15,11 @@ import { IClient, IEvents } from "../../interfaces/IUser";
 import {  IAppointments, IUpdateAppointment } from "../../interfaces/IAppointment";
 import { getTreatments } from "../../redux/actions/actionTreatment";
 import { ITreatment } from "../../interfaces/ITreatment";
+import isBetween from 'dayjs/plugin/isBetween';
+import { useNavigate } from "react-router-dom";
+
+// Registra il plugin
+dayjs.extend(isBetween);
 
 
 dayjs.locale("it");
@@ -24,6 +29,7 @@ const DnDCalendar = withDragAndDrop<IEvents, object>(Calendar);
 
 const Agenda: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [selectedStaff, setSelectedStaff] = useState<string>("");
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -54,9 +60,10 @@ const Agenda: React.FC = () => {
                 end,
                 staff: `${appointment.staff.name}`,
                 payed: appointment.payed,
-                treatmentsList: appointment.treatmentsList
+                treatmentsList: appointment.treatmentsList,
             };
         });
+
         setEvents(formattedEvents);
     }, [appointments]);
 
@@ -74,6 +81,7 @@ const Agenda: React.FC = () => {
     ) : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 8, 30);
    
 
+
 const maxTime = todayOrari && isDayOpen ? new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
@@ -81,6 +89,31 @@ const maxTime = todayOrari && isDayOpen ? new Date(
         todayOrari ? parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[0]): 23, 
         todayOrari ? parseInt(todayOrari.hours[todayOrari.hours.length - 1].to.split(":")[1]): 59
     ) : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 30);
+
+    const isSlotInPause = (slotTime: Date): boolean => {
+        if (!isDayOpen) return true; // Se il giorno non è aperto, segna tutto come non selezionabile
+    
+        const slotDayjs = dayjs(slotTime, "HH:mm"); // Assicurati di passare la data correttamente
+    
+        return todayOrari?.pauses?.some(pause => {
+            // Parsing delle pause
+            const pauseStart = dayjs(pause.from, "HH:mm");
+            const pauseEnd = dayjs(pause.to, "HH:mm");
+    
+            // Controllo se il parsing è riuscito
+            if (!pauseStart.isValid() || !pauseEnd.isValid()) {
+                
+                return false; // Ignora questa pausa se non è valida
+            }
+    
+            // Controlla se lo slot è tra la pausa
+            return slotDayjs.isBetween(pauseStart, pauseEnd, null, '[]'); // '[]' include i bordi
+        }) || false; // Restituisce false se non ci sono pause
+    };
+ 
+   
+
+
 
     const handleNavigate = (newDate: Date, view: View) => {
     console.log(view);
@@ -129,9 +162,9 @@ const maxTime = todayOrari && isDayOpen ? new Date(
             
         
                 try {
-                    await dispatch(updateAppointment(updatedAppointment.id, updatedAppointment));
+                    await dispatch(updateAppointment(navigate, updatedAppointment.id, updatedAppointment));
                     
-                    dispatch(getAppointments()); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
+                    dispatch(getAppointments(navigate)); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
                 } catch (err) {
                     console.error("Errore nell'aggiornamento dell'appuntamento: ", err);
                 }
@@ -139,11 +172,11 @@ const maxTime = todayOrari && isDayOpen ? new Date(
     };
 
     const handleSelectSlot = ({ start }: { start: Date }) => {
-        const startString: string = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
-        setSelectedSlot(startString);
-        setSelectedEvent(null)
-       
-        setShowModal(true);
+            const startString: string = dayjs(start).format("YYYY-MM-DDTHH:mm:ss");
+            setSelectedSlot(startString);
+            setSelectedEvent(null);
+            setShowModal(true);
+    
     };
 
     const handleEventSelect = (event: IEvents) => {
@@ -169,13 +202,14 @@ const maxTime = todayOrari && isDayOpen ? new Date(
 
       const eventStyleGetter: EventPropGetter<IEvents> = (event) => {
         const backgroundColor = event.payed ? 'lightgray' : 'blue';
+        const textColor = event.payed ? 'black' : 'white';
         const style = {
             backgroundColor: backgroundColor,
             borderRadius: '0.7rem',
             width: '100%',
             padding: '0.5rem',
             opacity: 0.8,
-            color: 'white',
+            color: textColor,
             border: '0px',
             display: 'block'
         };
@@ -183,19 +217,34 @@ const maxTime = todayOrari && isDayOpen ? new Date(
             style: style
         };
     };
+
+    const getSlotStyle = (date: Date) => {
+        if (!isDayOpen) {
+            return { backgroundColor: 'lightgray', textDecoration: 'line-through', cursor: 'not-allowed' }; // Giorno chiuso
+        } else if (isSlotInPause(date)) {
+            return { backgroundColor: 'lightgray', textDecoration: 'line-through', cursor: 'not-allowed' }; // Slot in pausa
+        }
+        return {}; // Slot normale
+    };
     
+    const slotPropGetter = (date: Date) => {
+        const style = getSlotStyle(date);
+        return { style };
+    };
     
 
 
     useEffect(() => {
         dispatch(getStaffs());
-        dispatch(getAppointments());
+        dispatch(getAppointments(navigate));
         setSelectedSlot("")
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentDate, dispatch]);
 
-    const formattedDate = dayjs(currentDate).format("MMMM D, YYYY");
-
+    
+    const formattedDate = dayjs(currentDate).format("ddd DD MMMM").toLocaleUpperCase();
+    
     return (
         
         <Container fluid className="d-flex flex-column justify-content-center align-items-center">
@@ -217,6 +266,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
                 selectable={isDayOpen}
                 onSelectSlot={handleSelectSlot}
                 eventPropGetter={eventStyleGetter}
+                slotPropGetter={slotPropGetter}
                 components={{
                     event: (eventProps: EventProps<IEvents>) => {
                         const { event } = eventProps; 
@@ -239,6 +289,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
                             formattedDate={formattedDate}
                         />
                     ),
+                    
                 }}
             />
 

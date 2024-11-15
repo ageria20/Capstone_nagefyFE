@@ -4,6 +4,7 @@ import { Button, Container,  Image} from 'react-bootstrap'
 import {  useEffect, } from 'react'
 import { useNavigate, useParams} from 'react-router-dom'
 import nagefyLogo from "../../assets/nagefyLogo200.png"
+import { url } from '../../redux/actions/action'
 
 
 const VerificationAdmin = () => {
@@ -17,7 +18,7 @@ const navigate = useNavigate()
 const verifyEmail = async () =>{
 
   try{
-    const resp = await fetch(`http://localhost:8080/auth/verify-admin/${email}`, {
+    await fetch(`${url}/auth/verify-admin/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
