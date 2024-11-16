@@ -130,7 +130,7 @@ export const createAppointmentClient = (appointment: IAppointment, setIsLoading:
             if(resp.ok){
                 const newAppointment = await resp.json()
                 notify("Appuntamento creato")
-                dispatch(getAppointmentsMe())
+                dispatch(getAppointmentsMe(setIsLoading))
                 return newAppointment
             } else{
                 console.log(resp.statusText)
@@ -212,7 +212,7 @@ export const deleteMyAppointment = (appointmentId: string | undefined, setIsLoad
             })
             if(resp.ok){
                 notify("Appuntamento eliminato")
-                dispatch(getAppointmentsMe())
+                dispatch(getAppointmentsMe(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nell'eliminazione!")

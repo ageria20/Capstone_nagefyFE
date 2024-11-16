@@ -7,9 +7,10 @@ import { url } from "./action"
 import { NavigateFunction } from "react-router-dom"
 
 
-export const getCash = () => {
+export const getCash = (setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/cash`, {
                 headers: {
@@ -24,14 +25,17 @@ export const getCash = () => {
             }
         } catch (error){
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 }
 
 
-export const createCash = (navigate: NavigateFunction, cash: ICash) => {
+export const createCash = (navigate: NavigateFunction, cash: ICash, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/cash`, {
                 method: "POST",
@@ -42,11 +46,13 @@ export const createCash = (navigate: NavigateFunction, cash: ICash) => {
                 body: JSON.stringify(cash)
             })
             if(resp.ok){
-                dispatch(getCash())
-                dispatch(getAppointments(navigate))
+                dispatch(getCash(setIsLoading))
+                dispatch(getAppointments(navigate, setIsLoading))
             } 
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }

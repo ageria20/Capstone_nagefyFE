@@ -1,4 +1,4 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
 import { List, X } from "react-bootstrap-icons";
 import Sidebar from "../Sidebar/Sidebar";
@@ -15,6 +15,7 @@ const Cash = () => {
   const params = useParams();
   const appointmentId = params.id;
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [sale, setSale] = useState<number>(0); // Stato per il valore dello sconto
   const [appliedSale, setAppliedSale] = useState<number>(0); // Stato per lo sconto applicato
 
@@ -44,7 +45,7 @@ const Cash = () => {
 
   useEffect(() => {
     if (appointmentId) {
-      dispatch(getAppointmentsById(appointmentId));
+      dispatch(getAppointmentsById(appointmentId, setIsLoading));
     }
   }, [appointmentId, dispatch]);
 
@@ -58,7 +59,7 @@ const Cash = () => {
   }, [appointmentId, discountedTotal, paymentMethod]);
 
   const handleSaveCash = () => {
-    dispatch(createCash(navigate, newCash));
+    dispatch(createCash(navigate, newCash, setIsLoading));
     navigate("/agenda");
     
   };
@@ -159,7 +160,7 @@ const Cash = () => {
               className='my-3 border-primary bg-transparent text-primary save-btn'
               onClick={handleSaveCash}
             >
-              Paga
+             {isLoading ? <Spinner animation="border" /> : "Paga"}
             </Button>
           </Container>
         )}
