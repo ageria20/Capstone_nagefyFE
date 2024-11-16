@@ -3,9 +3,10 @@ import { notify, notifyErr, url} from "./action"
 import { AppDispatch } from "../store/store"
 import { setStaffs } from "../slices/staffSlice"
 
-export const getStaffs = () => {
+export const getStaffs = (setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/staffs`, {
                 headers: {
@@ -20,16 +21,17 @@ export const getStaffs = () => {
             }
         } catch (error){
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 }
 
-export const searchStaff = (query: string) => {
+export const searchStaff = (query: string, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch) => {
         try {
+            setIsLoading(true);
             const accessToken = localStorage.getItem("accessToken");
-            
-
             const resp = await fetch( `${url}/staffs/search?name=${encodeURIComponent(query)}`, {
                 headers: {
                     Authorization: "Bearer " + accessToken
@@ -44,13 +46,16 @@ export const searchStaff = (query: string) => {
             }
         } catch (error) {
             console.log(error);
+        } finally{
+            setIsLoading(false)
         }
     };
 };
 
-export const createStaff = (staff: INewStaff) => {
+export const createStaff = (staff: INewStaff, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/staffs/create`, {
                 method: "POST",
@@ -62,22 +67,24 @@ export const createStaff = (staff: INewStaff) => {
             })
             if(resp.ok){
                 notify("Staff creato")
-                dispatch(getStaffs())
+                dispatch(getStaffs(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }
 
-export const updateStaff = (staffId: string | undefined, staff: IStaff) => {
+export const updateStaff = (staffId: string | undefined, staff: IStaff, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
-        
             const resp = await fetch(`${url}/staffs/${staffId}`, {
                 method: "PUT",
                 headers: {
@@ -88,20 +95,23 @@ export const updateStaff = (staffId: string | undefined, staff: IStaff) => {
             })
             if(resp.ok){        
                 notify("Staff modificato")
-                dispatch(getStaffs())
+                dispatch(getStaffs(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 }
 
-export const deleteStaff = (staffId: string | undefined) => {
+export const deleteStaff = (staffId: string | undefined, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/staffs/${staffId}`, {
                 method: "DELETE",
@@ -112,13 +122,15 @@ export const deleteStaff = (staffId: string | undefined) => {
             })
             if(resp.ok){
                 notify("Staff eliminato")
-                dispatch(getStaffs())
+                dispatch(getStaffs(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nell'eliminazione!")
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }

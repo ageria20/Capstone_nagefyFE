@@ -3,9 +3,11 @@ import { notify, notifyErr, TreatmentAction, TREATMENTS, url } from "./action"
 import { AppDispatch } from "../store/store"
 import { ITreatment } from "../../interfaces/ITreatment"
 
-export const getTreatments = () => {
+
+export const getTreatments = (setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch<TreatmentAction>)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/treatments`, {
                 headers: {
@@ -20,15 +22,17 @@ export const getTreatments = () => {
             }
         } catch (error){
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 }
 
-export const searchTreatments = (query: string) => {
+export const searchTreatments = (query: string, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch<TreatmentAction>) => {
         try {
+            setIsLoading(true);
             const accessToken = localStorage.getItem("accessToken");
-
             const resp = await fetch(`${url}/treatments/search?name=${encodeURIComponent(query)}`, {
                 headers: {
                     Authorization: "Bearer " + accessToken
@@ -43,15 +47,17 @@ export const searchTreatments = (query: string) => {
             }
         } catch (error) {
             console.log(error);
+        } finally{
+            setIsLoading(false)
         }
     };
 };
 
-export const updateTreatment = (treatmentId: string | undefined, appointment: ITreatment) => {
+export const updateTreatment = (treatmentId: string | undefined, appointment: ITreatment, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
-        
             const resp = await fetch(`${url}/treatments/${treatmentId}`, {
                 method: "PUT",
                 headers: {
@@ -62,20 +68,23 @@ export const updateTreatment = (treatmentId: string | undefined, appointment: IT
             })
             if(resp.ok){
                 notify("Trattamento modificato")
-                dispatch(getTreatments())
+                dispatch(getTreatments(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 }
 
-export const createTreatment = (treatment: ITreatment) => {
+export const createTreatment = (treatment: ITreatment, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/treatments`, {
                 method: "POST",
@@ -87,19 +96,22 @@ export const createTreatment = (treatment: ITreatment) => {
             })
             if(resp.ok){
                 notify("Trattamento creato")
-                dispatch(getTreatments())
+                dispatch(getTreatments(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione del trattamento")
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }
-export const deleteTreatment = (treatmentId: string | undefined) => {
+export const deleteTreatment = (treatmentId: string | undefined, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/treatments/${treatmentId}`, {
                 method: "DELETE",
@@ -110,13 +122,15 @@ export const deleteTreatment = (treatmentId: string | undefined) => {
             })
             if(resp.ok){
                 notify("Trattamento eliminato")
-                dispatch(getTreatments())
+                dispatch(getTreatments(setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nell'eliminazione!")
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }

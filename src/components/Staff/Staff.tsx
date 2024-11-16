@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Card, Col, Container, Form, ListGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Form, ListGroup, Row, Spinner } from 'react-bootstrap'
 import { List, Plus, Trash, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Staff.css"
@@ -15,6 +15,7 @@ const Staff = () => {
     const staffs: IStaff[] = useAppSelector((state) => state.staffList.staffs)
     const [selectedStaff, setSelectedStaff] = useState<IStaff>({} as IStaff);
     const [showModal, setShowModal] = useState(false); 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     
     
       const handleCustomerClick = (staff: IStaff) => {
@@ -34,9 +35,9 @@ const Staff = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
       setQuery(e.target.value)
       if(query.length > 0 ){
-      dispatch(searchStaff(e.target.value))
+      dispatch(searchStaff(e.target.value, setIsLoading))
     }else {
-      dispatch(getStaffs())
+      dispatch(getStaffs(setIsLoading))
     }
     }
     
@@ -50,14 +51,14 @@ const Staff = () => {
     
     const handleUpdateStaff = (selectedStaffId: string | undefined) => {
       if (selectedStaffId) {
-        dispatch(updateStaff(selectedStaffId, selectedStaff));
+        dispatch(updateStaff(selectedStaffId, selectedStaff, setIsLoading));
       }
     };
     
     
     const clearSearch = () => {
       setQuery('');
-      dispatch(getStaffs()); 
+      dispatch(getStaffs(setIsLoading)); 
     }
     
     const handleShowModal = () => setShowModal(true);
@@ -68,7 +69,7 @@ const Staff = () => {
     
     
     useEffect(() => {
-      dispatch(getStaffs())
+      dispatch(getStaffs(setIsLoading))
       
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
@@ -122,7 +123,7 @@ const Staff = () => {
               </ListGroup>
             </Col>
     
-            <Col xs={12} md={7} lg={9} className="p-4">
+            {isLoading ? <Spinner animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4">
               {selectedStaff.id ? (
                 <>
                 <Card>
@@ -140,10 +141,10 @@ const Staff = () => {
                     <Col className='d-flex justify-content-end align-items-center'>
                     <Button 
                       className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                      onClick={() => {dispatch(deleteStaff(selectedStaff.id))
+                      onClick={() => {dispatch(deleteStaff(selectedStaff.id, setIsLoading))
                         setSelectedStaff({} as IStaff)
                       }}>
-                      <Trash className='my-1 d-flex w-100'/>
+                     {isLoading ? <Spinner animation="border" /> : <Trash className='my-1 d-flex w-100'/>}
                     </Button>
                     </Col>
                     </Row>
@@ -206,7 +207,7 @@ const Staff = () => {
               ) : (
                 <p>Seleziona un membro dello Staff per vedere i dettagli.</p>
               )}
-            </Col>
+            </Col>}
           </Row>
           <NewStaffModal show={showModal} handleClose={handleCloseModal} />
         </Container>

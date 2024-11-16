@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Alert, Badge,  Button,  Card, Col, Container, Row } from 'react-bootstrap'
+import { Alert, Badge,  Button,  Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import UserNav from "./UserNav"
 import { useAppDispatch } from '../../redux/store/store'
 import { IAppointments } from '../../interfaces/IAppointment'
@@ -20,6 +20,7 @@ const UserPage = () => {
     const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<IAppointments[]>([])
     const [page, setPage] = useState<number>(0)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     
     const [selectedTreatment, setSelectedTreatment] = useState<ITreatment[]>([])
  
@@ -31,12 +32,12 @@ const UserPage = () => {
     const handleShowModal = () => setShow(true);
     const handleCloseModal = () => {
         setShow(false);
-        dispatch(getAppointmentsMe()); // Chiamata nel componente padre
+        dispatch(getAppointmentsMe(setIsLoading)); // Chiamata nel componente padre
     };
 
     useEffect(() => {
         dispatch(getClientMe())
-        dispatch(getAppointmentsMe())
+        dispatch(getAppointmentsMe(setIsLoading))
     },[dispatch])
 
     const getAppointmentsClient = async (page: number) => {
@@ -50,7 +51,7 @@ const UserPage = () => {
             if(resp.ok){
                 const appointmentsClient = await resp.json()
                 setAppointments(appointmentsClient.content)
-                dispatch(getAppointmentsMe())
+                dispatch(getAppointmentsMe(setIsLoading))
                 
             } else{
                 throw new Error("Get clients error")
@@ -67,7 +68,7 @@ const UserPage = () => {
 
     useEffect(() => {
         getAppointmentsClient(page)
-        dispatch(getAppointmentsMe())
+        dispatch(getAppointmentsMe(setIsLoading))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
@@ -108,10 +109,10 @@ const UserPage = () => {
                           <Container className='mt-auto'>
                           <Button 
                   className='rounded-3 border-danger bg-transparent text-danger' onClick={async () => {
-                    await dispatch(deleteMyAppointment(appointment.id))
+                    await dispatch(deleteMyAppointment(appointment.id,setIsLoading))
                     await getAppointmentsClient(page)
                     }}>
-                  <Trash className='my-1 d-flex w-100'/>
+                  {isLoading ? <Spinner animation="border" /> : <Trash className='my-1 d-flex w-100'/>}
                 </Button>
                 </Container>
                 <Container className='mt-auto'>
@@ -136,6 +137,7 @@ const UserPage = () => {
             selectedTreatment={selectedTreatment} 
             startDateTime={""} 
             onAppointmentCreated={handleAppointmentCreated}
+            setIsLoading={setIsLoading}
             /> 
         <ToastContainer/>
     </Container>

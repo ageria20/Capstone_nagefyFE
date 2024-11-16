@@ -193,9 +193,10 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   }, [queryClient, clients]);
 
   useEffect(() => {
-    dispatch(getClients());
-    dispatch(getStaffs());
-    dispatch(getTreatments());
+    dispatch(getClients(setIsLoading));
+    dispatch(getStaffs(setIsLoading));
+    dispatch(getTreatments(setIsLoading));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (

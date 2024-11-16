@@ -7,6 +7,7 @@ import {
   Form,
   ListGroup,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { List, Plus, Trash, X } from "react-bootstrap-icons";
 import Sidebar from "../Sidebar/Sidebar";
@@ -31,6 +32,7 @@ const Treatments = () => {
   );
   const [selectedTreatment, setSelectedTreatment] = useState<ITreatment>({} as ITreatment);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCustomerClick = (treatment: ITreatment) => {
     setSelectedTreatment(treatment);
@@ -51,15 +53,15 @@ const Treatments = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
     if (query.length > 0) {
-      dispatch(searchTreatments(e.target.value));
+      dispatch(searchTreatments(e.target.value, setIsLoading));
     } else {
-      dispatch(getTreatments());
+      dispatch(getTreatments(setIsLoading));
     }
   };
 
   const handleUpdateTreatment = (selectedTreatmentId: string | undefined) => {
     if (selectedTreatmentId) {
-      dispatch(updateTreatment(selectedTreatmentId, selectedTreatment));
+      dispatch(updateTreatment(selectedTreatmentId, selectedTreatment, setIsLoading));
     }
   };
 
@@ -75,7 +77,7 @@ const Treatments = () => {
   const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
-    dispatch(getTreatments());
+    dispatch(getTreatments(setIsLoading));
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -133,7 +135,7 @@ const Treatments = () => {
             </ListGroup>
           </Col>
 
-          <Col xs={12} md={7} lg={9} className="p-4">
+          {isLoading ? <Spinner animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4">
             {selectedTreatment.id ? (
               <>
                 <Card>
@@ -153,11 +155,11 @@ const Treatments = () => {
                         <Button
                           className="my-3 rounded-circle border-danger bg-transparent text-danger"
                           onClick={() => {
-                            dispatch(deleteTreatment(selectedTreatment.id));
+                            dispatch(deleteTreatment(selectedTreatment.id, setIsLoading));
                             setSelectedTreatment({} as ITreatment)
                           }}
                         >
-                          <Trash className="my-1 d-flex w-100" />
+                          {isLoading ? <Spinner animation="border"/> : <Trash className="my-1 d-flex w-100" />}
                         </Button>
                       </Col>
                     </Row>
@@ -209,7 +211,7 @@ const Treatments = () => {
             ) : (
               <p>Seleziona un trattamento per vedere i dettagli.</p>
             )}
-          </Col>
+          </Col>}
         </Row>
         <NewUserModal show={showModal} handleClose={handleCloseModal} />
       </Container>

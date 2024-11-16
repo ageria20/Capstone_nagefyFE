@@ -198,7 +198,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
           setSelectedEvent(fullAppointment);
         }
       
-        dispatch(getTreatments()); 
+        dispatch(getTreatments(setIsLoading)); 
         setShowModal(true);
       };
 
@@ -237,7 +237,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
 
 
     useEffect(() => {
-        dispatch(getStaffs());
+        dispatch(getStaffs(setIsLoading));
         dispatch(getAppointments(navigate, setIsLoading));
         setSelectedSlot("")
         

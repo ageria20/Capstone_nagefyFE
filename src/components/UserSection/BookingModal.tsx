@@ -13,6 +13,7 @@ import { getClientMe } from '../../redux/actions/usersAction';
 import { notifyErr } from '../../redux/actions/action';
 
 
+
 interface BookingModalProps {
     show: boolean;
     handleClose: () => void;
@@ -20,9 +21,10 @@ interface BookingModalProps {
     selectedTreatment: ITreatment[];
     startDateTime?: string;
     onAppointmentCreated?: (newAppointment: IAppointments) => void;
+    setIsLoading: (b: boolean) => void
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({show, handleClose, selectedTreatment, setSelectedTreatment, startDateTime = "", onAppointmentCreated}) => {
+const BookingModal: React.FC<BookingModalProps> = ({show, handleClose, selectedTreatment, setSelectedTreatment, startDateTime = "", onAppointmentCreated, setIsLoading}) => {
 
     const treatments = useAppSelector((state) => state.treatments.treatments);
     const dispatch = useAppDispatch();
@@ -56,10 +58,10 @@ useEffect(() => {
         dispatch(getClientMe());
     }
     if (!staffs.length) {
-        dispatch(getStaffs());
+        dispatch(getStaffs(setIsLoading));
     }
     if (!treatments.length) {
-        dispatch(getTreatments());
+        dispatch(getTreatments(setIsLoading));
     }
     
 }, [dispatch, meProfile, staffs.length, treatments.length]);
@@ -77,8 +79,8 @@ useEffect(() => {
     if(selectedStaff?.id && currentDate) {
       const formattedDateTime = dayjs(currentDate).startOf("day").format("YYYY-MM-DD");
     dispatch(getFreeSlots(selectedStaff?.id, formattedDateTime));
-    dispatch(getStaffs())
-    dispatch(getTreatments())
+    dispatch(getStaffs(setIsLoading))
+    dispatch(getTreatments(setIsLoading))
     
     }
 // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,7 +126,7 @@ const handleSaveAppointment = async () => {
       startTime: selectedSlot ? dayjs(selectedSlot).format("YYYY-MM-DDTHH:mm:ss") : dayjs(newAppointment.startTime).format("YYYY-MM-DDTHH:mm:ss"),
       };
 
-  const newAppointmentResponse = await dispatch(createAppointmentClient(updatedAppointment));
+  const newAppointmentResponse = await dispatch(createAppointmentClient(updatedAppointment, setIsLoading));
   if (onAppointmentCreated) {
     onAppointmentCreated(newAppointmentResponse);
   }

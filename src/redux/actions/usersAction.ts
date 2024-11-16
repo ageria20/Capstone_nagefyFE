@@ -3,9 +3,10 @@ import { CLIENT, ClientMeAction, notifyErr, url, UserAction, USERS } from "./act
 
 
 
-export const getUser = () => {
+export const getUser = (setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch<UserAction>) => {
       try {
+        setIsLoading(true);
         const accessToken = localStorage.getItem("accessToken"); 
         if (!accessToken) {
           notifyErr("Login errato");
@@ -25,6 +26,8 @@ export const getUser = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
   };

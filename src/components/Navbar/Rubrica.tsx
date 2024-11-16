@@ -2,7 +2,7 @@
 
 
 import { useEffect, useState } from 'react'
-import { Button, Card, Col, Container, Form, Image, ListGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Form, Image, ListGroup, Row, Spinner } from 'react-bootstrap'
 import { List, Plus, Trash, X } from 'react-bootstrap-icons'
 import Sidebar from '../Sidebar/Sidebar';
 import "./Rubrica.css"
@@ -20,6 +20,7 @@ const [query, setQuery] = useState("")
 const clients: IClient[] | undefined = useAppSelector((state) => state.clientsList.clients)
 const [selectedClient, setSelectedClient] = useState<IClient>({} as IClient);
 const [showModal, setShowModal] = useState(false); 
+const [isLoading, setIsLoading] = useState<boolean>(false); 
 
 
   const handleCustomerClick = (client: IClient) => {
@@ -39,9 +40,9 @@ const [showModal, setShowModal] = useState(false);
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
   setQuery(e.target.value)
   if(query.length > 0 ){
-  dispatch(searchClients(e.target.value))
+  dispatch(searchClients(e.target.value, setIsLoading))
 }else {
-  dispatch(getClients())
+  dispatch(getClients(setIsLoading))
 }
 }
 
@@ -56,7 +57,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 const handleUpdateClient = (selectedClientId: string | undefined) => {
   if (selectedClientId) {
-    dispatch(updateClient(selectedClientId, selectedClient));
+    dispatch(updateClient(selectedClientId, selectedClient, setIsLoading));
   }
 };
 
@@ -69,7 +70,7 @@ const handleShowModal = () => setShowModal(true);
 
 
 useEffect(() => {
-  dispatch(getClients())
+  dispatch(getClients(setIsLoading))
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [dispatch])
 
@@ -120,7 +121,7 @@ useEffect(() => {
         </Col>
 
         {/* Colonna destra - Dettagli cliente selezionato */}
-        <Col xs={12} md={7} lg={9} className="p-4 mt-4">
+        {isLoading ? <Spinner animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4 mt-4">
           {selectedClient.id ? (
             <>
             <Card>
@@ -141,7 +142,7 @@ useEffect(() => {
                 <Col className='d-flex justify-content-end align-items-center'>
                 <Button 
                   className='my-3 rounded-circle border-danger bg-transparent text-danger' 
-                  onClick={() => {dispatch(deleteClient(selectedClient.id))
+                  onClick={() => {dispatch(deleteClient(selectedClient.id, setIsLoading))
                     setSelectedClient({} as IClient);
                   }}>
                   <Trash className='my-1 d-flex w-100'/>
@@ -207,7 +208,7 @@ useEffect(() => {
           ) : (
             <p>Seleziona un cliente per vedere i dettagli.</p>
           )}
-        </Col>
+        </Col>}
       </Row>
       <NewUserModal show={showModal} handleClose={handleCloseModal} />
     </Container>
