@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { ITreatment } from '../../interfaces/ITreatment';
 import { useAppDispatch, useAppSelector } from '../../redux/store/store';
-import { IAppointment, IAppointments } from '../../interfaces/IAppointment';
+import { IAppointment, IAppointments, IFreeSlots } from '../../interfaces/IAppointment';
 import DatePicker from 'react-datepicker';
 import { createAppointmentClient, getFreeSlots } from '../../redux/actions/actionAppointment';
 import dayjs from 'dayjs';
@@ -64,6 +64,7 @@ useEffect(() => {
         dispatch(getTreatments(setIsLoading));
     }
     
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [dispatch, meProfile, staffs.length, treatments.length]);
 
 useEffect(() => {
@@ -222,7 +223,7 @@ return (
                   <div>
                       <h5>Slot orari liberi:</h5>
                       <Row>
-                          {freeSlots.map((slot, _i) => (
+                          {freeSlots.map((slot: IFreeSlots, _i: number) => (
                               <Col className='w-25 p-1' key={_i} xs={12} md={6}>
                                   <Button
                                       className={selectedSlot && dayjs(selectedSlot).isSame(slot.startTime) ? `bg-primary border-primary text-white p-0 px-3`: `bg-transparent text-black border-secondary p-0 px-3 ${selectedSlot === slot.startTime ? 'selected-slot' : ''}`}
