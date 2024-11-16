@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store/store";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row, Spinner } from "react-bootstrap";
 import { createAppointment, deleteAppointment, getAppointments, updateAppointment } from "../../redux/actions/actionAppointment";
 import { getClients } from "../../redux/actions/actionClients";
 import { getStaffs } from "../../redux/actions/actionStaff";
@@ -15,6 +15,7 @@ import { ITreatment } from "../../interfaces/ITreatment";
 import { ToastContainer } from "react-toastify";
 import NewUserModal from "../Navbar/NewUserModal";
 
+
 interface AddAppointmentModalProps {
     show: boolean;
     handleClose: () => void;
@@ -22,6 +23,8 @@ interface AddAppointmentModalProps {
     selectedTreatment: ITreatment[];
     startDateTime: string
     selectedEvent: IAppointments | null
+    setIsLoading: (b: boolean) => void
+    isLoading: boolean
 }
 
 const AgendaModal: React.FC<AddAppointmentModalProps> = ({
@@ -30,7 +33,9 @@ const AgendaModal: React.FC<AddAppointmentModalProps> = ({
   selectedTreatment,
   setSelectedTreatment,
   startDateTime,
-  selectedEvent
+  selectedEvent, 
+  setIsLoading,
+  isLoading
 }) => {
   const dispatch = useAppDispatch();
   const clients = useAppSelector((state) => state.clientsList.clients);
@@ -92,12 +97,12 @@ const handleSaveAppointment = async () => {
   }
   
   if (selectedEvent && selectedEvent.id) {
-    await dispatch(updateAppointment(navigate, selectedEvent.id, updatedAppointment));
+    await dispatch(updateAppointment(navigate, selectedEvent.id, updatedAppointment, setIsLoading));
   } else {
     
-    await dispatch(createAppointment(navigate, updatedAppointment));
+    await dispatch(createAppointment(navigate, updatedAppointment, setIsLoading));
     
-    await dispatch(getAppointments(navigate));
+    await dispatch(getAppointments(navigate, setIsLoading));
   }
 
 
@@ -293,19 +298,19 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       </Modal.Body>
       <Modal.Footer>
     {selectedEvent &&  
-    <Button 
+     <Button 
             className='my-3 border-danger bg-transparent me-auto text-danger delete-btn'
             onClick={() => {
-              dispatch(deleteAppointment(navigate, selectedEvent.id))
+              dispatch(deleteAppointment(navigate, selectedEvent.id, setIsLoading))
               handleClose()
               }}>
-            <Trash className='my-1 d-flex w-100'/>
-        </Button>}
+           {isLoading ? <Spinner animation="border" /> : <Trash className='my-1 d-flex w-100'/>}
+        </Button>  }
         <Button variant="secondary" className='my-3 border-secondary bg-transparent text-secondary undo-btn' onClick={handleClose}>
           Annulla
         </Button>
         <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={handleSaveAppointment}>
-          Salva
+          {isLoading ? <Spinner animation="border" /> : "Salva"}
         </Button>
         <Button variant="primary" className='my-3 border-primary bg-transparent text-primary save-btn' onClick={() => {
           navigate(`/cash/${selectedEvent?.id}`)

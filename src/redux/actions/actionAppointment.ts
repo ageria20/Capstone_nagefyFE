@@ -8,9 +8,10 @@ import { getAppointmentsMe } from "./actionClients"
 import { NavigateFunction } from "react-router-dom"
 
 
-export const getAppointments = (navigate: NavigateFunction) => {
+export const getAppointments = (navigate: NavigateFunction, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/appointments`, {
                 headers: {
@@ -28,6 +29,8 @@ export const getAppointments = (navigate: NavigateFunction) => {
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }
@@ -55,9 +58,10 @@ export const getFreeSlots = (staffId: string, selectedDay: string) => {
 
 
 
-export const getAppointmentsById = (appointmentId: string | undefined) => {
+export const getAppointmentsById = (appointmentId: string | undefined, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: Dispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 headers: {
@@ -73,14 +77,17 @@ export const getAppointmentsById = (appointmentId: string | undefined) => {
             }
         } catch (error){
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 }
 
 
-export const createAppointment = (navigate: NavigateFunction, appointment: IAppointment) => {
+export const createAppointment = (navigate: NavigateFunction, appointment: IAppointment, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
         
             const resp = await fetch(`${url}/appointments/create`, {
@@ -93,20 +100,23 @@ export const createAppointment = (navigate: NavigateFunction, appointment: IAppo
             })
             if(resp.ok){
                 
-                dispatch(getAppointments(navigate))
+                dispatch(getAppointments(navigate, setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }
 
-export const createAppointmentClient = (appointment: IAppointment) => {
+export const createAppointmentClient = (appointment: IAppointment, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
         
             const resp = await fetch(`${url}/appointments/create`, {
@@ -128,13 +138,16 @@ export const createAppointmentClient = (appointment: IAppointment) => {
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }
 
-export const updateAppointment = (navigate: NavigateFunction, appointmentId: string, appointment: IAppointment | IUpdateAppointment) => {
+export const updateAppointment = (navigate: NavigateFunction, appointmentId: string, appointment: IAppointment | IUpdateAppointment, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            
             const accessToken = localStorage.getItem("accessToken")
         
             const resp = await fetch(`${url}/appointments/${appointmentId}`, {
@@ -147,21 +160,22 @@ export const updateAppointment = (navigate: NavigateFunction, appointmentId: str
             })
             if(resp.ok){
             
-                dispatch(getAppointments(navigate))
+                dispatch(getAppointments(navigate, setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)
-        }
+        } 
     }
 }
 
 
-export const deleteAppointment = (navigate: NavigateFunction, appointmentId: string | undefined) => {
+export const deleteAppointment = (navigate: NavigateFunction, appointmentId: string | undefined, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "DELETE",
@@ -171,20 +185,23 @@ export const deleteAppointment = (navigate: NavigateFunction, appointmentId: str
                 },
             })
             if(resp.ok){
-                dispatch(getAppointments(navigate))
+                dispatch(getAppointments(navigate, setIsLoading))
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nell'eliminazione!")
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }
 
-export const deleteMyAppointment = (appointmentId: string | undefined) => {
+export const deleteMyAppointment = (appointmentId: string | undefined, setIsLoading: (b: boolean) => void) => {
     return async (dispatch: AppDispatch)=>{
         try {
+            setIsLoading(true)
             const accessToken = localStorage.getItem("accessToken")
             const resp = await fetch(`${url}/appointments/${appointmentId}`, {
                 method: "DELETE",
@@ -202,6 +219,8 @@ export const deleteMyAppointment = (appointmentId: string | undefined) => {
             }
         } catch (error){
             console.log(error)
+        } finally{
+            setIsLoading(false)
         }
     }
 }

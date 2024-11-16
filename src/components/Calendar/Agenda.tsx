@@ -18,6 +18,7 @@ import { ITreatment } from "../../interfaces/ITreatment";
 import isBetween from 'dayjs/plugin/isBetween';
 import { useNavigate } from "react-router-dom";
 
+
 // Registra il plugin
 dayjs.extend(isBetween);
 
@@ -29,6 +30,7 @@ const DnDCalendar = withDragAndDrop<IEvents, object>(Calendar);
 
 const Agenda: React.FC = () => {
     const dispatch = useAppDispatch();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const [selectedStaff, setSelectedStaff] = useState<string>("");
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -162,9 +164,9 @@ const maxTime = todayOrari && isDayOpen ? new Date(
             
         
                 try {
-                    await dispatch(updateAppointment(navigate, updatedAppointment.id, updatedAppointment));
+                    await dispatch(updateAppointment(navigate, updatedAppointment.id, updatedAppointment, setIsLoading));
                     
-                    dispatch(getAppointments(navigate)); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
+                    dispatch(getAppointments(navigate, setIsLoading)); // Recupera di nuovo gli appuntamenti dopo l'aggiornamento
                 } catch (err) {
                     console.error("Errore nell'aggiornamento dell'appuntamento: ", err);
                 }
@@ -236,7 +238,7 @@ const maxTime = todayOrari && isDayOpen ? new Date(
 
     useEffect(() => {
         dispatch(getStaffs());
-        dispatch(getAppointments(navigate));
+        dispatch(getAppointments(navigate, setIsLoading));
         setSelectedSlot("")
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -300,6 +302,8 @@ const maxTime = todayOrari && isDayOpen ? new Date(
                 setSelectedTreatment={setSelectedTreatment}
                 startDateTime={selectedSlot}
                 selectedEvent={selectedEvent}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
             />
         <ToastContainer/>
         </Container>
