@@ -321,7 +321,7 @@ const handleTreatmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
        
       </Modal.Footer>
     </Modal>
-    <NewUserModal show={showModal} handleClose={handleCloseModal} />
+    <NewUserModal show={showModal} handleClose={handleCloseModal} isLoading={isLoading} setIsLoading={setIsLoading}/>
     <ToastContainer/>
     </>
   );
