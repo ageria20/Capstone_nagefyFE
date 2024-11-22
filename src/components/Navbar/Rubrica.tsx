@@ -121,7 +121,9 @@ useEffect(() => {
         </Col>
 
         {/* Colonna destra - Dettagli cliente selezionato */}
-        {isLoading ? <Spinner className='m-auto' animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4 mt-4">
+        {isLoading ? <Spinner className='m-auto' animation="border" /> 
+        : 
+        <Col xs={12} md={7} lg={9} className="p-4 mt-4">
           {selectedClient.id ? (
             <>
             <Card>
@@ -208,7 +210,8 @@ useEffect(() => {
           ) : (
             <p>Seleziona un cliente per vedere i dettagli.</p>
           )}
-        </Col>}
+        </Col>
+        }
       </Row>
       <NewUserModal show={showModal} handleClose={handleCloseModal} setIsLoading={setIsLoading} isLoading={isLoading} />
     </Container>

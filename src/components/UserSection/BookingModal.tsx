@@ -89,7 +89,7 @@ useEffect(() => {
 
 const handleStaffChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const staffMemberName = e.target.value;
-    const staffObject = staffs.find(s => s.name === staffMemberName);
+    const staffObject = staffs.find((s: IStaff) => s.name === staffMemberName);
     setSelectedStaff(staffObject || null);
 };
 

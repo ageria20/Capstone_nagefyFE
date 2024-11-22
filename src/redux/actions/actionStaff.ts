@@ -67,16 +67,15 @@ export const createStaff = (staff: INewStaff, setIsLoading: (b: boolean) => void
             })
             if(resp.ok){
                 notify("Staff creato")
-                dispatch(getStaffs(setIsLoading))
+                await dispatch(getStaffs(setIsLoading))
+                
             } else{
                 console.log(resp.statusText)
                 notifyErr("Errore nella creazione ")
             }
         } catch (error){
             console.log(error)
-        } finally{
-            setIsLoading(false)
-        }
+        } 
     }
 }
 

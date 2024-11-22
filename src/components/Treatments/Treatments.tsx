@@ -135,7 +135,7 @@ const Treatments = () => {
             </ListGroup>
           </Col>
 
-          {isLoading ? <Spinner animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4">
+          {isLoading ? <Spinner className='m-auto' animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4">
             {selectedTreatment.id ? (
               <>
                 <Card>
@@ -213,7 +213,7 @@ const Treatments = () => {
             )}
           </Col>}
         </Row>
-        <NewUserModal show={showModal} handleClose={handleCloseModal} />
+        <NewUserModal show={showModal} handleClose={handleCloseModal} isLoading={isLoading} setIsLoading={setIsLoading}/>
       </Container>
     </div>
   );

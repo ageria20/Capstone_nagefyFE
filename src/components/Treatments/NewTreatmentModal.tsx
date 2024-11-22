@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import { useAppDispatch } from '../../redux/store/store';
 import { createTreatment } from '../../redux/actions/actionTreatment';
 
@@ -7,9 +7,11 @@ import { createTreatment } from '../../redux/actions/actionTreatment';
 interface AddTreatmentModalProps {
     show: boolean;
     handleClose: () => void;
+    isLoading: boolean
+    setIsLoading: (b: boolean) => void
 }
 
-const NewTreatmentModal: React.FC<AddTreatmentModalProps> = ({ show, handleClose }) => {
+const NewTreatmentModal: React.FC<AddTreatmentModalProps> = ({ show, handleClose, isLoading, setIsLoading }) => {
 
     const dispatch = useAppDispatch()
     const [newTreatment, setNewTreatment] = useState({ name: '', price: 0 ,duration: 0});
@@ -20,7 +22,7 @@ const NewTreatmentModal: React.FC<AddTreatmentModalProps> = ({ show, handleClose
     };
 
     const handleSaveTreatment = () => {
-            dispatch(createTreatment(newTreatment)) 
+            dispatch(createTreatment(newTreatment, setIsLoading)) 
             handleClose(); 
             setNewTreatment({ name: '', price: 0 ,duration: 0})
     };
@@ -71,7 +73,7 @@ const NewTreatmentModal: React.FC<AddTreatmentModalProps> = ({ show, handleClose
         Annulla
       </Button>
       <Button variant="primary" onClick={handleSaveTreatment}>
-        Salva
+        {isLoading ? <Spinner animation="border" /> : "Salva"}
       </Button>
     </Modal.Footer>
   </Modal>

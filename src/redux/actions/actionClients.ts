@@ -79,9 +79,7 @@ export const createClients = (client: INewUser, setIsLoading: (b: boolean) => vo
             }
         } catch (error){
             console.log(error)
-        } finally{
-            setIsLoading(false)
-        }
+        } 
     }
 }
 

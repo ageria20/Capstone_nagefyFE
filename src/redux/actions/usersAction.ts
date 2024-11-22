@@ -21,14 +21,13 @@ export const getUser = (setIsLoading: (b: boolean) => void) => {
         if (resp.ok) {
           const user = await resp.json();
           dispatch({ type: USERS, payload: user });
+          setIsLoading(false);
         } else {
           console.log("Errore nel fetch dell'utente");
         }
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
+      } 
     };
   };
 

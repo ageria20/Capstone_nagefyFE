@@ -103,9 +103,7 @@ export const createTreatment = (treatment: ITreatment, setIsLoading: (b: boolean
             }
         } catch (error){
             console.log(error)
-        } finally{
-            setIsLoading(false)
-        }
+        } 
     }
 }
 export const deleteTreatment = (treatmentId: string | undefined, setIsLoading: (b: boolean) => void) => {

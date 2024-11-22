@@ -71,7 +71,7 @@ const Agenda: React.FC = () => {
 
 
     const currentDay = dayjs(currentDate).format("dddd")
-    const todayOrari = orari.find(day => day.day.toLocaleUpperCase() === currentDay.toLocaleUpperCase())
+    const todayOrari = orari.find((day) => day.day.toLocaleUpperCase() === currentDay.toLocaleUpperCase())
     const isDayOpen = todayOrari?.open && todayOrari.hours.length > 0
 
     const minTime = todayOrari && isDayOpen ? new Date(

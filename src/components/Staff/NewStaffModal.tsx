@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import { useAppDispatch } from '../../redux/store/store';
 import { createStaff } from '../../redux/actions/actionStaff';
 
@@ -7,9 +7,11 @@ import { createStaff } from '../../redux/actions/actionStaff';
 interface AddStaffModalProps {
     show: boolean;
     handleClose: () => void;
+    isLoading: boolean
+    setIsLoading: (b: boolean) => void
 }
 
-const NewStaffModal: React.FC<AddStaffModalProps> = ({ show, handleClose }) => {
+const NewStaffModal: React.FC<AddStaffModalProps> = ({ show, handleClose,isLoading, setIsLoading }) => {
 
     const dispatch = useAppDispatch()
     const [newStaff, setNewStaff] = useState({ name: '', surname: '',telephone: '', email: ''});
@@ -20,7 +22,7 @@ const NewStaffModal: React.FC<AddStaffModalProps> = ({ show, handleClose }) => {
     };
 
     const handleSaveClient = () => {
-            dispatch(createStaff(newStaff)) 
+            dispatch(createStaff(newStaff, setIsLoading)) 
             handleClose(); 
             setNewStaff({ name: '', surname: '',telephone: '', email: ''})
     };
@@ -80,7 +82,7 @@ const NewStaffModal: React.FC<AddStaffModalProps> = ({ show, handleClose }) => {
         Annulla
       </Button>
       <Button variant="primary" onClick={handleSaveClient}>
-        Salva
+      {isLoading ? <Spinner animation="border" /> : "Salva"}
       </Button>
     </Modal.Footer>
   </Modal>

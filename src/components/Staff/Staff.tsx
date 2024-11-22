@@ -123,7 +123,9 @@ const Staff = () => {
               </ListGroup>
             </Col>
     
-            {isLoading ? <Spinner animation="border" /> : <Col xs={12} md={7} lg={9} className="p-4">
+            {isLoading ? <Spinner className='m-auto' animation="border" />
+            : 
+            <Col xs={12} md={7} lg={9} className="p-4">
               {selectedStaff.id ? (
                 <>
                 <Card>
@@ -207,9 +209,10 @@ const Staff = () => {
               ) : (
                 <p>Seleziona un membro dello Staff per vedere i dettagli.</p>
               )}
-            </Col>}
+            </Col>
+            }
           </Row>
-          <NewStaffModal show={showModal} handleClose={handleCloseModal} />
+          <NewStaffModal show={showModal} handleClose={handleCloseModal} isLoading={isLoading} setIsLoading={setIsLoading}/>
         </Container>
         </div>
       )
